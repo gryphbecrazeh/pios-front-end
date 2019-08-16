@@ -1,18 +1,14 @@
-table th {
-	min-width: 9rem;
-}
+/* ************************Elements**************************** */
 .app {
 	position: relative;
+	overflow: hidden;
 }
 .page-container {
-	padding: 2em;
-	padding-top: 5rem;
+	padding-left: 2em;
+	padding-right: 2em;
+	overflow: hidden;
 }
-.fixed {
-	position: fixed;
-	display: block;
-	width: 100vw;
-}
-#master-customer-details {
-	max-width: 5rem;
+table th {
+	min-width: 7em;
+	font-size: 0.75em;
 }

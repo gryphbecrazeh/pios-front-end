@@ -1,12 +1,43 @@
 import React, { Component } from "react";
+import { Button } from "reactstrap";
+// ----------------------------Components-------------------------------------------
+import EditModal from "./editModal";
+// ----------------------------Redux-------------------------------------------
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { deleteItem } from "../actions/itemActions";
+import { activateModal, toggleModal } from "../actions/modalActions";
+
 class OrderDetails extends Component {
-	state = {};
+	componentDidMount = () => {
+		// initialize Modal in redux store
+		activateModal({
+			modalID: this.props.order._id,
+			status: false
+		});
+	};
+	onDeleteClick = _id => {
+		this.props.deleteItem(_id);
+	};
 	render() {
 		let { order } = this.props;
+		// console.log(this.props);
+
 		return (
 			<tr>
-				<td name="Order Date" type="date" code="order-date">{`${order.date ||
-					""}`}</td>
+				<td>
+					<Button color="warning">Edit</Button>
+					<EditModal _id={this.props.order._id} />
+					<Button
+						color="danger"
+						onClick={this.onDeleteClick.bind(this, this.props.order._id)}
+					>
+						Del
+					</Button>
+				</td>
+				<td name="Order Date" type="date" code="order-date">{`${new Date(
+					order.date
+				).toDateString() || ""}`}</td>
 				<td
 					name="Order Number"
 					type="integer"
@@ -16,39 +47,39 @@ class OrderDetails extends Component {
 					name="Customer Name"
 					type="string"
 					code="customer-name"
-				>{`${order.name || ""}`}</td>
+				>{`${order.name || "N/A"}`}</td>
 				<td name="Recipient State" type="state" code="order-st">{`${order.ST ||
-					""}`}</td>
+					"N/A"}`}</td>
 				<td
 					name="Manufacturer Name"
 					type="string"
 					code="order-mfr"
-				>{`${order.mfr || ""}`}</td>
+				>{`${order.mfr || "N/A"}`}</td>
 				<td
 					name="Order Sent To"
 					type="string"
 					code="order-sent-to"
-				>{`${order.sentTo || ""}`}</td>
+				>{`${order.sentTo || "N/A"}`}</td>
 				<td
 					name="Customer Owes"
 					type="integer"
 					code="customer-due"
-				>{`$${order.custDue || ""}`}</td>
+				>{`$${order.custDue || "N/A"}`}</td>
 				<td
 					name="Customer Paid in Full Date"
 					type="date"
 					code="customer-paid-date"
-				>{`${order.custPaidDate || ""}`}</td>
+				>{`${order.custPaidDate || "N/A"}`}</td>
 				<td
 					name="KA Net Due"
 					type="integer"
 					code="ka-net-due"
-				>{`$${order.netDue || ""}`}</td>
+				>{`$${order.netDue || "N/A"}`}</td>
 				<td
 					name="KA Net Paid Date"
 					type="string"
 					code="ka-net-paid-date"
-				>{`${order.netPaidDate || ""}`}</td>
+				>{`${order.netPaidDate || "N/A"}`}</td>
 				<td code="order-disclaim">{`${order.disclaim || "N/A"}`}</td>
 				<td code="order-addr-check">{`${order.addrCheck || "N/A"}`}</td>
 				<td code="order-rcvd">{`${order.rcvd || "N/A"}`}</td>
@@ -66,4 +97,17 @@ class OrderDetails extends Component {
 	}
 }
 
-export default OrderDetails;
+OrderDetails.propTypes = {
+	deleteItem: PropTypes.func.isRequired,
+	item: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+	item: state.item,
+	modals: state.modals
+});
+
+export default connect(
+	mapStateToProps,
+	{ deleteItem, activateModal, toggleModal }
+)(OrderDetails);
