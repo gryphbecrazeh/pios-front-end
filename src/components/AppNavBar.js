@@ -40,10 +40,9 @@ class AppNavBar extends Component {
 		const guestLinks = (
 			<Fragment>
 				<NavItem>
-					<RegisterModal />
-				</NavItem>
-				<NavItem>
-					<LoginModal />
+					<NavLink href="/">
+						You must be logged in to access this content
+					</NavLink>
 				</NavItem>
 			</Fragment>
 		);

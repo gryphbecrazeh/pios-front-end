@@ -6,34 +6,45 @@ import EditModal from "./editModal";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { deleteItem } from "../actions/itemActions";
-import { activateModal, toggleModal } from "../actions/modalActions";
 
 class OrderDetails extends Component {
-	componentDidMount = () => {
-		// initialize Modal in redux store
-		activateModal({
-			modalID: this.props.order._id,
-			status: false
-		});
-	};
 	onDeleteClick = _id => {
 		this.props.deleteItem(_id);
 	};
 	render() {
-		let { order } = this.props;
-		// console.log(this.props);
-
+		let { order, display } = this.props;
+		let displayTax = [
+			"date",
+			"orderNum",
+			"total",
+			"name",
+			"custDue",
+			"custPaid",
+			"netDue",
+			"netPaid",
+			"netPaidDate",
+			"net",
+			"netCrate",
+			"netFreight",
+			"sentTo",
+			"rcvd",
+			"ship",
+			"shipped",
+			"custPaidDate",
+			"nysTaxPaid",
+			"caTaxPaid",
+			"nysTax",
+			"caTax",
+			"st"
+		];
 		return (
 			<tr>
 				<td>
-					<Button color="warning">Edit</Button>
-					<EditModal _id={this.props.order._id} />
+					<EditModal order={this.props.order} />
 					<Button
 						color="danger"
 						onClick={this.onDeleteClick.bind(this, this.props.order._id)}
-					>
-						Del
-					</Button>
+					/>
 				</td>
 				<td name="Order Date" type="date" code="order-date">{`${new Date(
 					order.date
@@ -103,11 +114,10 @@ OrderDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	item: state.item,
-	modals: state.modals
+	item: state.item
 });
 
 export default connect(
 	mapStateToProps,
-	{ deleteItem, activateModal, toggleModal }
+	{ deleteItem }
 )(OrderDetails);

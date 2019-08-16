@@ -180,31 +180,55 @@ class TaxPage extends Component {
 									</Button>
 								</th>
 								<th code="order-number">Order Number</th>
-								<th code="customer-name">Customer Name</th>
-								<th code="order-st">Recipient State</th>
+								<th code="order-total">Total</th>
+								<th code="customer-due">Customer Owes</th>
+								<th code="customer-due">Customer Paid</th>
+								<th code="order-net-due">NET Due</th>
+								<th code="order-net">NET Paid</th>
+								<th code="order-net">NET</th>
+
 								<th code="order-mfr">Manufacturer</th>
 								<th code="order-sent-to">Sent To</th>
-								<th code="customer-due">Customer Owes</th>
 								<th code="customer-paid-date">Customer Paid Date</th>
 								<th code="ka-net-due">KA Net Due</th>
 								<th code="ka-net-paid-date">KA Net Paid Date</th>
-								<th code="order-disclaim">DISCLAIM</th>
-								<th code="order-addr-check">ADDR CHECK</th>
-								<th code="order-rcvd">RCVD</th>
-								<th code="order-ship">SHIP</th>
-								<th code="order-shipped">SHIPPED</th>
 								<th code="order-total">TOTAL</th>
 								<th code="order-ny-tax">NYS TAX</th>
 								<th code="order-ca-tax">CA TAX</th>
-								<th code="order-net">NET</th>
 								<th code="order-net-crate">NET CRATE</th>
 								<th code="order-net-freight">NET FREIGHT</th>
-								<th code="order-notes">NOTES</th>
 							</tr>
 						</thead>
 						<tbody id="table-result-container">
 							{this.renderOrders(customerOrders).map(item => {
-								return <OrderDetails order={item} />;
+								return (
+									<OrderDetails
+										order={item}
+										display={[
+											"date",
+											"orderNum",
+											"total",
+											"custDue",
+											"custPaid",
+											"netDue",
+											"netPaid",
+											"netPaidDate",
+											"net",
+											"netCrate",
+											"netFreight",
+											"sentTo",
+											"rcvd",
+											"ship",
+											"shipped",
+											"custPaidDate",
+											"nysTaxPaid",
+											"caTaxPaid",
+											"nysTax",
+											"caTax",
+											"st"
+										]}
+									/>
+								);
 							})}
 						</tbody>
 					</Table>

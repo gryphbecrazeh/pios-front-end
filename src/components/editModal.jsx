@@ -1,23 +1,58 @@
 // ----------------------------React-------------------------------------------
 import React, { Component } from "react";
 // ----------------------------Reactstrap-------------------------------------------
-import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import {
+	Modal,
+	ModalBody,
+	ModalHeader,
+	ModalFooter,
+	Button,
+	Container,
+	Row,
+	Col
+} from "reactstrap";
+// ----------------------------Components-------------------------------------------
+import OrderSheet from "./OrderSheet";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 class EditModal extends Component {
-	state = {};
+	state = {
+		modal: false
+	};
+	toggle = () => {
+		this.setState({
+			modal: !this.state.modal
+		});
+	};
 	render() {
+		const { order } = this.props;
 		return (
-			<div className="edit-modal-container">
-				<Modal
-					// isOpen={this.props.modals[this.props._id].status}
-					isOpen={this.props.Modal}
-					toggle={this.props.toggleModal}
-				>
-					<ModalHeader>Edit Modal</ModalHeader>
-					<ModalBody>place input here</ModalBody>
+			<div>
+				<Button color="warning" onClick={this.toggle} />
+
+				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
+					<ModalHeader toggle={this.toggle}>
+						<Container>
+							<Row>
+								<Col>Editting Order {` ${this.props.order.orderNum}`} </Col>
+							</Row>
+							<Row>
+								<Col>Customer Paid {` ${this.props.order.custPaidDate}`} </Col>
+							</Row>
+						</Container>
+					</ModalHeader>
+					<ModalBody>
+						<OrderSheet order={this.props.order} mode="edit" />
+					</ModalBody>
+					<ModalFooter>
+						<Container>
+							<Row>
+								<Col>Last Updated :{order.lastUpdated}</Col>
+							</Row>
+						</Container>
+					</ModalFooter>
 				</Modal>
 			</div>
 		);

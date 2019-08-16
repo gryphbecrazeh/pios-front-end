@@ -2,6 +2,7 @@ import {
 	GET_ITEMS,
 	ADD_ITEM,
 	DELETE_ITEM,
+	EDIT_ITEM,
 	ITEMS_LOADING
 } from "../actions/types";
 
@@ -21,6 +22,10 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				customerOrders: [action.payload, ...state.customerOrders]
+			};
+		case EDIT_ITEM:
+			return {
+				...state
 			};
 		case DELETE_ITEM:
 			return {

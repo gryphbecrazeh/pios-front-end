@@ -1,17 +1,27 @@
+// ITEMS
 export const GET_ITEMS = "GET_ITEMS";
 export const ADD_ITEM = "ADD_ITEM";
+export const EDIT_ITEM = "ADD_ITEM";
 export const DELETE_ITEM = "DELETE_ITEM";
 export const ITEMS_LOADING = "ITEMS_LOADING";
+// KEYS
 export const GET_KEYS = "GET_KEYS";
 export const ADD_KEY = "ADD_KEY";
 export const GET_DB_KEYS = "GET_DB_KEYS";
 export const ADD_DB_KEY = "ADD_DB_KEY";
 export const SAVE_DB_KEYS = "SAVE_DB_KEYS";
 export const DELETE_KEYS = "DELETE_KEYS";
+// MODALS --DEFUNC
 export const MODAL_TOGGLE = "MODAL_TOGGLE";
 export const MODAL_ACTIVATE = "MODAL_ACTIVATE";
+// USERS
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
+export const GET_USERS = "GET_USERS";
+export const ADD_USER = "ADD_USER";
+export const EDIT_USER = "EDIT_USER";
+export const DELETE_USER = "DELETE_USER";
+// AUTHORIZATION
 export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
@@ -20,7 +30,3 @@ export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
-export const GET_USERS = "GET_USERS";
-export const ADD_USER = "ADD_USER";
-export const EDIT_USER = "EDIT_USER";
-export const DELETE_USER = "DELETE_USER";

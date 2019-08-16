@@ -2,6 +2,7 @@ import axios from "axios";
 import {
 	GET_ITEMS,
 	ADD_ITEM,
+	EDIT_ITEM,
 	DELETE_ITEM,
 	ITEMS_LOADING,
 	GET_KEYS,
@@ -40,6 +41,31 @@ export const addItem = item => (dispatch, getState) => {
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
 };
+
+export const editItem = item => (dispatch, getState) => {
+	let newItem = item;
+	// delete newItem._id;
+	delete newItem.msg;
+	delete newItem.mode;
+	delete newItem.required;
+
+	axios
+		.put(
+			`/api/items/${item._id}`,
+			{ id: item._id, order: newItem },
+			tokenConfig(getState)
+		)
+		.then(res =>
+			dispatch({
+				type: EDIT_ITEM,
+				payload: res.data
+			})
+		)
+		.catch(err =>
+			dispatch(returnErrors(err.response.data, err.response.status))
+		);
+};
+
 export const deleteItem = id => (dispatch, getState) => {
 	axios
 		.delete(`/api/items/${id}`, tokenConfig(getState))
@@ -58,6 +84,10 @@ export const setItemsLoading = () => {
 		type: ITEMS_LOADING
 	};
 };
+
+// KEYS ACTIONS
+// SHOULD GO IN keysActions.js
+
 export const getKeys = () => {
 	return {
 		type: GET_KEYS
