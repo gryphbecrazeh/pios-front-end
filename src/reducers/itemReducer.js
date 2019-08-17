@@ -3,7 +3,8 @@ import {
 	ADD_ITEM,
 	DELETE_ITEM,
 	EDIT_ITEM,
-	ITEMS_LOADING
+	ITEMS_LOADING,
+	ITEMS_CLEAR
 } from "../actions/types";
 
 const initialState = {
@@ -38,6 +39,11 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				loading: true
+			};
+		case ITEMS_CLEAR:
+			return {
+				...state,
+				customerOrders: []
 			};
 		default:
 			return state;

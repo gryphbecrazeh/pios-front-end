@@ -1,19 +1,5 @@
 import React, { Component } from "react";
-import {
-	Table,
-	Button,
-	Label,
-	Form,
-	FormGroup,
-	Container,
-	Row,
-	Input,
-	Col,
-	Dropdown,
-	DropdownItem,
-	DropdownMenu,
-	DropdownToggle
-} from "reactstrap";
+import { Table, Button } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Components-------------------------------------------
 import UserDetails from "../components/userDetails";

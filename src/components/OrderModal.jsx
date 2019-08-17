@@ -5,18 +5,10 @@ import {
 	ModalHeader,
 	ModalBody,
 	ModalFooter,
-	Form,
-	FormGroup,
-	Label,
-	Input,
 	Container,
 	Row,
-	Alert,
 	Col
 } from "reactstrap";
-
-import Datepicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Components-------------------------------------------
 import UploadOrders from "./uploadOrders";
 import OrderSheet from "./OrderSheet";

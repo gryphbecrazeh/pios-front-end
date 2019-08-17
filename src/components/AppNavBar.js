@@ -7,12 +7,9 @@ import {
 	NavbarBrand,
 	Nav,
 	NavItem,
-	NavLink,
-	Container
+	NavLink
 } from "reactstrap";
-import RegisterModal from "./auth/RegisterModal";
 import Logout from "./auth/Logout";
-import LoginModal from "./auth/LoginModal";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Proptypes from "prop-types";

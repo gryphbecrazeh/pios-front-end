@@ -5,6 +5,7 @@ import {
 	EDIT_ITEM,
 	DELETE_ITEM,
 	ITEMS_LOADING,
+	ITEMS_CLEAR,
 	GET_KEYS,
 	ADD_KEY,
 	DELETE_KEYS,
@@ -15,6 +16,7 @@ import {
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 export const getItems = () => (dispatch, getState) => {
+	dispatch(clearItems);
 	dispatch(setItemsLoading);
 	axios
 		.get("/api/items", tokenConfig(getState))
@@ -82,6 +84,11 @@ export const deleteItem = id => (dispatch, getState) => {
 export const setItemsLoading = () => {
 	return {
 		type: ITEMS_LOADING
+	};
+};
+export const clearItems = () => {
+	return {
+		type: ITEMS_CLEAR
 	};
 };
 

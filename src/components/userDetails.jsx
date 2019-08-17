@@ -12,10 +12,8 @@ import {
 	Input
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
-import EditModal from "./editModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import {
 	getUsers,
 	addUser,

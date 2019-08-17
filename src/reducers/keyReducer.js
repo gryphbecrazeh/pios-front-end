@@ -13,26 +13,70 @@ const initialState = {
 	dbKeysList: [
 		{ label: "Customer Name", value: "name" },
 		{ label: "Order Number", value: "orderNum" },
-		{ label: "Order Date", value: "date" },
+		{ label: "Order Date", value: "date", sortable: true, type: "date" },
 		{ label: "Recipient State", value: "st" },
 		{ label: "Manufacturer", value: "mfr" },
 		{ label: "Sent To", value: "sentTo" },
-		{ label: "Customer Due", value: "custDue" },
-		{ label: "Customer Paid Date", value: "custPaidDate" },
-		{ label: "Net Due", value: "netDue" },
-		{ label: "Net Paid Date", value: "netPaidDate" },
+		{
+			label: "Customer Due",
+			value: "custDue",
+			sortable: true,
+			type: "integer"
+		},
+		{
+			label: "Customer Paid Date",
+			value: "custPaidDate",
+			sortable: true,
+			type: "date"
+		},
+		{ label: "Net Due", value: "netDue", sortable: true, type: "integer" },
+		{
+			label: "Net Paid Date",
+			value: "netPaidDate",
+			sortable: true,
+			type: "date"
+		},
 		{ label: "Disclaim", value: "disclaim" },
-		{ label: "Addr Check", value: "addrCheck" },
-		{ label: "Received", value: "rcvd" },
+		{
+			label: "Addr Check",
+			value: "addrCheck",
+			sortable: true,
+			type: "boolean"
+		},
+		{ label: "Received", value: "rcvd", sortable: true, type: "date" },
 		{ label: "Ship", value: "ship" },
-		{ label: "Shipped", value: "shipped" },
-		{ label: "Total", value: "total" },
-		{ label: "NYS Tax", value: "nysTax" },
-		{ label: "CA Tax", value: "caTax" },
-		{ label: "Net", value: "net" },
-		{ label: "Net Crate", value: "netCrate" },
-		{ label: "Net Freight", value: "netFreigt" },
-		{ label: "Notes", value: "notes" }
+		{ label: "Shipped", value: "shipped", sortable: true, type: "date" },
+		{ label: "Order Total", value: "total", sortable: true, type: "integer" },
+		{ label: "NYS Tax", value: "nysTax", sortable: true, type: "integer" },
+		{ label: "CA Tax", value: "caTax", sortable: true, type: "integer" },
+		{ label: "Net", value: "net", sortable: true, type: "integer" },
+		{ label: "Net Crate", value: "netCrate", sortable: true, type: "integer" },
+		{
+			label: "Net Freight",
+			value: "netFreight",
+			sortable: true,
+			type: "integer"
+		},
+		{ label: "Notes", value: "notes" },
+		{
+			label: "Customer Paid",
+			value: "custPaid",
+			sortable: true,
+			type: "integer"
+		},
+		{ label: "Net Paid", value: "netPaid", sortable: true, type: "integer" },
+		{
+			label: "NYS Taxes Paid",
+			value: "nysTaxPaid",
+			sortable: true,
+			type: "integer"
+		},
+		{
+			label: "CA Taxes Paid",
+			value: "caTaxPaid",
+			sortable: true,
+			type: "integer"
+		}
 	]
 };
 

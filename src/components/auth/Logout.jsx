@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { logout } from "../../actions/authActions";
 import { connect } from "react-redux";
-import { NavLink, Button } from "reactstrap";
+import { Button } from "reactstrap";
 import Proptypes from "prop-types";
 
 class Logout extends Component {

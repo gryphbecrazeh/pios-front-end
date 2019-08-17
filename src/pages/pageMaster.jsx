@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {
-	Table,
-	Button,
 	Label,
 	Form,
 	FormGroup,
@@ -14,12 +12,11 @@ import {
 	DropdownMenu,
 	DropdownToggle
 } from "reactstrap";
-import Datepicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Components-------------------------------------------
 import OrderModal from "../components/OrderModal";
-import OrderDetails from "../components/customerOrderDetails";
-
+import TableGenerator from "../components/TableGenerator";
+import Datepicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
@@ -37,10 +34,11 @@ class MasterPage extends Component {
 		dropdownOpen: false
 	};
 	componentDidMount() {
+		this.props.getItems();
+		const { customerOrders } = this.props.item;
 		let d = new Date();
 		d.setDate(d.getDate() - 14);
-		this.setState({ startDate: d });
-		this.props.getItems();
+		this.setState({ startDate: d, orders: customerOrders });
 	}
 	renderOrders = item => {
 		return this.search(
@@ -167,46 +165,33 @@ class MasterPage extends Component {
 					</FormGroup>
 				</Form>
 				<div className="table-container" style={{ overflow: "scroll" }}>
-					<Table id="master-customer-details">
-						<thead>
-							<tr className="text-center text-nowrap">
-								<th code="edit" className="">
-									Edit
-								</th>
-								<th code="order-date">
-									<Button name="date" onClick={this.toggleSort}>
-										Order Date
-									</Button>
-								</th>
-								<th code="order-number">Order Number</th>
-								<th code="customer-name">Customer Name</th>
-								<th code="order-st">Recipient State</th>
-								<th code="order-mfr">Manufacturer</th>
-								<th code="order-sent-to">Sent To</th>
-								<th code="customer-due">Customer Owes</th>
-								<th code="customer-paid-date">Customer Paid Date</th>
-								<th code="ka-net-due">KA Net Due</th>
-								<th code="ka-net-paid-date">KA Net Paid Date</th>
-								<th code="order-disclaim">DISCLAIM</th>
-								<th code="order-addr-check">ADDR CHECK</th>
-								<th code="order-rcvd">RCVD</th>
-								<th code="order-ship">SHIP</th>
-								<th code="order-shipped">SHIPPED</th>
-								<th code="order-total">TOTAL</th>
-								<th code="order-ny-tax">NYS TAX</th>
-								<th code="order-ca-tax">CA TAX</th>
-								<th code="order-net">NET</th>
-								<th code="order-net-crate">NET CRATE</th>
-								<th code="order-net-freight">NET FREIGHT</th>
-								<th code="order-notes">NOTES</th>
-							</tr>
-						</thead>
-						<tbody id="table-result-container">
-							{this.renderOrders(customerOrders).map(item => {
-								return <OrderDetails order={item} />;
-							})}
-						</tbody>
-					</Table>
+					<TableGenerator
+						orders={this.renderOrders(customerOrders)}
+						pageKeys={[
+							"date",
+							"orderNum",
+							"name",
+							"st",
+							"mfr",
+							"sentTo",
+							"custDue",
+							"custPaidDate",
+							"netDue",
+							"netPaidDate",
+							"disclaim",
+							"addrCheck",
+							"rcvd",
+							"ship",
+							"shipped",
+							"total",
+							"nysTax",
+							"caTax",
+							"net",
+							"netCrate",
+							"netFreight",
+							"notes"
+						]}
+					/>
 				</div>
 			</div>
 		);

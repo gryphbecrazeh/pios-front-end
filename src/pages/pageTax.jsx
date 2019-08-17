@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {
-	Table,
-	Button,
 	Label,
 	Form,
 	FormGroup,
@@ -12,14 +10,14 @@ import {
 	Dropdown,
 	DropdownItem,
 	DropdownMenu,
-	DropdownToggle
+	DropdownToggle,
+	Button
 } from "reactstrap";
-import Datepicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Components-------------------------------------------
 import OrderModal from "../components/OrderModal";
-import OrderDetails from "../components/customerOrderDetails";
-
+import TableGenerator from "../components/TableGenerator";
+import Datepicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
@@ -34,13 +32,14 @@ class TaxPage extends Component {
 		searchQuery: false,
 		searchTarget: "name",
 		searchTargetLabel: "Customer Name",
-		dropdownOpen: false
+		dropdownOpen: false,
+		showAll: false
 	};
 	componentDidMount() {
+		const { customerOrders } = this.props.item;
 		let d = new Date();
 		d.setDate(d.getDate() - 14);
-		this.setState({ startDate: d });
-		this.props.getItems();
+		this.setState({ startDate: d, orders: customerOrders });
 	}
 	renderOrders = item => {
 		return this.search(
@@ -78,9 +77,11 @@ class TaxPage extends Component {
 		let arrangeDates = new Date(range2) > new Date(range1);
 		let start = arrangeDates === true ? new Date(range1) : new Date(range2);
 		let end = arrangeDates === true ? new Date(range2) : new Date(range1);
-		return item.filter(
-			item => new Date(item.date) >= start && new Date(item.date) <= end
-		);
+		return this.state.showAll === false
+			? item.filter(
+					item => new Date(item.date) >= start && new Date(item.date) <= end
+			  )
+			: item;
 	};
 	toggleSort = e => {
 		this.setState({
@@ -117,14 +118,26 @@ class TaxPage extends Component {
 			dropdownOpen: !this.state.dropdownOpen
 		});
 	};
+	showAll = () => {
+		this.setState({
+			showAll: !this.state.showAll
+		});
+	};
 	render() {
+		this.props.getItems();
+
 		const { customerOrders } = this.props.item;
 		return (
 			<div className="page-container">
-				<h1>State Tax</h1>
 				<Form>
 					<FormGroup>
 						<Container>
+							<Row>
+								<Col>
+									<h1>Tax Report</h1>
+									<h3>{customerOrders.length} orders with unpaid taxes...</h3>
+								</Col>
+							</Row>
 							<Row>
 								<Col md="6">
 									<Dropdown
@@ -162,76 +175,46 @@ class TaxPage extends Component {
 										onChange={this.onChangeDate.bind(this, "end")}
 									/>
 								</Col>
+								<Col>
+									<Button onClick={this.showAll}>
+										{this.state.showAll === false
+											? "Show All Orders"
+											: "Show Filtered Orders"}
+									</Button>
+								</Col>
 							</Row>
 						</Container>
 						<OrderModal />
 					</FormGroup>
 				</Form>
 				<div className="table-container" style={{ overflow: "scroll" }}>
-					<Table id="master-customer-details">
-						<thead>
-							<tr className="text-center text-nowrap">
-								<th code="edit" className="">
-									Edit
-								</th>
-								<th code="order-date">
-									<Button name="date" onClick={this.toggleSort}>
-										Order Date
-									</Button>
-								</th>
-								<th code="order-number">Order Number</th>
-								<th code="order-total">Total</th>
-								<th code="customer-due">Customer Owes</th>
-								<th code="customer-due">Customer Paid</th>
-								<th code="order-net-due">NET Due</th>
-								<th code="order-net">NET Paid</th>
-								<th code="order-net">NET</th>
-
-								<th code="order-mfr">Manufacturer</th>
-								<th code="order-sent-to">Sent To</th>
-								<th code="customer-paid-date">Customer Paid Date</th>
-								<th code="ka-net-due">KA Net Due</th>
-								<th code="ka-net-paid-date">KA Net Paid Date</th>
-								<th code="order-total">TOTAL</th>
-								<th code="order-ny-tax">NYS TAX</th>
-								<th code="order-ca-tax">CA TAX</th>
-								<th code="order-net-crate">NET CRATE</th>
-								<th code="order-net-freight">NET FREIGHT</th>
-							</tr>
-						</thead>
-						<tbody id="table-result-container">
-							{this.renderOrders(customerOrders).map(item => {
-								return (
-									<OrderDetails
-										order={item}
-										display={[
-											"date",
-											"orderNum",
-											"total",
-											"custDue",
-											"custPaid",
-											"netDue",
-											"netPaid",
-											"netPaidDate",
-											"net",
-											"netCrate",
-											"netFreight",
-											"sentTo",
-											"rcvd",
-											"ship",
-											"shipped",
-											"custPaidDate",
-											"nysTaxPaid",
-											"caTaxPaid",
-											"nysTax",
-											"caTax",
-											"st"
-										]}
-									/>
-								);
-							})}
-						</tbody>
-					</Table>
+					<TableGenerator
+						orders={this.renderOrders(customerOrders)}
+						source={TaxPage}
+						warnDates={true}
+						pageKeys={[
+							"date",
+							"orderNum",
+							"name",
+							"total",
+							"nysTaxPaid",
+							"caTaxPaid",
+							"nysTax",
+							"caTax",
+							"st",
+							"custDue",
+							"custPaid",
+							"custPaidDate",
+							"net",
+							"netDue",
+							"netPaid",
+							"netPaidDate",
+							"netCrate",
+							"netFreight",
+							"rcvd",
+							"shipped"
+						]}
+					/>
 				</div>
 			</div>
 		);

@@ -4,6 +4,7 @@ export const ADD_ITEM = "ADD_ITEM";
 export const EDIT_ITEM = "ADD_ITEM";
 export const DELETE_ITEM = "DELETE_ITEM";
 export const ITEMS_LOADING = "ITEMS_LOADING";
+export const ITEMS_CLEAR = "ITEMS_CLEAR";
 // KEYS
 export const GET_KEYS = "GET_KEYS";
 export const ADD_KEY = "ADD_KEY";
