@@ -24,22 +24,25 @@ import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
 import PropTypes from "prop-types";
 
 class TaxPage extends Component {
-	state = {
-		sort: true,
-		sortTarget: "date",
-		endDate: Date.now(),
-		startDate: "",
-		searchQuery: false,
-		searchTarget: "name",
-		searchTargetLabel: "Customer Name",
-		dropdownOpen: false,
-		showAll: false
-	};
-	componentDidMount() {
-		const { customerOrders } = this.props.item;
-		let d = new Date();
-		d.setDate(d.getDate() - 14);
-		this.setState({ startDate: d, orders: customerOrders });
+	constructor(props){
+		super(props)
+			let d = new Date();
+			d.setDate(d.getDate() - 14);
+	
+		this.state={
+			sort: true,
+			sortTarget: "date",
+			endDate: Date.now(),
+			startDate: d,
+			searchQuery: false,
+			searchTarget: "name",
+			searchTargetLabel: "Customer Name",
+			dropdownOpen: false,
+			showAll: false
+			}
+	}
+	componentDidMount(){
+		this.props.getItems()
 	}
 	renderOrders = item => {
 		return this.search(
@@ -125,7 +128,6 @@ class TaxPage extends Component {
 	};
 	render() {
 		this.props.getItems();
-		console.log("financial ",this.props)
 		const { customerOrders } = this.props.item;
 		return (
 			<div className="page-container">

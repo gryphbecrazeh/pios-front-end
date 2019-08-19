@@ -8,10 +8,10 @@ import {
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
-export const getPayents = () => (dispatch, getState) => {
+export const getPayments = (id) => (dispatch, getState) => {
 	dispatch(setPaymentsLoading);
 	axios
-		.get("/api/payments", tokenConfig(getState))
+		.get("/api/payments/",id)
 		.then(res =>{
 			
 			dispatch({

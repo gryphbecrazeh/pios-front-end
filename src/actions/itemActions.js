@@ -11,12 +11,7 @@ import {
 	DELETE_KEYS,
 	GET_DB_KEYS,
 	SAVE_DB_KEYS,
-	ADD_DB_KEY,
-	GET_PAYMENTS,
-	ADD_PAYMENT,
-	EDIT_PAYMENT,
-	DELETE_PAYMENT,
-	PAYMENTS_LOADING
+	ADD_DB_KEY
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";

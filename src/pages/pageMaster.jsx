@@ -35,10 +35,7 @@ class MasterPage extends Component {
 		dropdownOpen: false
 	};
 	componentDidMount() {
-		this.props.getFilters()
 		this.props.getItems()
-		const { customerOrders } = this.props.item;
-
 	}
 	renderOrders = item => {
 		return this.search(

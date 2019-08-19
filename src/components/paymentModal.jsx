@@ -12,55 +12,72 @@ import {
 	Col
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
-import OrderSheet from "./OrderSheet";
+import NewPaymentModal from "./newPaymentModal"
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
+import {getPayments} from "../actions/paymentActions"
 class PaymentModal extends Component {
-	state = {
-		modal: false
-	};
+	constructor(props){
+		super(props)
+		this.state={
+			order_id:this.props.order._id,
+			order_number:this.props.order.orderNum,
+			payment_date:Date.now(),
+			user:this.props.auth.user
+		}
+	}
 	toggle = () => {
 		this.setState({
-			modal: !this.state.modal
+			payments:this.state.modal===false?this.props.getPayments(this.props.order._id):[],
+			modal: !this.state.modal,
 		});
-    };
-    previousPayments=(order)=>{
-        let payments =this.props.getPayments(order)
-        return (
-            <Fragment>
-                {payments.map(payment=>{
-                    
-                })}
-            </Fragment>
-        )
-        })
-    }
+	};
+	renderPayments=()=>{
+		return (<div>
+			No previous Payments
+		</div>)
+	}
 	render() {
-		const { order } = this.props;
+		const { order,payments } = this.props;
+		const OrderPayments=(
+			<Fragment>
+					{payments.payments.map(payment=>{
+						return (
+							<Row>
+								<Col>
+								{payment.payment_date}
+								</Col>
+							</Row>
+						)
+					})}
+			</Fragment>
+		)
+		const NoPayments=(
+			<Fragment>
+				<Row>
+					<Col>
+					No previous payments available
+					</Col>
+				</Row>
+			</Fragment>
+		)
 		return (
 			<div>
-				<Button color="success" onClick={this.toggle} />
+				<Button color="success" onClick={this.toggle} >$</Button>
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
 						<Container>
 							<Row>
-								<Col>Add Payment to Order {` ${this.props.order.orderNum}`} </Col>
+								<Col>Payments for Order {` ${this.props.order.orderNum}`} </Col>
 							</Row>
 						</Container>
 					</ModalHeader>
 					<ModalBody>
-
+					{this.state.payments&&this.state.payments.length>0?OrderPayments:NoPayments}
+					<NewPaymentModal order={this.props.order}/>
 					</ModalBody>
-					<ModalFooter>
-						<Container>
-							<Row>
-								<Col>Last Updated :{order.lastUpdated}</Col>
-							</Row>
-						</Container>
-					</ModalFooter>
 				</Modal>
 			</div>
 		);
@@ -69,16 +86,18 @@ class PaymentModal extends Component {
 
 PaymentModal.propTypes = {
 	item: PropTypes.object.isRequired,
-	users: PropTypes.object.isRequired
+	users: PropTypes.object.isRequired,
+	getPayments:PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	item: state.item,
     users: state.users,
-    payments:state.payments
+	payments:state.payments,
+	auth:state.auth
 });
 
 export default connect(
 	mapStateToProps,
-	null
+	{getPayments}
 )(PaymentModal);
