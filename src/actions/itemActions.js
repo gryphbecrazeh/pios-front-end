@@ -46,6 +46,7 @@ export const addItem = item => (dispatch, getState) => {
 };
 
 export const editItem = item => (dispatch, getState) => {
+	console.log(item)
 	let newItem = item;
 	// delete newItem._id;
 	delete newItem.msg;

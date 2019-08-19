@@ -21,6 +21,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
+import{getPayments} from "../actions/paymentActions"
 import PropTypes from "prop-types";
 
 class TaxPage extends Component {
@@ -43,6 +44,7 @@ class TaxPage extends Component {
 	}
 	componentDidMount(){
 		this.props.getItems()
+		this.props.getPayments()
 	}
 	renderOrders = item => {
 		return this.search(
@@ -137,7 +139,7 @@ class TaxPage extends Component {
 							<Row>
 								<Col>
 									<h1>Tax Report</h1>
-									<h3>{customerOrders.length} orders with unpaid taxes...</h3>
+									<h3>{customerOrders.filter(item=>!item.nysTaxPaidDate).length} orders with unpaid taxes...</h3>
 								</Col>
 							</Row>
 							<Row>
@@ -191,7 +193,7 @@ class TaxPage extends Component {
 				</Form>
 				<div className="table-container" style={{ overflow: "scroll" }}>
 					<TableGenerator
-						orders={this.renderOrders(customerOrders)}
+						orders={this.renderOrders(customerOrders).filter(item=>!item.nysTaxPaidDate)}
 						source={TaxPage}
 						warnDates={true}
 						pageKeys={[
@@ -236,5 +238,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getItems, deleteItem, getDBKeys }
+	{ getItems, deleteItem, getDBKeys,getPayments }
 )(TaxPage);

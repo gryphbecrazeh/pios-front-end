@@ -17,12 +17,14 @@ export default function(state = initialState, action) {
 				payments: action.payload,
 				loading: false
 			};
-		case ADD_PAYMENT:
+		case ADD_PAYMENT:{
+			console.log(action.payload)
 			return {
 				...state,
 				payments: [action.payload, ...state.payments]
 			};
-		case EDIT_PAYMENT:
+
+		}		case EDIT_PAYMENT:
 			return {
 				...state
 			};

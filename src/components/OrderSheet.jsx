@@ -38,7 +38,7 @@ class OrderSheet extends Component {
             netDue: order ?order.netDue : "",
             netPaidDate: order ?order.netPaidDate : "",
             disclaim: order ?order.disclaim :"",
-            addrCheck: order ?order.addrCheck : "",
+            addrCheck: order ?order.addrCheck : false,
             rcvd: order ?order.rcvd : "",
             ship: order ?order.ship  :"",
             shipped: order ?order.shipped : "",
@@ -283,6 +283,19 @@ class OrderSheet extends Component {
                             <Label>
                                 <strong>Kitchenall Information</strong>
                             </Label>
+                        </Col>
+                    </Row>
+                    <Row>
+                    <Col>
+                            <Label for="order">NYS Tax Due</Label>
+                            <Input
+                                type="text"
+                                name="nysTax"
+                                id="nysTax"
+                                placeholder="123.50 auto-fill me"
+                                onChange={this.onChange}
+                                value={this.state.nysTax||null}
+                            />
                         </Col>
                     </Row>
                     <Row>

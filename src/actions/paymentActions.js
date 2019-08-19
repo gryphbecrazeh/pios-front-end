@@ -11,9 +11,8 @@ import { returnErrors } from "./errorActions";
 export const getPayments = (id) => (dispatch, getState) => {
 	dispatch(setPaymentsLoading);
 	axios
-		.get("/api/payments/",id)
+		.get(`/api/payments`)
 		.then(res =>{
-			
 			dispatch({
 				type: GET_PAYMENTS,
 				payload: res.data

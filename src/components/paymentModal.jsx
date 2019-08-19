@@ -29,9 +29,8 @@ class PaymentModal extends Component {
 	}
 	toggle = () => {
 		this.setState({
-			payments:this.state.modal===false?this.props.getPayments(this.props.order._id):[],
 			modal: !this.state.modal,
-		});
+		});		
 	};
 	renderPayments=()=>{
 		return (<div>
@@ -42,11 +41,11 @@ class PaymentModal extends Component {
 		const { order,payments } = this.props;
 		const OrderPayments=(
 			<Fragment>
-					{payments.payments.map(payment=>{
+					{payments.payments.filter(item=>item.order_id===this.state.order_id).map(payment=>{
 						return (
 							<Row>
 								<Col>
-								{payment.payment_date}
+								{new Date(payment.payment_date).toDateString()} Order Number:  {payment.order_number} User: {payment.user} {this.props.keys.dbKeysList.find(item=>item.value===payment.payment_type).label} {`$${payment.total_paid}`}
 								</Col>
 							</Row>
 						)
@@ -75,7 +74,7 @@ class PaymentModal extends Component {
 						</Container>
 					</ModalHeader>
 					<ModalBody>
-					{this.state.payments&&this.state.payments.length>0?OrderPayments:NoPayments}
+					{payments.payments.filter(item=>item.order_id===this.state.order_id).length>=1?OrderPayments:NoPayments}
 					<NewPaymentModal order={this.props.order}/>
 					</ModalBody>
 				</Modal>
@@ -94,7 +93,8 @@ const mapStateToProps = state => ({
 	item: state.item,
     users: state.users,
 	payments:state.payments,
-	auth:state.auth
+	auth:state.auth,
+	keys:state.keys
 });
 
 export default connect(
