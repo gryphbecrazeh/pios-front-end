@@ -20,6 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
+import {getFilters,addFilter,deleteFilter} from "../actions/filterActions"
 import PropTypes from "prop-types";
 
 class MasterPage extends Component {
@@ -27,18 +28,17 @@ class MasterPage extends Component {
 		sort: true,
 		sortTarget: "date",
 		endDate: Date.now(),
-		startDate: "",
+		startDate: new Date("01/01/2016"),
 		searchQuery: false,
 		searchTarget: "name",
 		searchTargetLabel: "Customer Name",
 		dropdownOpen: false
 	};
 	componentDidMount() {
-		this.props.getItems();
+		this.props.getFilters()
+		this.props.getItems()
 		const { customerOrders } = this.props.item;
-		let d = new Date();
-		d.setDate(d.getDate() - 14);
-		this.setState({ startDate: d, orders: customerOrders });
+
 	}
 	renderOrders = item => {
 		return this.search(
@@ -200,15 +200,17 @@ class MasterPage extends Component {
 
 MasterPage.propTypes = {
 	getItems: PropTypes.func.isRequired,
-	item: PropTypes.object.isRequired
+	item: PropTypes.object.isRequired,
+	getFilters:PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	item: state.item,
-	keys: state.keys
+	keys: state.keys,
+	filters:state.filters
 });
 
 export default connect(
 	mapStateToProps,
-	{ getItems, deleteItem, getDBKeys }
+	{ getItems, deleteItem, getDBKeys,getFilters,addFilter }
 )(MasterPage);

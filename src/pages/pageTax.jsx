@@ -125,7 +125,7 @@ class TaxPage extends Component {
 	};
 	render() {
 		this.props.getItems();
-
+		console.log("financial ",this.props)
 		const { customerOrders } = this.props.item;
 		return (
 			<div className="page-container">
@@ -228,7 +228,8 @@ TaxPage.propTypes = {
 
 const mapStateToProps = state => ({
 	item: state.item,
-	keys: state.keys
+	keys: state.keys,
+	payments:state.payments
 });
 
 export default connect(

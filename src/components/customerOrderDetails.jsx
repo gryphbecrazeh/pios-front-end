@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import EditModal from "./editModal";
+import PaymentModal from "./paymentModal"
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -23,8 +24,9 @@ class OrderDetails extends Component {
 	render() {
 		let { custOrder, orderKeys } = this.props;
 		return (
-			<tr>
+			<tr key={custOrder._id}>
 				<td>
+					<PaymentModal order={this.props.custOrder} />
 					<EditModal order={this.props.custOrder} />
 					<Button
 						color="danger"
@@ -32,7 +34,7 @@ class OrderDetails extends Component {
 					/>
 				</td>
 				{orderKeys.map(key => {
-					return <td key={custOrder._id}>{this.renderKey(custOrder, key)}</td>;
+					return <td >{this.renderKey(custOrder, key)}</td>;
 				})}
 			</tr>
 		);

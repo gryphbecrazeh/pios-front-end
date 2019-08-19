@@ -1,49 +1,44 @@
 import {
-	GET_ITEMS,
-	ADD_ITEM,
-	DELETE_ITEM,
-	EDIT_ITEM,
-	ITEMS_LOADING,
-	ITEMS_CLEAR
+    GET_PAYMENTS,
+    ADD_PAYMENT,
+    EDIT_PAYMENT,
+    DELETE_PAYMENT,
+    PAYMENTS_LOADING
 } from "../actions/types";
 const initialState = {
-	customerOrders: []
+	payments: []
 };
 
 export default function(state = initialState, action) {
 	switch (action.type) {
-		case GET_ITEMS:
+		case GET_PAYMENTS:
 			return {
 				...state,
-				customerOrders: action.payload,
+				payments: action.payload,
 				loading: false
 			};
-		case ADD_ITEM:
+		case ADD_PAYMENT:
 			return {
 				...state,
-				customerOrders: [action.payload, ...state.customerOrders]
+				payments: [action.payload, ...state.payments]
 			};
-		case EDIT_ITEM:
+		case EDIT_PAYMENT:
 			return {
 				...state
 			};
-		case DELETE_ITEM:
+		case DELETE_PAYMENT:
 			return {
 				...state,
-				customerOrders: state.customerOrders.filter(
+				payments: state.payments.filter(
 					item => item._id !== action.payload
 				)
 			};
-		case ITEMS_LOADING:
+		case PAYMENTS_LOADING:
 			return {
 				...state,
 				loading: true
 			};
-		case ITEMS_CLEAR:
-			return {
-				...state,
-				customerOrders: []
-			};
+
 		default:
 			return state;
 	}

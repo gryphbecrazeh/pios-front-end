@@ -11,20 +11,26 @@ import {
 	DELETE_KEYS,
 	GET_DB_KEYS,
 	SAVE_DB_KEYS,
-	ADD_DB_KEY
+	ADD_DB_KEY,
+	GET_PAYMENTS,
+	ADD_PAYMENT,
+	EDIT_PAYMENT,
+	DELETE_PAYMENT,
+	PAYMENTS_LOADING
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 export const getItems = () => (dispatch, getState) => {
-	dispatch(clearItems);
 	dispatch(setItemsLoading);
 	axios
 		.get("/api/items", tokenConfig(getState))
-		.then(res =>
+		.then(res =>{
+			
 			dispatch({
 				type: GET_ITEMS,
 				payload: res.data
 			})
+		}
 		)
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
