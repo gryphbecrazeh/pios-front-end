@@ -29,6 +29,27 @@ class AppNavBar extends Component {
 
 		const authLinks = (
 			<Fragment>
+											<NavItem>
+								<Link to="/master-page">
+									<NavLink href="/">Master Page</NavLink>
+								</Link>
+							</NavItem>
+							<NavItem>
+								<Link to="/tax-page">
+									<NavLink href="/">Tax Page</NavLink>
+								</Link>
+							</NavItem>
+							<NavItem>
+								<Link to="/shipping-page">
+									<NavLink href="/">Shipping Page</NavLink>
+								</Link>
+							</NavItem>
+							<NavItem>
+								<Link to="/user-manager">
+									<NavLink href="/">User Manager</NavLink>
+								</Link>
+							</NavItem>
+
 				<NavItem>
 					<Logout />
 				</NavItem>
@@ -65,26 +86,6 @@ class AppNavBar extends Component {
 					<NavbarToggler onClick={this.toggle} />
 					<Collapse isOpen={this.state.isOpen} navbar>
 						<Nav className="ml-auto" navbar>
-							<NavItem>
-								<Link to="/master-page">
-									<NavLink href="/">Master Page</NavLink>
-								</Link>
-							</NavItem>
-							<NavItem>
-								<Link to="/tax-page">
-									<NavLink href="/">Tax Page</NavLink>
-								</Link>
-							</NavItem>
-							<NavItem>
-								<Link to="/shipping-page">
-									<NavLink href="/">Shipping Page</NavLink>
-								</Link>
-							</NavItem>
-							<NavItem>
-								<Link to="/user-manager">
-									<NavLink href="/">User Manager</NavLink>
-								</Link>
-							</NavItem>
 							{isAuthenticated ? authLinks : guestLinks}
 						</Nav>
 					</Collapse>

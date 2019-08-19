@@ -3,6 +3,7 @@ import LoginModal from "../components/auth/LoginModal";
 import RegisterModal from "../components/auth/RegisterModal";
 import Logout from "../components/auth/Logout";
 import { connect } from "react-redux";
+import {Container,Col,Row} from  "reactstrap"
 class WelcomePage extends Component {
 	state = {};
 	render() {
@@ -21,8 +22,16 @@ class WelcomePage extends Component {
 		);
 		return (
 			<div>
-				<h1>Welcome</h1>
-				{isAuthenticated ? authLinks : guestLinks}
+				<Container>
+					<Row style={{flexDirection:"column",alignContent:"center",justifyContent:"center"}}>
+						<Col size="12">
+						<h1>Welcome</h1>
+</Col>
+						<Col size="12">
+						{isAuthenticated ? authLinks : guestLinks}
+</Col>
+					</Row>
+				</Container>
 			</div>
 		);
 	}
