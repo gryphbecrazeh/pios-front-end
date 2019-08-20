@@ -42,8 +42,9 @@ class TaxPage extends Component {
 		let { customerOrders } = this.props.item;
 		return (
 			<div className="page-container">
-				<Container>
-					<Row>
+				<Container style={{ position: "relative", zIndex: "1" }}>
+					<Filters />
+					<Row style={{ position: "relative", zIndex: "-1" }}>
 						<Col>
 							<h3>
 								{customerOrders.filter(item => !item.nysTaxPaidDate).length}{" "}
@@ -103,7 +104,6 @@ class TaxPage extends Component {
 					</Row>
 				</Container>
 				<OrderModal />
-				<Filters />
 				<div className="table-container" style={{ overflow: "scroll" }}>
 					<TableGenerator
 						filter="financial"

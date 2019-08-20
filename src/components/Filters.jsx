@@ -19,6 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
+import { relative } from "path";
 
 class Filters extends Component {
 	constructor(props) {
@@ -61,7 +62,7 @@ class Filters extends Component {
 	};
 	render() {
 		return (
-			<div className="page-container">
+			<div className="filter-container">
 				<Form>
 					<FormGroup>
 						<Container>
