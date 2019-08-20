@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import {
 	Label,
-	Form,
-	FormGroup,
 	Container,
 	Row,
 	Input,
@@ -21,16 +19,16 @@ import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
-import{getPayments} from "../actions/paymentActions"
+import { getPayments } from "../actions/paymentActions";
 import PropTypes from "prop-types";
 
 class TaxPage extends Component {
-	constructor(props){
-		super(props)
-			let d = new Date();
-			d.setDate(d.getDate() - 14);
-	
-		this.state={
+	constructor(props) {
+		super(props);
+		let d = new Date();
+		d.setDate(d.getDate() - 14);
+
+		this.state = {
 			sort: true,
 			sortTarget: "date",
 			endDate: Date.now(),
@@ -40,11 +38,11 @@ class TaxPage extends Component {
 			searchTargetLabel: "Customer Name",
 			dropdownOpen: false,
 			showAll: false
-			}
+		};
 	}
-	componentDidMount(){
-		this.props.getItems()
-		this.props.getPayments()
+	componentDidMount() {
+		this.props.getItems();
+		this.props.getPayments();
 	}
 	renderOrders = item => {
 		return this.search(
@@ -133,67 +131,108 @@ class TaxPage extends Component {
 		const { customerOrders } = this.props.item;
 		return (
 			<div className="page-container">
-				<Form>
-					<FormGroup>
-						<Container>
-							<Row>
-								<Col>
-									<h1>Tax Report</h1>
-									<h3>{customerOrders.filter(item=>!item.nysTaxPaidDate).length} orders with unpaid taxes...</h3>
-								</Col>
-							</Row>
-							<Row>
-								<Col md="6">
-									<Dropdown
-										isOpen={this.state.dropdownOpen}
-										toggle={this.onToggleDropdown}
+				<Container>
+					<Row>
+						<Col>
+							<h3>
+								{customerOrders.filter(item => !item.nysTaxPaidDate).length}{" "}
+								orders with unpaid NYS taxes...
+							</h3>
+						</Col>
+
+						<Col>
+							<Button color="danger">View now</Button>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<h3>
+								{customerOrders.filter(item => !item.caTaxPaidDate).length}{" "}
+								orders with unpaid CA taxes...
+							</h3>
+						</Col>
+
+						<Col>
+							<Button color="danger">View now</Button>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<h3>
+								{customerOrders.filter(item => !item.netPaidDate).length} orders
+								with unpaid NET...
+							</h3>
+						</Col>
+
+						<Col>
+							<Button color="danger">View now</Button>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<h3>
+								{customerOrders.filter(item => !item.custPaidDate).length}{" "}
+								orders that were unpaid by the customer...
+							</h3>
+						</Col>
+
+						<Col>
+							<Button color="danger">View now</Button>
+						</Col>
+					</Row>
+
+					<Row>
+						<Col md="6">
+							<Dropdown
+								isOpen={this.state.dropdownOpen}
+								toggle={this.onToggleDropdown}
+							>
+								<DropdownToggle caret>{`Search By ${
+									this.state.searchTargetLabel
+								}`}</DropdownToggle>
+								<DropdownMenu>
+									<DropdownItem
+										value="name"
+										onClick={this.onChangeSeachCriteria}
 									>
-										<DropdownToggle caret>{`Search By ${
-											this.state.searchTargetLabel
-										}`}</DropdownToggle>
-										<DropdownMenu>
-											<DropdownItem
-												value="name"
-												onClick={this.onChangeSeachCriteria}
-											>
-												Customer Name
-											</DropdownItem>
-										</DropdownMenu>
-									</Dropdown>
-									<Input
-										onChange={this.onChangeSearch}
-										name="search"
-										placeholder="Search for an order"
-									/>
-									<Label>Sort By Date range</Label>
-								</Col>
-							</Row>
-							<Row>
-								<Col>
-									<Datepicker
-										selected={this.state.startDate}
-										onChange={this.onChangeDate.bind(this, "start")}
-									/>
-									<Datepicker
-										selected={this.state.endDate}
-										onChange={this.onChangeDate.bind(this, "end")}
-									/>
-								</Col>
-								<Col>
-									<Button onClick={this.showAll}>
-										{this.state.showAll === false
-											? "Show All Orders"
-											: "Show Filtered Orders"}
-									</Button>
-								</Col>
-							</Row>
-						</Container>
-						<OrderModal />
-					</FormGroup>
-				</Form>
+										Customer Name
+									</DropdownItem>
+								</DropdownMenu>
+							</Dropdown>
+							<Input
+								onChange={this.onChangeSearch}
+								name="search"
+								placeholder="Search for an order"
+							/>
+							<Label>Sort By Date range</Label>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Datepicker
+								selected={this.state.startDate}
+								onChange={this.onChangeDate.bind(this, "start")}
+							/>
+							<Datepicker
+								selected={this.state.endDate}
+								onChange={this.onChangeDate.bind(this, "end")}
+							/>
+						</Col>
+						<Col>
+							<Button onClick={this.showAll}>
+								{this.state.showAll === false
+									? "Show All Orders"
+									: "Show Filtered Orders"}
+							</Button>
+						</Col>
+					</Row>
+				</Container>
+				<OrderModal />
 				<div className="table-container" style={{ overflow: "scroll" }}>
 					<TableGenerator
-						orders={this.renderOrders(customerOrders).filter(item=>!item.nysTaxPaidDate)}
+						orders={this.renderOrders(customerOrders).filter(
+							item => !item.nysTaxPaidDate
+						)}
 						source={TaxPage}
 						warnDates={true}
 						pageKeys={[
@@ -233,10 +272,10 @@ TaxPage.propTypes = {
 const mapStateToProps = state => ({
 	item: state.item,
 	keys: state.keys,
-	payments:state.payments
+	payments: state.payments
 });
 
 export default connect(
 	mapStateToProps,
-	{ getItems, deleteItem, getDBKeys,getPayments }
+	{ getItems, deleteItem, getDBKeys, getPayments }
 )(TaxPage);

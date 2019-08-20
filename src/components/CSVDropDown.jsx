@@ -42,7 +42,7 @@ class CSVDropDown extends Component {
 		return (
 			<Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>
 				<DropdownToggle>{this.state.label}</DropdownToggle>
-				<DropdownMenu>
+				<DropdownMenu style={{ maxHeight: "10em", overflow: "scroll" }}>
 					{this.props.keys.dbKeysList.map(item => {
 						return (
 							<DropdownItem

@@ -1,14 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
 	Label,
-	Form,
-	FormGroup,
 	Container,
 	Row,
 	Input,
 	Col,
 	Dropdown,
 	DropdownItem,
+	Button,
 	DropdownMenu,
 	DropdownToggle
 } from "reactstrap";
@@ -20,7 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
-import { getFilters } from "../actions/filterActions";
+import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
 
 class MasterPage extends Component {
@@ -114,53 +113,102 @@ class MasterPage extends Component {
 	};
 	render() {
 		const { customerOrders } = this.props.item;
+		const ShipNow = (
+			<Fragment>
+				<Col>
+					<Button color="success">View now</Button>
+				</Col>
+			</Fragment>
+		);
 		return (
 			<div className="page-container">
-				<Form>
-					<FormGroup>
-						<Container>
-							<Row>
-								<Col md="6">
-									<Dropdown
-										isOpen={this.state.dropdownOpen}
-										toggle={this.onToggleDropdown}
+				<Container>
+					<Row>
+						<Col>
+							<h3>
+								{customerOrders.filter(item => item.readyToShip).length} orders
+								ready to ship...{" "}
+							</h3>
+						</Col>
+						{customerOrders.filter(item => item.readyToShip).length >= 1
+							? ShipNow
+							: null}
+					</Row>
+
+					<Row>
+						<Col>
+							<h3>
+								{customerOrders.filter(item => !item.addrCheck === true).length}{" "}
+								orders with unverified addresses...{" "}
+							</h3>
+						</Col>
+						<Col>
+							<Button color="danger">View now</Button>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<h3>
+								{customerOrders.filter(item => !item.addrCheck === true).length}{" "}
+								orders with unassigned skus...{" "}
+							</h3>
+						</Col>
+						<Col>
+							<Button color="danger">View now</Button>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<h3>
+								{customerOrders.filter(item => !item.addrCheck === true).length}{" "}
+								orders with unconfirmed stock status...{" "}
+							</h3>
+						</Col>
+						<Col>
+							<Button color="danger">View now</Button>
+						</Col>
+					</Row>
+
+					<Row>
+						<Col md="6">
+							<Dropdown
+								isOpen={this.state.dropdownOpen}
+								toggle={this.onToggleDropdown}
+							>
+								<DropdownToggle caret>{`Search By ${
+									this.state.searchTargetLabel
+								}`}</DropdownToggle>
+								<DropdownMenu>
+									<DropdownItem
+										value="name"
+										onClick={this.onChangeSeachCriteria}
 									>
-										<DropdownToggle caret>{`Search By ${
-											this.state.searchTargetLabel
-										}`}</DropdownToggle>
-										<DropdownMenu>
-											<DropdownItem
-												value="name"
-												onClick={this.onChangeSeachCriteria}
-											>
-												Customer Name
-											</DropdownItem>
-										</DropdownMenu>
-									</Dropdown>
-									<Input
-										onChange={this.onChangeSearch}
-										name="search"
-										placeholder="Search for an order"
-									/>
-									<Label>Sort By Date range</Label>
-								</Col>
-							</Row>
-							<Row>
-								<Col>
-									<Datepicker
-										selected={this.state.startDate}
-										onChange={this.onChangeDate.bind(this, "start")}
-									/>
-									<Datepicker
-										selected={this.state.endDate}
-										onChange={this.onChangeDate.bind(this, "end")}
-									/>
-								</Col>
-							</Row>
-						</Container>
-						<OrderModal />
-					</FormGroup>
-				</Form>
+										Customer Name
+									</DropdownItem>
+								</DropdownMenu>
+							</Dropdown>
+							<Input
+								onChange={this.onChangeSearch}
+								name="search"
+								placeholder="Search for an order"
+							/>
+							<Label>Sort By Date range</Label>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Datepicker
+								selected={this.state.startDate}
+								onChange={this.onChangeDate.bind(this, "start")}
+							/>
+							<Datepicker
+								selected={this.state.endDate}
+								onChange={this.onChangeDate.bind(this, "end")}
+							/>
+						</Col>
+					</Row>
+				</Container>
+				<OrderModal />
 				<div className="table-container" style={{ overflow: "scroll" }}>
 					<TableGenerator
 						orders={this.renderOrders(customerOrders)}
