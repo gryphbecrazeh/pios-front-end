@@ -12,6 +12,7 @@ const initialState = {
 	sort: true,
 	filters: [],
 	sortStart: d,
+	showAll: false,
 	sortEnd: Date.now(),
 	searchQuery: null,
 	report: null,
@@ -33,7 +34,8 @@ export default function(state = initialState, action) {
 				sortStart: action.payload.sortStart,
 				sortEnd: action.payload.sortEnd,
 				searchQuery: action.payload.searchQuery,
-				report: action.payload.report
+				report: action.payload.report,
+				showAll: action.payload.showAll
 			};
 		}
 		case EDIT_FILTER:

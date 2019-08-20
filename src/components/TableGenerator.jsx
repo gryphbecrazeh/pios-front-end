@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 class TableGenerator extends Component {
-	state = {};
 	filterTable = filter => {
 		switch (filter) {
 			case "financial":
@@ -18,16 +17,27 @@ class TableGenerator extends Component {
 				return [];
 		}
 	};
-	filterDate = item => {
+	filterDate = array => {
 		let range1 = this.props.filters.sortStart;
 		let range2 = this.props.filters.sortEnd;
 		let arrangeDates = range2 > range1;
 		let start = arrangeDates === true ? range1 : range2;
 		let end = arrangeDates === true ? range2 : range1;
-		return item.filter(
-			item => new Date(item.date) >= start && new Date(item.date) <= end
+		// Determine if show all is active, if it is, return the unfiltered result
+		let result = !this.props.filters.showAll
+			? array.filter(
+					item => new Date(item.date) >= start && new Date(item.date) <= end
+			  )
+			: array;
+		return result;
+	};
+	filterQuery = array => {
+		let result = array.filter(
+			item =>
+				item.name.match(new RegExp(this.props.filters.searchQuery), "gmi") ||
+				item.orderNum.match(new RegExp(this.props.filters.searchQuery), "gmi")
 		);
-		return item;
+		return this.props.filters.searchQuery ? result : array;
 	};
 	render() {
 		let { keys, pageKeys } = this.props;
@@ -54,7 +64,7 @@ class TableGenerator extends Component {
 					{this.filterTable(this.props.filter).forEach(filter => {
 						orders = orders.filter(item => !item[filter]);
 					})}
-					{this.filterDate(orders).map(item => {
+					{this.filterQuery(this.filterDate(orders)).map(item => {
 						return <OrderDetails custOrder={item} orderKeys={pageKeys} />;
 					})}
 				</tbody>

@@ -12,58 +12,65 @@ import {
 	Col
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
-import NewPaymentModal from "./newPaymentModal"
+import NewPaymentModal from "./newPaymentModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import {getPayments} from "../actions/paymentActions"
+import { getPayments } from "../actions/paymentActions";
 class PaymentModal extends Component {
-	constructor(props){
-		super(props)
-		this.state={
-			order_id:this.props.order._id,
-			order_number:this.props.order.orderNum,
-			payment_date:Date.now(),
-			user:this.props.auth.user
-		}
+	constructor(props) {
+		super(props);
+		this.state = {
+			order_id: this.props.order._id,
+			order_number: this.props.order.orderNum,
+			payment_date: Date.now(),
+			user: this.props.auth.user
+		};
 	}
 	toggle = () => {
 		this.setState({
-			modal: !this.state.modal,
-		});		
+			modal: !this.state.modal
+		});
 	};
-	renderPayments=()=>{
-		return (<div>
-			No previous Payments
-		</div>)
-	}
+	renderPayments = () => {
+		return <div>No previous Payments</div>;
+	};
 	render() {
-		const { order,payments } = this.props;
-		const OrderPayments=(
+		const { order, payments } = this.props;
+		const OrderPayments = (
 			<Fragment>
-					{payments.payments.filter(item=>item.order_id===this.state.order_id).map(payment=>{
+				{payments.payments
+					.filter(item => item.order_id === this.state.order_id)
+					.map(payment => {
 						return (
 							<Row>
 								<Col>
-								{new Date(payment.payment_date).toDateString()} Order Number:  {payment.order_number} User: {payment.user} {this.props.keys.dbKeysList.find(item=>item.value===payment.payment_type).label} {`$${payment.total_paid}`}
+									{new Date(payment.payment_date).toDateString()} Order Number:{" "}
+									{payment.order_number} User: {payment.user}{" "}
+									{
+										this.props.keys.dbKeysList.find(
+											item => item.value === payment.payment_type
+										).label
+									}{" "}
+									{`$${payment.total_paid}`}
 								</Col>
 							</Row>
-						)
+						);
 					})}
 			</Fragment>
-		)
-		const NoPayments=(
+		);
+		const NoPayments = (
 			<Fragment>
 				<Row>
-					<Col>
-					No previous payments available
-					</Col>
+					<Col>No previous payments available</Col>
 				</Row>
 			</Fragment>
-		)
+		);
 		return (
 			<div>
-				<Button color="success" onClick={this.toggle} >$</Button>
+				<Button color="success" onClick={this.toggle}>
+					$
+				</Button>
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
@@ -74,8 +81,12 @@ class PaymentModal extends Component {
 						</Container>
 					</ModalHeader>
 					<ModalBody>
-					{payments.payments.filter(item=>item.order_id===this.state.order_id).length>=1?OrderPayments:NoPayments}
-					<NewPaymentModal order={this.props.order}/>
+						{payments.payments.filter(
+							item => item.order_id === this.state.order_id
+						).length >= 1
+							? OrderPayments
+							: NoPayments}
+						<NewPaymentModal order={this.props.order} />
 					</ModalBody>
 				</Modal>
 			</div>
@@ -86,18 +97,18 @@ class PaymentModal extends Component {
 PaymentModal.propTypes = {
 	item: PropTypes.object.isRequired,
 	users: PropTypes.object.isRequired,
-	getPayments:PropTypes.func.isRequired
+	getPayments: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	item: state.item,
-    users: state.users,
-	payments:state.payments,
-	auth:state.auth,
-	keys:state.keys
+	users: state.users,
+	payments: state.payments,
+	auth: state.auth,
+	keys: state.keys
 });
 
 export default connect(
 	mapStateToProps,
-	{getPayments}
+	{ getPayments }
 )(PaymentModal);

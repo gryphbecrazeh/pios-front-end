@@ -21,7 +21,8 @@ const initialState = {
 			label: "Customer Due",
 			value: "custDue",
 			sortable: true,
-			type: "integer"
+			type: "integer",
+			payable: true
 		},
 		{
 			label: "Customer Paid Date",
@@ -29,7 +30,13 @@ const initialState = {
 			sortable: true,
 			type: "date"
 		},
-		{ label: "Net Due", value: "netDue", sortable: true, type: "integer" },
+		{
+			label: "Net Due",
+			value: "netDue",
+			sortable: true,
+			type: "integer",
+			payable: true
+		},
 		{
 			label: "Net Paid Date",
 			value: "netPaidDate",
@@ -47,8 +54,20 @@ const initialState = {
 		{ label: "Ship", value: "ship" },
 		{ label: "Shipped", value: "shipped", sortable: true, type: "date" },
 		{ label: "Order Total", value: "total", sortable: true, type: "integer" },
-		{ label: "NYS Tax", value: "nysTax", sortable: true, type: "integer" },
-		{ label: "CA Tax", value: "caTax", sortable: true, type: "integer" },
+		{
+			label: "NYS Tax",
+			value: "nysTax",
+			sortable: true,
+			type: "integer",
+			payable: true
+		},
+		{
+			label: "CA Tax",
+			value: "caTax",
+			sortable: true,
+			type: "integer",
+			payable: true
+		},
 		{ label: "Net", value: "net", sortable: true, type: "integer" },
 		{ label: "Net Crate", value: "netCrate", sortable: true, type: "integer" },
 		{

@@ -3,6 +3,7 @@ import {
 	Label,
 	Form,
 	FormGroup,
+	Button,
 	Container,
 	Row,
 	Input,
@@ -19,7 +20,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
-import { relative } from "path";
 
 class Filters extends Component {
 	constructor(props) {
@@ -46,10 +46,14 @@ class Filters extends Component {
 		}
 	};
 	onChangeSearch = e => {
-		this.setState({
-			searchQuery: e.target.value ? e.target.value : null
-		});
-		this.props.addFilter(this.state);
+		this.setState(
+			{
+				searchQuery: e.target.value ? e.target.value : null
+			},
+			() => {
+				this.props.addFilter(this.state);
+			}
+		);
 	};
 	onChangeSeachCriteria = e => {
 		let critera = this.props.keys.dbKeysList.filter(
@@ -60,54 +64,71 @@ class Filters extends Component {
 			searchTargetLabel: critera
 		});
 	};
+
+	showAll = () => {
+		this.setState(
+			{
+				showAll: !this.state.showAll
+			},
+			() => {
+				this.props.addFilter(this.state);
+			}
+		);
+	};
+
 	render() {
 		return (
 			<div className="filter-container">
-				<Form>
-					<FormGroup>
-						<Container>
-							<Row>
-								<Col md="6">
-									<Dropdown
-										isOpen={this.state.dropdownOpen}
-										toggle={this.onToggleDropdown}
+				<Container>
+					<Row>
+						<Col md="6">
+							<Dropdown
+								isOpen={this.state.dropdownOpen}
+								toggle={this.onToggleDropdown}
+							>
+								<DropdownToggle caret>{`Search By ${
+									this.state.searchTargetLabel
+								}`}</DropdownToggle>
+								<DropdownMenu>
+									<DropdownItem
+										value="name"
+										onClick={this.onChangeSeachCriteria}
 									>
-										<DropdownToggle caret>{`Search By ${
-											this.state.searchTargetLabel
-										}`}</DropdownToggle>
-										<DropdownMenu>
-											<DropdownItem
-												value="name"
-												onClick={this.onChangeSeachCriteria}
-											>
-												Customer Name
-											</DropdownItem>
-										</DropdownMenu>
-									</Dropdown>
-									<Input
-										onChange={this.onChangeSearch}
-										name="search"
-										placeholder="Search for an order"
-									/>
-									<Label>Sort By Date range</Label>
-								</Col>
-							</Row>
-							<Row>
-								<Col>
-									<Datepicker
-										selected={this.state.sortStart}
-										onChange={this.onChangeDate.bind(this, "start")}
-									/>
+										Customer Name
+									</DropdownItem>
+								</DropdownMenu>
+							</Dropdown>
+							<Input
+								onChange={this.onChangeSearch}
+								name="search"
+								placeholder="Search for an order"
+							/>
+							<Label>Sort By Date range</Label>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Datepicker
+								selected={this.state.sortStart}
+								onChange={this.onChangeDate.bind(this, "start")}
+							/>
 
-									<Datepicker
-										selected={this.state.sortEnd}
-										onChange={this.onChangeDate.bind(this, "end")}
-									/>
-								</Col>
-							</Row>
-						</Container>
-					</FormGroup>
-				</Form>
+							<Datepicker
+								selected={this.state.sortEnd}
+								onChange={this.onChangeDate.bind(this, "end")}
+							/>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Button onClick={this.showAll}>
+								{!this.state.showAll
+									? "Show All Orders"
+									: "Show Filtered Orders"}
+							</Button>
+						</Col>
+					</Row>
+				</Container>
 			</div>
 		);
 	}

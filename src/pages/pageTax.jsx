@@ -25,17 +25,12 @@ import PropTypes from "prop-types";
 class TaxPage extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { ...this.props.filters, dropdownOpen: false, showAll: false };
+		this.state = { ...this.props.filters, dropdownOpen: false };
 	}
 
 	onToggleDropdown = () => {
 		this.setState({
 			dropdownOpen: !this.state.dropdownOpen
-		});
-	};
-	showAll = () => {
-		this.setState({
-			showAll: !this.state.showAll
 		});
 	};
 	render() {
@@ -90,16 +85,6 @@ class TaxPage extends Component {
 
 						<Col>
 							<Button color="danger">View now</Button>
-						</Col>
-					</Row>
-
-					<Row>
-						<Col>
-							<Button onClick={this.showAll}>
-								{this.state.showAll === false
-									? "Show All Orders"
-									: "Show Filtered Orders"}
-							</Button>
 						</Col>
 					</Row>
 				</Container>
