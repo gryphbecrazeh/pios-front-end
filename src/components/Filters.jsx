@@ -1,18 +1,5 @@
 import React, { Component } from "react";
-import {
-	Label,
-	Form,
-	FormGroup,
-	Button,
-	Container,
-	Row,
-	Input,
-	Col,
-	Dropdown,
-	DropdownItem,
-	DropdownMenu,
-	DropdownToggle
-} from "reactstrap";
+import { Label, Button, Container, Row, Col } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -45,25 +32,6 @@ class Filters extends Component {
 			});
 		}
 	};
-	onChangeSearch = e => {
-		this.setState(
-			{
-				searchQuery: e.target.value ? e.target.value : null
-			},
-			() => {
-				this.props.addFilter(this.state);
-			}
-		);
-	};
-	onChangeSeachCriteria = e => {
-		let critera = this.props.keys.dbKeysList.filter(
-			item => item.value === e.target.value
-		)[0];
-		this.setState({
-			searchTarget: critera.value,
-			searchTargetLabel: critera
-		});
-	};
 
 	showAll = () => {
 		this.setState(
@@ -79,34 +47,13 @@ class Filters extends Component {
 	render() {
 		return (
 			<div className="filter-container">
-				<Container>
+				<Container className="mb-5">
 					<Row>
 						<Col md="6">
-							<Dropdown
-								isOpen={this.state.dropdownOpen}
-								toggle={this.onToggleDropdown}
-							>
-								<DropdownToggle caret>{`Search By ${
-									this.state.searchTargetLabel
-								}`}</DropdownToggle>
-								<DropdownMenu>
-									<DropdownItem
-										value="name"
-										onClick={this.onChangeSeachCriteria}
-									>
-										Customer Name
-									</DropdownItem>
-								</DropdownMenu>
-							</Dropdown>
-							<Input
-								onChange={this.onChangeSearch}
-								name="search"
-								placeholder="Search for an order"
-							/>
 							<Label>Sort By Date range</Label>
 						</Col>
 					</Row>
-					<Row>
+					<Row className="mb-3">
 						<Col>
 							<Datepicker
 								selected={this.state.sortStart}

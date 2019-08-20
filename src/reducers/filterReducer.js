@@ -5,6 +5,7 @@ import {
 	EDIT_FILTER,
 	FILTERS_CLEAR
 } from "../actions/types";
+import { stat } from "fs";
 let d = new Date();
 d.setDate(d.getDate() - 14);
 
@@ -30,12 +31,21 @@ export default function(state = initialState, action) {
 		case ADD_FILTER: {
 			return {
 				...state,
-				filters: [action.payload.filters],
-				sortStart: action.payload.sortStart,
-				sortEnd: action.payload.sortEnd,
+				filters: action.payload.filters
+					? [action.payload.filters]
+					: state.filters,
+				sortStart: action.payload.sortStart
+					? action.payload.sortStart
+					: state.sortStart,
+				sortEnd: action.payload.sortEnd
+					? action.payload.sortEnd
+					: state.sortEnd,
 				searchQuery: action.payload.searchQuery,
-				report: action.payload.report,
-				showAll: action.payload.showAll
+				report: action.payload.report ? action.payload.report : state.report,
+				showAll:
+					action.payload.showAll === true || action.payload.showAll === false
+						? action.payload.showAll
+						: state.showAll
 			};
 		}
 		case EDIT_FILTER:
