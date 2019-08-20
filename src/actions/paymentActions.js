@@ -4,21 +4,24 @@ import {
 	ADD_PAYMENT,
 	EDIT_PAYMENT,
 	DELETE_PAYMENT,
-	PAYMENTS_LOADING
+	PAYMENTS_LOADING,
+	CLEAR_PAYMENTS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
-export const getPayments = (id) => (dispatch, getState) => {
+export const clearPayments = () => (dispatch, getState) => {
+	dispatch({ type: CLEAR_PAYMENTS });
+};
+export const getPayments = id => (dispatch, getState) => {
 	dispatch(setPaymentsLoading);
 	axios
-		.get(`/api/payments`)
-		.then(res =>{
+		.get(`/api/payments/${id}`)
+		.then(res => {
 			dispatch({
 				type: GET_PAYMENTS,
 				payload: res.data
-			})
-		}
-		)
+			});
+		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);

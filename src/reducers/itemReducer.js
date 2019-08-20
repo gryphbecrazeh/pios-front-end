@@ -25,7 +25,8 @@ export default function(state = initialState, action) {
 			};
 		case EDIT_ITEM:
 			return {
-				...state
+				...state,
+				customerOrders: state.customerOrders
 			};
 		case DELETE_ITEM:
 			return {

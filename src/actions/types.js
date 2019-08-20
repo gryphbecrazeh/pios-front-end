@@ -6,11 +6,12 @@ export const DELETE_ITEM = "DELETE_ITEM";
 export const ITEMS_LOADING = "ITEMS_LOADING";
 export const ITEMS_CLEAR = "ITEMS_CLEAR";
 // PAYMENTS
-export const GET_PAYMENTS="GET_PAYMENTS"
-export const ADD_PAYMENT="ADD_PAYMENT"
-export const EDIT_PAYMENT="EDIT_PAYMENT"
-export const DELETE_PAYMENT="DELETE_PAYMENT"
-export const PAYMENTS_LOADING="PAYMENTS_LOADING"
+export const GET_PAYMENTS = "GET_PAYMENTS";
+export const ADD_PAYMENT = "ADD_PAYMENT";
+export const EDIT_PAYMENT = "EDIT_PAYMENT";
+export const DELETE_PAYMENT = "DELETE_PAYMENT";
+export const PAYMENTS_LOADING = "PAYMENTS_LOADING";
+export const CLEAR_PAYMENTS = "CLEAR_PAYMENTS";
 // KEYS
 export const GET_KEYS = "GET_KEYS";
 export const ADD_KEY = "ADD_KEY";
@@ -38,8 +39,8 @@ export const REGISTER_FAIL = "REGISTER_FAIL";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 // FILTERS
-export const GET_FILTERS="GET_FIILTERS"
-export const ADD_FILTER="ADD_FILTER"
-export const DELETE_FILTER="DELETE_FILTER"
-export const EDIT_FILTER="EDIT_FILTER"
-export const FILTERS_CLEAR="FILTERS_CLEAR"
+export const GET_FILTERS = "GET_FIILTERS";
+export const ADD_FILTER = "ADD_FILTER";
+export const DELETE_FILTER = "DELETE_FILTER";
+export const EDIT_FILTER = "EDIT_FILTER";
+export const FILTERS_CLEAR = "FILTERS_CLEAR";

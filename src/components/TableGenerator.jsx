@@ -37,7 +37,6 @@ class TableGenerator extends Component {
 				item.name.match(new RegExp(this.props.filters.searchQuery), "gmi") ||
 				item.orderNum.match(new RegExp(this.props.filters.searchQuery), "gmi")
 		);
-		console.log(this.props.filters.searchQuery);
 		return this.props.filters.searchQuery !== null || "" ? result : array;
 	};
 	render() {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import EditModal from "./editModal";
-import PaymentModal from "./paymentModal"
+import PaymentModal from "./paymentModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -34,7 +34,7 @@ class OrderDetails extends Component {
 					/>
 				</td>
 				{orderKeys.map(key => {
-					return <td >{this.renderKey(custOrder, key)}</td>;
+					return <td>{this.renderKey(custOrder, key)}</td>;
 				})}
 			</tr>
 		);

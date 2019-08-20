@@ -5,7 +5,6 @@ import {
 	EDIT_FILTER,
 	FILTERS_CLEAR
 } from "../actions/types";
-import { stat } from "fs";
 let d = new Date();
 d.setDate(d.getDate() - 14);
 
