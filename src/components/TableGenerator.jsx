@@ -6,13 +6,33 @@ import OrderDetails from "./customerOrderDetails";
 import uuid from "uuid";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import { getDBKeys } from "../actions/itemActions";
 import PropTypes from "prop-types";
+
 class TableGenerator extends Component {
 	state = {};
+	filterTable = filter => {
+		switch (filter) {
+			case "financial":
+				return ["nysTaxPaidDate", "caTaxPaidDate"];
+			default:
+				return [];
+		}
+	};
+	filterDate = item => {
+		let range1 = this.props.filters.sortStart;
+		let range2 = this.props.filters.sortEnd;
+		let arrangeDates = range2 > range1;
+		let start = arrangeDates === true ? range1 : range2;
+		let end = arrangeDates === true ? range2 : range1;
+		return item.filter(
+			item => new Date(item.date) >= start && new Date(item.date) <= end
+		);
+		return item;
+	};
 	render() {
-		let { orders, keys, pageKeys } = this.props;
+		let { keys, pageKeys } = this.props;
 		let { dbKeysList } = keys;
+		let orders = this.props.item.customerOrders;
 		return (
 			<Table>
 				<thead>
@@ -31,7 +51,10 @@ class TableGenerator extends Component {
 					</tr>
 				</thead>
 				<tbody id="table-result-container">
-					{orders.map(item => {
+					{this.filterTable(this.props.filter).forEach(filter => {
+						orders = orders.filter(item => !item[filter]);
+					})}
+					{this.filterDate(orders).map(item => {
 						return <OrderDetails custOrder={item} orderKeys={pageKeys} />;
 					})}
 				</tbody>
@@ -48,10 +71,12 @@ TableGenerator.propTypes = {
 
 const mapStateToProps = state => ({
 	keys: state.keys,
-	dbKeysList: state.dbKeysList
+	dbKeysList: state.dbKeysList,
+	filters: state.filters,
+	item: state.item
 });
 
 export default connect(
 	mapStateToProps,
-	{ getDBKeys }
+	null
 )(TableGenerator);

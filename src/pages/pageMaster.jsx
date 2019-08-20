@@ -16,9 +16,9 @@ import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
 import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Filters from "../components/Filters";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
 import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
 
@@ -29,9 +29,9 @@ class MasterPage extends Component {
 		this.state = {
 			sort: true,
 			sortTarget: "date",
-			endDate: Date.now(),
-			startDate: new Date("01/01/2016"),
-			searchQuery: false,
+			endDate: this.props.filters.sortEnd || Date.now(),
+			startDate: this.props.filters.sortStart || new Date("01/01/2016"),
+			searchQuery: this.props.filters.searchQuery || null,
 			searchTarget: "name",
 			searchTargetLabel: "Customer Name",
 			dropdownOpen: false
@@ -42,18 +42,14 @@ class MasterPage extends Component {
 			searchQuery: this.state.searchQuery
 		});
 	}
-
-	componentDidMount() {
-		this.props.getItems(this.props.filters);
-	}
 	renderOrders = item => {
 		return this.search(
 			this.filterByDateRange(
 				this.state.sortTarget === "date"
 					? this.sortByDate(item)
 					: this.sortByTarget(item),
-				this.state.startDate,
-				this.state.endDate
+				Date(this.state.startDate),
+				Date(this.state.endDate)
 			)
 		);
 	};
@@ -133,6 +129,7 @@ class MasterPage extends Component {
 		return (
 			<div className="page-container">
 				<Container>
+					<Filters />
 					<Row>
 						<Col>
 							<h3>
@@ -254,9 +251,9 @@ class MasterPage extends Component {
 }
 
 MasterPage.propTypes = {
-	getItems: PropTypes.func.isRequired,
 	item: PropTypes.object.isRequired,
-	getFilters: PropTypes.func.isRequired
+	getFilters: PropTypes.func.isRequired,
+	filters: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -267,5 +264,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getItems, deleteItem, getDBKeys, getFilters, addFilter }
+	{ getFilters, addFilter }
 )(MasterPage);

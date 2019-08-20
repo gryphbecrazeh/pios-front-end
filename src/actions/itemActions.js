@@ -18,7 +18,6 @@ import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 export const getItems = filters => (dispatch, getState) => {
 	dispatch({ type: GET_FILTERS });
-	console.log("filters", filters);
 	dispatch(setItemsLoading);
 	axios
 		.get("/api/items", tokenConfig(getState))

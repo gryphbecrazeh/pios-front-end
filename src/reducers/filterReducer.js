@@ -5,13 +5,18 @@ import {
 	EDIT_FILTER,
 	FILTERS_CLEAR
 } from "../actions/types";
+let d = new Date();
+d.setDate(d.getDate() - 14);
 
 const initialState = {
+	sort: true,
 	filters: [],
-	sortStart: null,
-	sortEnd: null,
+	sortStart: d,
+	sortEnd: Date.now(),
 	searchQuery: null,
-	report: null
+	report: null,
+	searchTarget: "name",
+	searchTargetLabel: "Customer Name"
 };
 
 export default function(state = initialState, action) {

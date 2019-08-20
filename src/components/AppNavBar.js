@@ -91,7 +91,7 @@ class AppNavBar extends Component {
 						</Nav>
 					</Collapse>
 				</Navbar>
-				<Filters />
+				{/* <Filters /> */}
 			</div>
 		);
 	}

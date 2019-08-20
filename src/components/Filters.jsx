@@ -17,52 +17,38 @@ import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
 import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
 
 class Filters extends Component {
-	state = {
-		sort: true,
-		sortTarget: "date",
-		endDate: Date.now(),
-		startDate: new Date("01/01/2016"),
-		searchQuery: false,
-		searchTarget: "name",
-		searchTargetLabel: "Customer Name",
-		dropdownOpen: false
-	};
+	constructor(props) {
+		super(props);
+		this.state = this.props.filters;
+		this.state.dropdownOpen = false;
+	}
 	componentDidMount() {
-		this.props.addFilter({
-			sortStart: new Date(this.state.startDate),
-			sortEnd: new Date(this.state.endDate),
-			searchQuery: this.state.searchQuery
-		});
+		this.props.getFilters();
 	}
 	onToggleDropdown = () => {
 		this.setState({ dropdownOpen: !this.state.dropdownOpen });
 	};
 	onChangeDate = (target, e) => {
+		let date = String(e);
 		if (target === "start") {
-			this.setState({ startDate: new Date(e) });
+			this.setState({ sortStart: e }, () => {
+				this.props.addFilter(this.state);
+			});
 		} else {
-			this.setState({ endDate: new Date(e) });
+			this.setState({ sortEnd: e }, () => {
+				this.props.addFilter(this.state);
+			});
 		}
-		this.props.addFilter({
-			sortStart: new Date(this.state.startDate),
-			sortEnd: new Date(this.state.endDate),
-			searchQuery: this.state.searchQuery
-		});
 	};
 	onChangeSearch = e => {
 		this.setState({
-			searchQuery: e.target.value ? e.target.value : false
+			searchQuery: e.target.value ? e.target.value : null
 		});
-		this.props.addFilter({
-			sortStart: new Date(this.state.startDate),
-			sortEnd: new Date(this.state.endDate),
-			searchQuery: this.state.searchQuery
-		});
+		this.props.addFilter(this.state);
 	};
 	onChangeSeachCriteria = e => {
 		let critera = this.props.keys.dbKeysList.filter(
@@ -108,11 +94,12 @@ class Filters extends Component {
 							<Row>
 								<Col>
 									<Datepicker
-										selected={this.state.startDate}
+										selected={this.state.sortStart}
 										onChange={this.onChangeDate.bind(this, "start")}
 									/>
+
 									<Datepicker
-										selected={this.state.endDate}
+										selected={this.state.sortEnd}
 										onChange={this.onChangeDate.bind(this, "end")}
 									/>
 								</Col>
@@ -137,5 +124,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getItems, deleteItem, getDBKeys, getFilters, addFilter }
+	{ getFilters, addFilter }
 )(Filters);
