@@ -71,7 +71,7 @@ class Filters extends Component {
 							<Button onClick={this.showAll}>
 								{!this.state.showAll
 									? "Show All Orders"
-									: "Show Filtered Orders"}
+									: "Show Orders by Range"}
 							</Button>
 						</Col>
 					</Row>
