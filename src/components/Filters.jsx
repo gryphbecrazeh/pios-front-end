@@ -18,7 +18,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
-import { getFilters } from "../actions/filterActions";
+import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
 
 class Filters extends Component {
@@ -33,32 +33,14 @@ class Filters extends Component {
 		dropdownOpen: false
 	};
 	componentDidMount() {
-		this.props.getItems();
+		this.props.addFilter({
+			sortStart: new Date(this.state.startDate),
+			sortEnd: new Date(this.state.endDate),
+			searchQuery: this.state.searchQuery
+		});
 	}
-	renderOrders = item => {
-		return this.search(
-			this.filterByDateRange(
-				this.state.sortTarget === "date"
-					? this.sortByDate(item)
-					: this.sortByTarget(item),
-				this.state.startDate,
-				this.state.endDate
-			)
-		);
-	};
-	sortByDate = item => {
-		return item.sort((a, b) => {
-			return this.state.sort === false
-				? new Date(a.date) - new Date(b.date)
-				: new Date(b.date) - new Date(a.date);
-		});
-	};
-	sortByTarget = item => {
-		return item.sort((a, b) => {
-			return this.state.sort === false
-				? a[this.state.sortTarget] - b[this.state.sortTarget]
-				: b[this.state.sortTarget] - a[this.state.sortTarget];
-		});
+	onToggleDropdown = () => {
+		this.setState({ dropdownOpen: !this.state.dropdownOpen });
 	};
 	onChangeDate = (target, e) => {
 		if (target === "start") {
@@ -66,24 +48,20 @@ class Filters extends Component {
 		} else {
 			this.setState({ endDate: new Date(e) });
 		}
-	};
-	filterByDateRange = (item, range1, range2) => {
-		let arrangeDates = new Date(range2) > new Date(range1);
-		let start = arrangeDates === true ? new Date(range1) : new Date(range2);
-		let end = arrangeDates === true ? new Date(range2) : new Date(range1);
-		return item.filter(
-			item => new Date(item.date) >= start && new Date(item.date) <= end
-		);
-	};
-	toggleSort = e => {
-		this.setState({
-			sort: !this.state.sort,
-			sortTarget: e.target.name
+		this.props.addFilter({
+			sortStart: new Date(this.state.startDate),
+			sortEnd: new Date(this.state.endDate),
+			searchQuery: this.state.searchQuery
 		});
 	};
 	onChangeSearch = e => {
 		this.setState({
 			searchQuery: e.target.value ? e.target.value : false
+		});
+		this.props.addFilter({
+			sortStart: new Date(this.state.startDate),
+			sortEnd: new Date(this.state.endDate),
+			searchQuery: this.state.searchQuery
 		});
 	};
 	onChangeSeachCriteria = e => {
@@ -93,21 +71,6 @@ class Filters extends Component {
 		this.setState({
 			searchTarget: critera.value,
 			searchTargetLabel: critera
-		});
-	};
-	search = item => {
-		return item.filter(order =>
-			order[this.state.searchTarget].match(
-				new RegExp(
-					`${this.state.searchQuery === false ? ".+" : this.state.searchQuery}`,
-					"gmi"
-				)
-			)
-		);
-	};
-	onToggleDropdown = () => {
-		this.setState({
-			dropdownOpen: !this.state.dropdownOpen
 		});
 	};
 	render() {

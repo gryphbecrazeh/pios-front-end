@@ -11,22 +11,23 @@ import {
 	DELETE_KEYS,
 	GET_DB_KEYS,
 	SAVE_DB_KEYS,
-	ADD_DB_KEY
+	ADD_DB_KEY,
+	GET_FILTERS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
-export const getItems = () => (dispatch, getState) => {
+export const getItems = filters => (dispatch, getState) => {
+	dispatch({ type: GET_FILTERS });
+	console.log("filters", filters);
 	dispatch(setItemsLoading);
 	axios
 		.get("/api/items", tokenConfig(getState))
-		.then(res =>{
-			
+		.then(res => {
 			dispatch({
 				type: GET_ITEMS,
 				payload: res.data
-			})
-		}
-		)
+			});
+		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
@@ -46,7 +47,7 @@ export const addItem = item => (dispatch, getState) => {
 };
 
 export const editItem = item => (dispatch, getState) => {
-	console.log(item)
+	console.log(item);
 	let newItem = item;
 	// delete newItem._id;
 	delete newItem.msg;

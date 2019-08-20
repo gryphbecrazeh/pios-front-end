@@ -13,6 +13,7 @@ import Logout from "./auth/Logout";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Proptypes from "prop-types";
+import Filters from "./Filters";
 
 class AppNavBar extends Component {
 	state = { isOpen: false };
@@ -29,26 +30,26 @@ class AppNavBar extends Component {
 
 		const authLinks = (
 			<Fragment>
-											<NavItem>
-								<Link to="/master-page">
-									<NavLink href="/">Master Page</NavLink>
-								</Link>
-							</NavItem>
-							<NavItem>
-								<Link to="/tax-page">
-									<NavLink href="/">Tax Page</NavLink>
-								</Link>
-							</NavItem>
-							<NavItem>
-								<Link to="/shipping-page">
-									<NavLink href="/">Shipping Page</NavLink>
-								</Link>
-							</NavItem>
-							<NavItem>
-								<Link to="/user-manager">
-									<NavLink href="/">User Manager</NavLink>
-								</Link>
-							</NavItem>
+				<NavItem>
+					<Link to="/master-page">
+						<NavLink href="/">Master Page</NavLink>
+					</Link>
+				</NavItem>
+				<NavItem>
+					<Link to="/tax-page">
+						<NavLink href="/">Tax Page</NavLink>
+					</Link>
+				</NavItem>
+				<NavItem>
+					<Link to="/shipping-page">
+						<NavLink href="/">Shipping Page</NavLink>
+					</Link>
+				</NavItem>
+				<NavItem>
+					<Link to="/user-manager">
+						<NavLink href="/">User Manager</NavLink>
+					</Link>
+				</NavItem>
 
 				<NavItem>
 					<Logout />
@@ -90,6 +91,7 @@ class AppNavBar extends Component {
 						</Nav>
 					</Collapse>
 				</Navbar>
+				<Filters />
 			</div>
 		);
 	}

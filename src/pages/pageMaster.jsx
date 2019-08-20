@@ -23,18 +23,28 @@ import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
 
 class MasterPage extends Component {
-	state = {
-		sort: true,
-		sortTarget: "date",
-		endDate: Date.now(),
-		startDate: new Date("01/01/2016"),
-		searchQuery: false,
-		searchTarget: "name",
-		searchTargetLabel: "Customer Name",
-		dropdownOpen: false
-	};
+	constructor(props) {
+		super(props);
+		this.props.getFilters();
+		this.state = {
+			sort: true,
+			sortTarget: "date",
+			endDate: Date.now(),
+			startDate: new Date("01/01/2016"),
+			searchQuery: false,
+			searchTarget: "name",
+			searchTargetLabel: "Customer Name",
+			dropdownOpen: false
+		};
+		this.props.addFilter({
+			sortStart: new Date(this.state.startDate),
+			sortEnd: new Date(this.state.endDate),
+			searchQuery: this.state.searchQuery
+		});
+	}
+
 	componentDidMount() {
-		this.props.getItems();
+		this.props.getItems(this.props.filters);
 	}
 	renderOrders = item => {
 		return this.search(

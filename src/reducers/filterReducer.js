@@ -7,23 +7,30 @@ import {
 } from "../actions/types";
 
 const initialState = {
-	filters: []
+	filters: [],
+	sortStart: null,
+	sortEnd: null,
+	searchQuery: null,
+	report: null
 };
 
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case GET_FILTERS: {
 			return {
-				...state,
-				filters: action.payload,
-				loading: false
+				...state
 			};
 		}
-		case ADD_FILTER:
+		case ADD_FILTER: {
 			return {
 				...state,
-				filters: [action.payload, ...state.filters]
+				filters: [action.payload.filters],
+				sortStart: action.payload.sortStart,
+				sortEnd: action.payload.sortEnd,
+				searchQuery: action.payload.searchQuery,
+				report: action.payload.report
 			};
+		}
 		case EDIT_FILTER:
 			return {
 				...state
