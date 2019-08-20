@@ -7,19 +7,18 @@ import {
 } from "../actions/types";
 
 const initialState = {
-	filters: [],
-
+	filters: []
 };
 
 export default function(state = initialState, action) {
 	switch (action.type) {
-		case GET_FILTERS:{
-            return {
+		case GET_FILTERS: {
+			return {
 				...state,
 				filters: action.payload,
 				loading: false
 			};
-        }
+		}
 		case ADD_FILTER:
 			return {
 				...state,
@@ -32,9 +31,7 @@ export default function(state = initialState, action) {
 		case DELETE_FILTER:
 			return {
 				...state,
-				filters: state.filters.filter(
-					item => item._id !== action.payload
-				)
+				filters: state.filters.filter(item => item._id !== action.payload)
 			};
 		case FILTERS_CLEAR:
 			return {

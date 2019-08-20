@@ -13,8 +13,6 @@ import {
 	DropdownToggle
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
-import OrderModal from "../components/OrderModal";
-import TableGenerator from "../components/TableGenerator";
 import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Redux-------------------------------------------
@@ -23,7 +21,7 @@ import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
 import { getFilters } from "../actions/filterActions";
 import PropTypes from "prop-types";
 
-class MasterPage extends Component {
+class Filters extends Component {
 	state = {
 		sort: true,
 		sortTarget: "date",
@@ -113,7 +111,6 @@ class MasterPage extends Component {
 		});
 	};
 	render() {
-		const { customerOrders } = this.props.item;
 		return (
 			<div className="page-container">
 				<Form>
@@ -158,56 +155,24 @@ class MasterPage extends Component {
 								</Col>
 							</Row>
 						</Container>
-						<OrderModal />
 					</FormGroup>
 				</Form>
-				<div className="table-container" style={{ overflow: "scroll" }}>
-					<TableGenerator
-						orders={this.renderOrders(customerOrders)}
-						pageKeys={[
-							"date",
-							"orderNum",
-							"name",
-							"st",
-							"mfr",
-							"sentTo",
-							"custDue",
-							"custPaidDate",
-							"netDue",
-							"netPaidDate",
-							"disclaim",
-							"addrCheck",
-							"rcvd",
-							"ship",
-							"shipped",
-							"total",
-							"nysTax",
-							"caTax",
-							"net",
-							"netCrate",
-							"netFreight",
-							"notes"
-						]}
-					/>
-				</div>
 			</div>
 		);
 	}
 }
 
-MasterPage.propTypes = {
+Filters.propTypes = {
 	getItems: PropTypes.func.isRequired,
 	item: PropTypes.object.isRequired,
 	getFilters: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	item: state.item,
-	keys: state.keys,
 	filters: state.filters
 });
 
 export default connect(
 	mapStateToProps,
 	{ getItems, deleteItem, getDBKeys, getFilters, addFilter }
-)(MasterPage);
+)(Filters);
