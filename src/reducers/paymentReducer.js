@@ -8,7 +8,7 @@ import {
 } from "../actions/types";
 const initialState = {
 	payments: [],
-	customer_order_id: null,
+	customer_order: null,
 	order_number: null,
 	payment_type: null,
 	payment_date: null,
@@ -20,7 +20,7 @@ const initialState = {
 };
 const defaultState = {
 	payments: [],
-	order_id: null,
+	customer_order: null,
 	order_number: null,
 	payment_type: null,
 	payment_date: null,

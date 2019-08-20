@@ -54,7 +54,7 @@ class PaymentModal extends Component {
 					let { order, auth } = this.props;
 					this.setState(
 						{
-							customer_order_id: order._id,
+							customer_order: order._id,
 							order_number: order.orderNum,
 							user: auth.user.name
 						},
@@ -117,7 +117,7 @@ class PaymentModal extends Component {
 		e.preventDefault();
 		this.props.addPayment(this.state);
 		let updatedItem = {
-			_id: this.state.customer_order_id,
+			_id: this.state.customer_order,
 			orderNum: this.state.order_number,
 			[`${this.state.payment_type}Paid`]:
 				Number(this.props.order[`${this.state.payment_type}Paid`]) +
