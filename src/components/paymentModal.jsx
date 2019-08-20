@@ -47,6 +47,7 @@ class PaymentModal extends Component {
 				modal: !this.state.modal
 			},
 			() => {
+				console.log(this.props.order.orderNum);
 				this.state.modal
 					? this.props.getPayments(this.props.order.orderNum)
 					: this.props.clearPayments();
