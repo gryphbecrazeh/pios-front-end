@@ -33,11 +33,13 @@ const defaultState = {
 
 export default function(state = initialState, action) {
 	switch (action.type) {
-		case GET_PAYMENTS:
+		case GET_PAYMENTS: {
+			console.log("getting items", action.payload);
 			return {
 				...state,
-				payments: [action.payload]
+				payments: [...action.payload]
 			};
+		}
 		case ADD_PAYMENT: {
 			return {
 				...state,

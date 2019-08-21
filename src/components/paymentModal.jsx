@@ -59,9 +59,10 @@ class PaymentModal extends Component {
 							user: auth.user.name
 						},
 						() => {
-							console.log("Get payments", this.state);
+							console.log("Get payments from state", this.state);
 							setTimeout(
-								() => console.log("Get payments", this.props.payments),
+								() =>
+									console.log("Get payments from props", this.props.payments),
 								3000
 							);
 						}
@@ -150,7 +151,9 @@ class PaymentModal extends Component {
 		const PreviousPayments = (
 			<Fragment>
 				<div className="previous-payments-container">
-					{this.state.payments.map(payment => this.RenderPayment(payment))}
+					{this.props.payments.payments.map(payment =>
+						this.RenderPayment(payment)
+					)}
 				</div>
 			</Fragment>
 		);
@@ -238,6 +241,10 @@ class PaymentModal extends Component {
 				</Form>
 			</Fragment>
 		);
+		{
+			console.log(this.state.modal ? this.props.payments : null);
+		}
+
 		return (
 			<div>
 				<Button color="success" onClick={this.toggle}>
@@ -250,7 +257,7 @@ class PaymentModal extends Component {
 					</ModalHeader>
 					<ModalBody>
 						<Container>
-							{this.state.payments.length > 0
+							{this.props.payments.payments.length > 0
 								? PreviousPayments
 								: "No Previous Payments"}
 							{this.state.makePayment ? NewPayment : MakePayment}
