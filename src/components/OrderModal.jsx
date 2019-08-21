@@ -27,35 +27,37 @@ class OrderModal extends Component {
 	};
 	render() {
 		return (
-			<div className="md-12 offset-10">
-				<Button
-					light
-					color="primary"
-					style={{ marginBottom: "2rem" }}
-					onClick={this.toggle}
-					block
-				>
-					Add Customer Order(s)
-				</Button>
-				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
-					<ModalHeader toggle={this.toggle}>Add Customer Order(s)</ModalHeader>
-					<ModalBody>
-						<Container>
-							<OrderSheet />
-							<Row className="mb-2">
-								<Col>
-									<div className="text-center">OR</div>
-								</Col>
-							</Row>
-							<Row>
-								<Col>
-									<UploadOrders />
-								</Col>
-							</Row>
-						</Container>
-					</ModalBody>
-					<ModalFooter>Required Fields Are Red Followed By '*'</ModalFooter>
-				</Modal>
+			<div className="">
+				<Container>
+					<Button
+						color="primary"
+						style={{ marginBottom: "2rem" }}
+						onClick={this.toggle}
+					>
+						Add Customer Order(s)
+					</Button>
+					<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
+						<ModalHeader toggle={this.toggle}>
+							Add Customer Order(s)
+						</ModalHeader>
+						<ModalBody>
+							<Container>
+								<OrderSheet />
+								<Row className="mb-2">
+									<Col>
+										<div className="text-center">OR</div>
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<UploadOrders />
+									</Col>
+								</Row>
+							</Container>
+						</ModalBody>
+						<ModalFooter>Required Fields Are Red Followed By '*'</ModalFooter>
+					</Modal>
+				</Container>
 			</div>
 		);
 	}

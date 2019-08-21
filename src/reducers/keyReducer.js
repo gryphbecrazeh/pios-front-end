@@ -11,90 +11,171 @@ const initialState = {
 	keys: [],
 	dbKeys: [],
 	dbKeysList: [
-		{ label: "Customer Name", value: "name" },
-		{ label: "Order Number", value: "orderNum" },
-		{ label: "Order Date", value: "date", sortable: true, type: "date" },
-		{ label: "Recipient State", value: "st" },
-		{ label: "Manufacturer", value: "mfr" },
-		{ label: "Sent To", value: "sentTo" },
+		{
+			label: "Customer Name",
+			value: "name",
+			alert: "where no name has been entered"
+		},
+		{
+			label: "Order Number",
+			value: "orderNum",
+			alert: "where no order number has been entered"
+		},
+		{
+			label: "Order Date",
+			value: "date",
+			sortable: true,
+			type: "date",
+			alert: "where no order date has been entered"
+		},
+		{
+			label: "Recipient State",
+			value: "st",
+			alert: "where no recipient state has been entered"
+		},
+		{
+			label: "Manufacturer",
+			value: "mfr",
+			alert: "where no manufacturer has been entered"
+		},
+		{
+			label: "Sent To",
+			value: "sentTo",
+			alert: "where the order(s) have not been sent to the shipper"
+		},
 		{
 			label: "Customer Due",
 			value: "custDue",
 			sortable: true,
 			type: "integer",
-			payable: true
+			payable: true,
+			alert: "where the customer due amount has not been entered"
 		},
 		{
 			label: "Customer Paid Date",
 			value: "custPaidDate",
 			sortable: true,
-			type: "date"
+			type: "date",
+			alert: "where the customer has a remaining balance"
 		},
 		{
 			label: "Net Due",
 			value: "netDue",
 			sortable: true,
 			type: "integer",
-			payable: true
+			payable: true,
+			alert: "where the net due has not been entered"
 		},
 		{
 			label: "Net Paid Date",
 			value: "netPaidDate",
 			sortable: true,
-			type: "date"
+			type: "date",
+			alert: "where the Net has not been paid"
 		},
-		{ label: "Disclaim", value: "disclaim" },
+		{
+			label: "Disclaim",
+			value: "disclaim",
+			alert: "where the disclaimer has not been sent"
+		},
 		{
 			label: "Addr Check",
 			value: "addrCheck",
 			sortable: true,
-			type: "boolean"
+			type: "boolean",
+			alert: "where the recipient and billing addresses have not been checked"
 		},
-		{ label: "Received", value: "rcvd", sortable: true, type: "date" },
-		{ label: "Ship", value: "ship" },
-		{ label: "Shipped", value: "shipped", sortable: true, type: "date" },
-		{ label: "Order Total", value: "total", sortable: true, type: "integer" },
+		{
+			label: "Received",
+			value: "rcvd",
+			sortable: true,
+			type: "date",
+			alert: "where the order has not been recieved from the shipper"
+		},
+		{
+			label: "Ship",
+			value: "ship",
+			alert: "where the order is not ready to ship"
+		},
+		{
+			label: "Shipped",
+			value: "shipped",
+			sortable: true,
+			type: "date",
+			alert: "where the order has not been shipped"
+		},
+		{
+			label: "Order Total",
+			value: "total",
+			sortable: true,
+			type: "integer",
+			alert: "where the order total has not been entered"
+		},
 		{
 			label: "NYS Tax",
 			value: "nysTax",
 			sortable: true,
 			type: "integer",
-			payable: true
+			payable: true,
+			alert: "where the NYS tax due has not been entered"
 		},
 		{
 			label: "CA Tax",
 			value: "caTax",
 			sortable: true,
 			type: "integer",
-			payable: true
+			payable: true,
+			alert: "where the CA tax due has not been entered"
 		},
-		{ label: "Net", value: "net", sortable: true, type: "integer" },
-		{ label: "Net Crate", value: "netCrate", sortable: true, type: "integer" },
+		{
+			label: "Net",
+			value: "net",
+			sortable: true,
+			type: "integer",
+			alert: "where the Net value has not been entered"
+		},
+		{
+			label: "Net Crate",
+			value: "netCrate",
+			sortable: true,
+			type: "integer",
+			alert: "where the Net Crate has not been entered"
+		},
 		{
 			label: "Net Freight",
 			value: "netFreight",
 			sortable: true,
-			type: "integer"
+			type: "integer",
+			alert: "where the Net Freight has not been entered"
 		},
 		{ label: "Notes", value: "notes" },
 		{
 			label: "Customer Paid",
 			value: "custPaid",
 			sortable: true,
-			type: "integer"
+			type: "integer",
+			alert: "where the customer has not made a payment"
 		},
-		{ label: "Net Paid", value: "netPaid", sortable: true, type: "integer" },
+		{
+			label: "Net Paid",
+			value: "netPaid",
+			sortable: true,
+			type: "integer",
+			alert: "where the Net has not been paid"
+		},
 		{
 			label: "NYS Taxes Paid",
 			value: "nysTaxPaid",
 			sortable: true,
-			type: "integer"
+			type: "integer",
+			alert: "where the NYS taxes have not been paid"
 		},
 		{
 			label: "CA Taxes Paid",
 			value: "caTaxPaid",
 			sortable: true,
-			type: "integer"
+			type: "integer",
+			alert: "where the CA taxes have not been paid"
 		}
 	]
 };

@@ -15,6 +15,7 @@ import {
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
 import Datepicker from "react-datepicker";
+import PageAlert from "../components/PageAlert";
 import "react-datepicker/dist/react-datepicker.css";
 import Filters from "../components/Filters";
 // ----------------------------Redux-------------------------------------------
@@ -34,7 +35,33 @@ class MasterPage extends Component {
 			searchQuery: this.props.filters.searchQuery || null,
 			searchTarget: "name",
 			searchTargetLabel: "Customer Name",
-			dropdownOpen: false
+			dropdownOpen: false,
+			alerts: [],
+			tableKeys: [
+				"date",
+				"orderNum",
+				"name",
+				"st",
+				"mfr",
+				"sentTo",
+				"custDue",
+				"custPaidDate",
+				"netDue",
+				"netPaidDate",
+				"disclaim",
+				"addrCheck",
+				"rcvd",
+				"ship",
+				"shipped",
+				"total",
+				"nysTax",
+				"caTax",
+				"net",
+				"netCrate",
+				"netFreight",
+				"notes"
+			],
+			generatedReports: false
 		};
 		this.props.addFilter({
 			sortStart: new Date(this.state.startDate),
@@ -42,6 +69,44 @@ class MasterPage extends Component {
 			searchQuery: this.state.searchQuery
 		});
 	}
+	showAlerts = item => {
+		this.setState({
+			tableKeys: ["orderNum", "addrCheck"]
+		});
+	};
+	getAlerts = () => {
+		const { customerOrders } = this.props.item;
+		let { dbKeysList } = this.props.keys;
+		let ordersReady = customerOrders != false ? true : false;
+		let ready = ordersReady && this.state.generatedReports === false;
+		let alerts = [];
+		if (ready) {
+			dbKeysList.forEach(key => {
+				let flag = {};
+				flag.key = key;
+				flag.array = customerOrders.filter(
+					order => order[key.value] === null || order[key.value] == false
+				);
+				flag.alert = flag.array == false ? false : true;
+				alerts.push(flag);
+			});
+			this.setState({
+				generatedReports: true,
+				alerts: [...alerts]
+			});
+		}
+	};
+	renderAlerts = () => {
+		return (
+			<div className="alert-container">
+				{this.state.alerts
+					.filter(alert => alert.alert === true)
+					.map(alert => (
+						<PageAlert alert={alert} />
+					))}
+			</div>
+		);
+	};
 	render() {
 		const { customerOrders } = this.props.item;
 		const ShipNow = (
@@ -51,84 +116,18 @@ class MasterPage extends Component {
 				</Col>
 			</Fragment>
 		);
+		this.getAlerts();
 		return (
 			<div className="page-container">
-				<Container>
-					<Filters />
-					<Row>
-						<Col>
-							<h3>
-								{customerOrders.filter(item => item.readyToShip).length} orders
-								ready to ship...{" "}
-							</h3>
-						</Col>
-						{customerOrders.filter(item => item.readyToShip).length >= 1
-							? ShipNow
-							: null}
-					</Row>
-
-					<Row>
-						<Col>
-							<h3>
-								{customerOrders.filter(item => !item.addrCheck === true).length}{" "}
-								orders with unverified addresses...{" "}
-							</h3>
-						</Col>
-						<Col>
-							<Button color="danger">View now</Button>
-						</Col>
-					</Row>
-					<Row>
-						<Col>
-							<h3>
-								{customerOrders.filter(item => !item.addrCheck === true).length}{" "}
-								orders with unassigned skus...{" "}
-							</h3>
-						</Col>
-						<Col>
-							<Button color="danger">View now</Button>
-						</Col>
-					</Row>
-					<Row>
-						<Col>
-							<h3>
-								{customerOrders.filter(item => !item.addrCheck === true).length}{" "}
-								orders with unconfirmed stock status...{" "}
-							</h3>
-						</Col>
-						<Col>
-							<Button color="danger">View now</Button>
-						</Col>
-					</Row>
-				</Container>
-				<OrderModal />
+				<Row>
+					<Col>
+						<Filters />
+						<OrderModal />
+					</Col>
+					<Col>{this.renderAlerts()}</Col>
+				</Row>
 				<div className="table-container" style={{ overflow: "scroll" }}>
-					<TableGenerator
-						pageKeys={[
-							"date",
-							"orderNum",
-							"name",
-							"st",
-							"mfr",
-							"sentTo",
-							"custDue",
-							"custPaidDate",
-							"netDue",
-							"netPaidDate",
-							"disclaim",
-							"addrCheck",
-							"rcvd",
-							"ship",
-							"shipped",
-							"total",
-							"nysTax",
-							"caTax",
-							"net",
-							"netCrate",
-							"netFreight",
-							"notes"
-						]}
-					/>
+					<TableGenerator pageKeys={this.state.tableKeys} />
 				</div>
 			</div>
 		);

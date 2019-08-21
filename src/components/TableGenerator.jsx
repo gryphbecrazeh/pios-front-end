@@ -44,7 +44,7 @@ class TableGenerator extends Component {
 		let { dbKeysList } = keys;
 		let orders = this.props.item.customerOrders;
 		return (
-			<Table>
+			<Table className="mt-3">
 				<thead>
 					<tr className="text-center text-nowrap">
 						<th>Edit</th>

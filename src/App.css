@@ -12,3 +12,7 @@ table th {
 	min-width: 7em;
 	font-size: 0.75em;
 }
+.alert-container {
+	overflow: auto;
+	max-height: 18.75rem;
+}

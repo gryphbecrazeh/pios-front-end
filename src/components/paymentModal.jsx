@@ -277,9 +277,7 @@ class PaymentModal extends Component {
 
 		return (
 			<div>
-				<Button color="success" onClick={this.toggle}>
-					$
-				</Button>
+				<Button color="success" onClick={this.toggle} />
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
