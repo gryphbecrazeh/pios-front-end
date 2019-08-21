@@ -41,18 +41,18 @@ class OrderModal extends Component {
 					<ModalHeader toggle={this.toggle}>Add Customer Order(s)</ModalHeader>
 					<ModalBody>
 						<Container>
+							<OrderSheet />
+							<Row className="mb-2">
+								<Col>
+									<div className="text-center">OR</div>
+								</Col>
+							</Row>
 							<Row>
 								<Col>
 									<UploadOrders />
 								</Col>
 							</Row>
-							<Row>
-								<Col>
-									<div className="text-center">OR</div>
-								</Col>
-							</Row>
 						</Container>
-						<OrderSheet />
 					</ModalBody>
 					<ModalFooter>Required Fields Are Red Followed By '*'</ModalFooter>
 				</Modal>

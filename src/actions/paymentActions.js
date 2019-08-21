@@ -17,7 +17,6 @@ export const getPayments = id => (dispatch, getState) => {
 	axios
 		.get(`/api/payments/${id}`)
 		.then(res => {
-			console.log(res);
 			dispatch({
 				type: GET_PAYMENTS,
 				payload: res.data
@@ -43,10 +42,6 @@ export const addPayment = item => (dispatch, getState) => {
 
 export const editPayment = item => (dispatch, getState) => {
 	let newItem = item;
-	// delete newItem._id;
-	delete newItem.msg;
-	delete newItem.mode;
-	delete newItem.required;
 
 	axios
 		.put(

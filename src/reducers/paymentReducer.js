@@ -16,7 +16,9 @@ const initialState = {
 	total_paid: null,
 	remaining_balance: null,
 	note: null,
-	user: null
+	user: null,
+	payment_status: null,
+	payment_method: null
 };
 const defaultState = {
 	payments: [],
@@ -28,13 +30,13 @@ const defaultState = {
 	total_paid: null,
 	remaining_balance: null,
 	note: null,
-	user: null
+	user: null,
+	payment_method: null
 };
 
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case GET_PAYMENTS: {
-			console.log("getting items", action.payload);
 			return {
 				...state,
 				payments: [...action.payload]

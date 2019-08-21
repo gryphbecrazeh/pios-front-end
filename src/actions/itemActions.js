@@ -46,28 +46,20 @@ export const addItem = item => (dispatch, getState) => {
 };
 
 export const editItem = item => (dispatch, getState) => {
-	console.log(item);
 	let newItem = item;
-	// delete newItem._id;
-	delete newItem.msg;
-	delete newItem.mode;
-	delete newItem.required;
-
+	newItem.lastUpdated = Date();
 	axios
 		.put(
 			`/api/items/${item._id}`,
 			{ id: item._id, order: newItem },
 			tokenConfig(getState)
 		)
-		.then(res =>
-			dispatch({
-				type: EDIT_ITEM,
-				payload: res.data
-			})
-		)
-		.catch(err =>
-			dispatch(returnErrors(err.response.data, err.response.status))
-		);
+		.then(res => {
+			dispatch(getItems());
+		})
+		.catch(err => {
+			dispatch(returnErrors(err.response.data, err.response.status));
+		});
 };
 
 export const deleteItem = id => (dispatch, getState) => {

@@ -31,7 +31,8 @@ import PropTypes from "prop-types";
 import {
 	getPayments,
 	clearPayments,
-	addPayment
+	addPayment,
+	deletePayment
 } from "../actions/paymentActions";
 import { editItem } from "../actions/itemActions";
 class PaymentModal extends Component {
@@ -47,32 +48,37 @@ class PaymentModal extends Component {
 				modal: !this.state.modal
 			},
 			() => {
-				console.log(this.props.order.orderNum);
 				this.state.modal
 					? this.props.getPayments(this.props.order.orderNum)
 					: this.props.clearPayments();
 				if (this.state.modal) {
 					let { order, auth } = this.props;
-					this.setState(
-						{
-							customer_order: order._id,
-							order_number: order.orderNum,
-							user: auth.user.name
-						},
-						() => {
-							console.log("Get payments from state", this.state);
-							setTimeout(
-								() =>
-									console.log("Get payments from props", this.props.payments),
-								3000
-							);
-						}
-					);
+					this.setState({
+						customer_order: order._id,
+						order_number: order.orderNum,
+						user: auth.user.name
+					});
 				} else {
+					this.setState({
+						total_due: null
+					});
 					this.props.clearPayments();
 				}
 			}
 		);
+	};
+	deletePayment = e => {
+		e.preventDefault();
+		let { payments } = this.props.payments;
+		let updatedOrder = { ...this.props.order };
+		let payment = payments.find(item => item._id === e.target.name);
+		let { payment_type, total_paid } = payment;
+		updatedOrder[payment_type] = updatedOrder[payment_type] + total_paid;
+		updatedOrder[`${payment_type}Paid`] =
+			updatedOrder[`${payment_type}Paid`] - total_paid;
+		updatedOrder[`${payment_type}PaidDate`] = null;
+		this.props.editItem(updatedOrder);
+		this.props.deletePayment(e.target.name);
 	};
 	onChangeNote = e => {
 		this.setState({ note: e.target.value });
@@ -110,19 +116,29 @@ class PaymentModal extends Component {
 	};
 	RenderPayment = payment => {
 		return (
-			<Card>
+			<Card className="mb-2">
 				<CardBody>
-					<CardTitle>Payment Type: {payment.payment_type}</CardTitle>
-					<CardSubtitle>Total Paid: ${payment.total_paid}</CardSubtitle>
-					<CardText>
+					<CardTitle>
 						<Container>
 							<Row>
-								<Col>
-									<Label>User</Label>
-									{payment.user}
+								<Col className="text-nowrap">Status: Pending</Col>
+								<Col>{payment.payment_type}</Col>
+								<Col>Paid: ${payment.total_paid}</Col>
+								<Col className="text-nowrap">
+									Payment Date: {new Date(payment.payment_date).toDateString()}
 								</Col>
 							</Row>
 						</Container>
+					</CardTitle>
+					<CardText>
+						<Button
+							onClick={this.deletePayment}
+							color="danger"
+							name={payment._id}
+							block
+						>
+							Cancel Payment
+						</Button>
 					</CardText>
 				</CardBody>
 			</Card>
@@ -141,6 +157,7 @@ class PaymentModal extends Component {
 				this.state.remaining_balance <= 0 ? this.state.payment_date : null,
 			[this.state.payment_type]: this.state.total_remaining
 		};
+		this.props.editItem(updatedItem);
 		this.setState(
 			{
 				makePayment: false,
@@ -161,7 +178,7 @@ class PaymentModal extends Component {
 		const PreviousPayments = (
 			<Fragment>
 				<div
-					className="previous-payments-container"
+					className="previous-payments-container mb-2"
 					style={{ maxHeight: "15rem", overflow: "auto" }}
 				>
 					{this.props.payments.payments.map(payment =>
@@ -202,11 +219,12 @@ class PaymentModal extends Component {
 				<Form onSubmit={this.createNewPayment}>
 					<FormGroup>
 						<Container>
-							<Row>
+							<Row className="mb-2">
 								<Col>
 									<Dropdown
 										isOpen={this.state.dropdown}
 										toggle={this.toggleDropDown}
+										className="mb-2"
 									>
 										<DropdownToggle caret>
 											{this.state.payment_label || "Select Payment Type"}
@@ -238,13 +256,15 @@ class PaymentModal extends Component {
 										onChange={this.onPaymentChange}
 										type="number"
 										placeholder="Payment Amount"
+										className="mb-1"
 									/>
 									<Input
 										onChange={this.onChangeNote}
 										type="textarea"
 										placeholder="Optional Notes"
+										className="mb-1"
 									/>
-									<Button type="submit" color="primary" block>
+									<Button type="submit" color="primary" block className="mb-1">
 										Save Payment
 									</Button>
 								</Col>
@@ -254,9 +274,6 @@ class PaymentModal extends Component {
 				</Form>
 			</Fragment>
 		);
-		{
-			console.log(this.state.modal ? this.props.payments : null);
-		}
 
 		return (
 			<div>
@@ -279,7 +296,7 @@ class PaymentModal extends Component {
 							<Container>
 								<Row>
 									<Col>User: {this.state.user}</Col>
-									<Col>Date:{Date()}</Col>
+									<Col className="text-nowrap">Date: {Date()}</Col>
 								</Row>
 							</Container>
 						</ModalFooter>
@@ -303,5 +320,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getPayments, clearPayments, editItem, addPayment }
+	{ getPayments, clearPayments, editItem, addPayment, deletePayment }
 )(PaymentModal);

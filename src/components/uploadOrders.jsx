@@ -91,7 +91,7 @@ class UploadOrders extends Component {
 		const { keys } = this.props.keys;
 		return (
 			<div>
-				<Button color="success" onClick={this.toggle}>
+				<Button block color="success" onClick={this.toggle}>
 					Upload Orders by CSV
 				</Button>
 				<Modal isOpen={this.state.csv} toggle={this.toggle} size="xl">
