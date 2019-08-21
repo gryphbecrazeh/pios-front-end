@@ -9,7 +9,13 @@ import {
 	NavItem,
 	Input,
 	NavLink,
-	Button
+	Button,
+	Row,
+	Col,
+	Dropdown,
+	DropdownToggle,
+	DropdownMenu,
+	DropdownItem
 } from "reactstrap";
 import Logout from "./auth/Logout";
 import { Link } from "react-router-dom";
@@ -17,10 +23,25 @@ import { connect } from "react-redux";
 import Proptypes from "prop-types";
 import { addFilter } from "../actions/filterActions";
 class AppNavBar extends Component {
-	state = { isOpen: false };
+	state = {
+		isOpen: false,
+		dropDown: false,
+		target: { page: "Home", href: "/" }
+	};
 	toggle = () => {
 		this.setState({
 			isOpen: !this.state.isOpen
+		});
+	};
+	setPage = item => {
+		console.log(item);
+		this.setState({
+			target: item
+		});
+	};
+	toggleDropDown = () => {
+		this.setState({
+			dropDown: !this.state.dropDown
 		});
 	};
 	static propTypes = {
@@ -43,28 +64,54 @@ class AppNavBar extends Component {
 		const authLinks = (
 			<Fragment>
 				<NavItem>
-					<Link to="/master-page">
-						<NavLink href="/">Master Page</NavLink>
-					</Link>
-				</NavItem>
-				<NavItem>
-					<Link to="/tax-page">
-						<NavLink href="/">Tax Page</NavLink>
-					</Link>
-				</NavItem>
-				<NavItem>
-					<Link to="/shipping-page">
-						<NavLink href="/">Shipping Page</NavLink>
-					</Link>
-				</NavItem>
-				<NavItem>
-					<Link to="/user-manager">
-						<NavLink href="/">User Manager</NavLink>
-					</Link>
-				</NavItem>
+					<Dropdown isOpen={this.state.dropDown} toggle={this.toggleDropDown}>
+						<DropdownToggle className="text-nowrap" caret color="primary">
+							{" "}
+							{this.state.target.page}
+						</DropdownToggle>
+						<DropdownMenu>
+							<DropdownItem header>Admin</DropdownItem>
+							<DropdownItem
+								onClick={this.setPage.bind(this, {
+									page: "User Manager",
+									href: "/user-manager"
+								})}
+							>
+								<Link to="/user-manager">
+									<NavLink href="/">User Manager</NavLink>
+								</Link>
+							</DropdownItem>
+							<DropdownItem divider />
+							<DropdownItem header>Office</DropdownItem>
 
-				<NavItem>
-					<Logout />
+							<DropdownItem>
+								<Link to="/master-page">
+									<NavLink href="/">Master Page</NavLink>
+								</Link>
+							</DropdownItem>
+							<DropdownItem>
+								<Link to="/tax-page">
+									<NavLink href="/">Tax Page</NavLink>
+								</Link>
+							</DropdownItem>
+							<DropdownItem divider />
+
+							<DropdownItem header>Warehouse</DropdownItem>
+							<DropdownItem divider />
+							<DropdownItem header>Shipping</DropdownItem>
+
+							<DropdownItem>
+								<Link to="/shipping-page">
+									<NavLink href="/">Shipping Page</NavLink>
+								</Link>
+							</DropdownItem>
+							<DropdownItem divider />
+
+							<DropdownItem>
+								<Logout />
+							</DropdownItem>
+						</DropdownMenu>
+					</Dropdown>
 				</NavItem>
 			</Fragment>
 		);
@@ -86,16 +133,17 @@ class AppNavBar extends Component {
 		);
 		const SearchOrder = (
 			<Fragment>
-				<Input
-					size="xl"
-					onChange={this.onChangeSearch}
-					name="search"
-					placeholder="Search for an order by name or order number"
-				/>
+				<Col className="d-none d-md-block" xl="6" md="6">
+					<Input
+						onChange={this.onChangeSearch}
+						name="search"
+						placeholder="Search for an order by name or order number"
+					/>
+				</Col>
 			</Fragment>
 		);
 		return (
-			<div style={{ position: "sticky" }}>
+			<div style={{ position: "sticky", zIndex: "900" }}>
 				<Navbar color="light" light expand="sm" className="mb-5">
 					<NavbarBrand href="/">
 						<img
@@ -107,11 +155,11 @@ class AppNavBar extends Component {
 					</NavbarBrand>
 					{isAuthenticated ? SearchOrder : null}
 					<NavbarToggler onClick={this.toggle} />
-					<Collapse isOpen={this.state.isOpen} navbar>
-						<Nav className="ml-auto" navbar>
-							{isAuthenticated ? authLinks : guestLinks}
-						</Nav>
-					</Collapse>
+					<Col>
+						<Collapse isOpen={this.state.isOpen} navbar>
+							<Nav navbar>{isAuthenticated ? authLinks : guestLinks}</Nav>
+						</Collapse>
+					</Col>
 				</Navbar>
 				{/* <Filters /> */}
 			</div>

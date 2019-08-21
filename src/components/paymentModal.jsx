@@ -76,7 +76,7 @@ class PaymentModal extends Component {
 		updatedOrder[payment_type] = updatedOrder[payment_type] + total_paid;
 		updatedOrder[`${payment_type}Paid`] =
 			updatedOrder[`${payment_type}Paid`] - total_paid;
-		updatedOrder[`${payment_type}PaidDate`] = null;
+		updatedOrder[`${payment_type}PaidDate`] = "";
 		this.props.editItem(updatedOrder);
 		this.props.deletePayment(e.target.name);
 	};
@@ -97,7 +97,7 @@ class PaymentModal extends Component {
 			},
 			() => {
 				this.setState({
-					payment_date: this.state.makePayment ? Date() : null
+					payment_date: this.state.makePayment ? Date() : ""
 				});
 			}
 		);
@@ -154,7 +154,7 @@ class PaymentModal extends Component {
 				Number(this.props.order[`${this.state.payment_type}Paid`]) +
 				Number(this.state.total_paid),
 			[`${this.state.payment_type}PaidDate`]:
-				this.state.remaining_balance <= 0 ? this.state.payment_date : null,
+				this.state.remaining_balance <= 0 ? this.state.payment_date : "",
 			[this.state.payment_type]: this.state.total_remaining
 		};
 		this.props.editItem(updatedItem);
@@ -162,10 +162,10 @@ class PaymentModal extends Component {
 			{
 				makePayment: false,
 				dropdown: false,
-				payment_label: null,
-				payment_type: null,
-				remaining_balance: null,
-				total_remaining: null
+				payment_label: "",
+				payment_type: "",
+				remaining_balance: "",
+				total_remaining: ""
 			},
 			() => {
 				this.props.editItem(updatedItem);

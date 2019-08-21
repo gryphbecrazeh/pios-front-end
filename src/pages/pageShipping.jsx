@@ -33,12 +33,6 @@ class ShippingPage extends Component {
 		searchTargetLabel: "Customer Name",
 		dropdownOpen: false
 	};
-	componentDidMount() {
-		const { customerOrders } = this.props.item;
-		let d = new Date();
-		d.setDate(d.getDate() - 14);
-		this.setState({ startDate: d, orders: customerOrders });
-	}
 	renderOrders = item => {
 		return this.search(
 			this.filterByDateRange(
@@ -115,8 +109,6 @@ class ShippingPage extends Component {
 		});
 	};
 	render() {
-		this.props.getItems();
-
 		const { customerOrders } = this.props.item;
 		return (
 			<div className="page-container">

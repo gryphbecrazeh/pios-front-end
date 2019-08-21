@@ -1,21 +1,5 @@
 import React, { Component, Fragment } from "react";
-import {
-	Label,
-	Container,
-	Row,
-	Input,
-	Col,
-	Dropdown,
-	DropdownItem,
-	Button,
-	DropdownMenu,
-	DropdownToggle,
-	Card,
-	CardBody,
-	CardSubtitle,
-	CardTitle,
-	CardText
-} from "reactstrap";
+import { Container, Row, Col, Button, Card, CardBody } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
@@ -24,16 +8,23 @@ import "react-datepicker/dist/react-datepicker.css";
 import Filters from "../components/Filters";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
 
 class PageAlert extends Component {
 	state = {};
 	render() {
-		console.log(this.props.alert);
+		let d = new Date();
+		d.setDate(d.getDate() - 3);
 		let { key, array } = this.props.alert;
 		return (
-			<Card className="mb-2 mr-2">
+			<Card
+				className="mb-2 mr-2"
+				color={
+					array.some(item => new Date(item.lastUpdated) > d) != []
+						? "Danger"
+						: ""
+				}
+			>
 				<CardBody>
 					<Container>
 						<Row>

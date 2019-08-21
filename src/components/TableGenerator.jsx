@@ -47,7 +47,7 @@ class TableGenerator extends Component {
 			<Table className="mt-3">
 				<thead>
 					<tr className="text-center text-nowrap">
-						<th>Edit</th>
+						<th>Interact</th>
 						{pageKeys.map((key, index) => {
 							let targetKey = dbKeysList.find(item => item.value === key);
 							return (
