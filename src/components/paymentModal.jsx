@@ -16,6 +16,7 @@ import {
 	CardText,
 	Col,
 	Input,
+	Label,
 	Dropdown,
 	DropdownItem,
 	DropdownToggle,
@@ -111,9 +112,18 @@ class PaymentModal extends Component {
 		return (
 			<Card>
 				<CardBody>
-					<CardTitle>{payment.payment_type}</CardTitle>
-					<CardSubtitle>{payment.total_paid}</CardSubtitle>
-					<CardText>{payment.user}</CardText>
+					<CardTitle>Payment Type: {payment.payment_type}</CardTitle>
+					<CardSubtitle>Total Paid: ${payment.total_paid}</CardSubtitle>
+					<CardText>
+						<Container>
+							<Row>
+								<Col>
+									<Label>User</Label>
+									{payment.user}
+								</Col>
+							</Row>
+						</Container>
+					</CardText>
 				</CardBody>
 			</Card>
 		);
@@ -150,7 +160,10 @@ class PaymentModal extends Component {
 	render() {
 		const PreviousPayments = (
 			<Fragment>
-				<div className="previous-payments-container">
+				<div
+					className="previous-payments-container"
+					style={{ maxHeight: "15rem", overflow: "auto" }}
+				>
 					{this.props.payments.payments.map(payment =>
 						this.RenderPayment(payment)
 					)}
