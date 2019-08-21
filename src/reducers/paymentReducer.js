@@ -36,8 +36,7 @@ export default function(state = initialState, action) {
 		case GET_PAYMENTS:
 			return {
 				...state,
-				payments: [action.payload],
-				loading: false
+				payments: [action.payload]
 			};
 		case ADD_PAYMENT: {
 			return {

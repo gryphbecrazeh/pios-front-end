@@ -17,6 +17,7 @@ export const getPayments = id => (dispatch, getState) => {
 	axios
 		.get(`/api/payments/${id}`)
 		.then(res => {
+			console.log(res);
 			dispatch({
 				type: GET_PAYMENTS,
 				payload: res.data

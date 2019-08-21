@@ -24,7 +24,6 @@ import {
 	FormGroup
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
-import NewPaymentModal from "./newPaymentModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -60,7 +59,11 @@ class PaymentModal extends Component {
 							user: auth.user.name
 						},
 						() => {
-							console.log(this.state);
+							console.log("Get payments", this.state);
+							setTimeout(
+								() => console.log("Get payments", this.props.payments),
+								3000
+							);
 						}
 					);
 				} else {
@@ -144,7 +147,6 @@ class PaymentModal extends Component {
 		);
 	};
 	render() {
-		console.log("state", this.state);
 		const PreviousPayments = (
 			<Fragment>
 				<div className="previous-payments-container">
@@ -236,7 +238,6 @@ class PaymentModal extends Component {
 				</Form>
 			</Fragment>
 		);
-		console.log(this.state);
 		return (
 			<div>
 				<Button color="success" onClick={this.toggle}>
