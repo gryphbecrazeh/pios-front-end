@@ -16,9 +16,13 @@ class PageAlert extends Component {
 			<Alert
 				className="mb-2 mr-2"
 				color={
-					array.some(item => {
-						return new Date(item.lastUpdated) > d || false;
-					}) === false
+					array.find(item => {
+						return (
+							new Date(item.date) < new Date(d) &&
+							(new Date(item.lastUpdated) < d ||
+								item.lastUpdated === "Order has never been editted")
+						);
+					}) !== undefined
 						? "danger"
 						: "warning"
 				}

@@ -15,13 +15,15 @@ export const initialState = {
 			label: "Customer Name",
 			value: "name",
 			alert: "where no name has been entered",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Order Number",
 			value: "orderNum",
 			alert: "where no order number has been entered",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Order Date",
@@ -29,25 +31,29 @@ export const initialState = {
 			sortable: true,
 			type: "date",
 			alert: "where no order date has been entered",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Recipient State",
 			value: "st",
 			alert: "where no recipient state has been entered",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Manufacturer",
 			value: "mfr",
 			alert: "where no manufacturer has been entered",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Sent To",
 			value: "sentTo",
 			alert: "where the order(s) have not been sent to the shipper",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Customer Due",
@@ -56,7 +62,8 @@ export const initialState = {
 			type: "integer",
 			payable: true,
 			alert: "where the customer due amount has not been entered",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Customer Paid Date",
@@ -64,7 +71,8 @@ export const initialState = {
 			sortable: true,
 			type: "date",
 			alert: "where the customer has a remaining balance",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Net Due",
@@ -73,7 +81,8 @@ export const initialState = {
 			type: "integer",
 			payable: true,
 			alert: "where the net due has not been entered",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Net Paid Date",
@@ -81,13 +90,15 @@ export const initialState = {
 			sortable: true,
 			type: "date",
 			alert: "where the Net has not been paid",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Disclaim",
 			value: "disclaim",
 			alert: "where the disclaimer has not been sent",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Addr Check",
@@ -95,7 +106,8 @@ export const initialState = {
 			sortable: true,
 			type: "boolean",
 			alert: "where the recipient and billing addresses have not been checked",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Received",
@@ -103,13 +115,15 @@ export const initialState = {
 			sortable: true,
 			type: "date",
 			alert: "where the order has not been recieved from the shipper",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Ship",
 			value: "ship",
 			alert: "where the order is not ready to ship",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Shipped",
@@ -117,7 +131,8 @@ export const initialState = {
 			sortable: true,
 			type: "date",
 			alert: "where the order has not been shipped",
-			relatedKeys: []
+			relatedKeys: [],
+			warn: true
 		},
 		{
 			label: "Order Total",
@@ -134,7 +149,8 @@ export const initialState = {
 				"caTaxPaid",
 				"net",
 				"netPaid"
-			]
+			],
+			warn: true
 		},
 		{
 			label: "NYS Tax",
@@ -143,7 +159,8 @@ export const initialState = {
 			type: "integer",
 			payable: true,
 			alert: "where the NYS tax due has not been entered",
-			relatedKeys: ["nysTaxPaid", "nysTaxPaidDate"]
+			relatedKeys: ["nysTaxPaid", "nysTaxPaidDate"],
+			warn: true
 		},
 		{
 			label: "CA Tax",
@@ -152,7 +169,8 @@ export const initialState = {
 			type: "integer",
 			payable: true,
 			alert: "where the CA tax due has not been entered",
-			relatedKeys: ["caTaxPaid", "caTaxPaidDate"]
+			relatedKeys: ["caTaxPaid", "caTaxPaidDate"],
+			warn: true
 		},
 		{
 			label: "Net",
@@ -161,23 +179,30 @@ export const initialState = {
 			payable: true,
 			type: "integer",
 			alert: "where the Net value has not been entered",
-			relatedKeys: ["netPaid", "netPaidDate"]
+			relatedKeys: ["netPaid", "netPaidDate"],
+			warn: true
 		},
 		{
 			label: "Net Crate",
 			value: "netCrate",
 			sortable: true,
 			type: "integer",
-			alert: "where the Net Crate has not been entered"
+			alert: "where the Net Crate has not been entered",
+			warn: true
 		},
 		{
 			label: "Net Freight",
 			value: "netFreight",
 			sortable: true,
 			type: "integer",
-			alert: "where the Net Freight has not been entered"
+			alert: "where the Net Freight has not been entered",
+			warn: true
 		},
-		{ label: "Notes", value: "notes" },
+		{
+			label: "Notes",
+			value: "notes",
+			warn: false
+		},
 		{
 			label: "Customer Paid",
 			value: "custPaid",
@@ -185,7 +210,8 @@ export const initialState = {
 			payable: true,
 			type: "integer",
 			alert: "where the customer has not made a payment",
-			relatedKeys: ["custDue", "custPaidDate"]
+			relatedKeys: ["custDue", "custPaidDate"],
+			warn: true
 		},
 		{
 			label: "Net Paid",
@@ -194,7 +220,8 @@ export const initialState = {
 			payable: false,
 			type: "integer",
 			alert: "where the Net has not been paid",
-			relatedKeys: ["net", "netPaidDate"]
+			relatedKeys: ["net", "netPaidDate"],
+			warn: true
 		},
 		{
 			label: "NYS Taxes Paid",
@@ -203,7 +230,8 @@ export const initialState = {
 			payable: false,
 			type: "integer",
 			alert: "where the NYS taxes have not been paid",
-			relatedKeys: ["nysTax", "nysTaxPaidDate"]
+			relatedKeys: ["nysTax", "nysTaxPaidDate"],
+			warn: true
 		},
 		{
 			label: "CA Taxes Paid",
@@ -211,8 +239,9 @@ export const initialState = {
 			sortable: true,
 			payable: false,
 			type: "integer",
-			alert: "where the CA taxes have not been paid",
-			relatedKeys: ["caTax", "caTaxPaidDate"]
+			alert: "where no payment has been made to CA taxes",
+			relatedKeys: ["caTax", "caTaxPaidDate"],
+			warn: true
 		},
 		{
 			label: "CA Taxes Paid Date",
@@ -220,14 +249,17 @@ export const initialState = {
 			sortable: true,
 			payable: false,
 			type: "integer",
-			relatedKeys: ["caTax", "caTaxPaid"]
+			alert: "where the CA taxes have not been paid in full",
+			relatedKeys: ["caTax", "caTaxPaid"],
+			warn: true
 		},
 
 		{
 			label: "Order Last Updated",
 			value: "lastUpdated",
 			sortable: true,
-			type: "date"
+			type: "date",
+			warn: true
 		}
 	]
 };

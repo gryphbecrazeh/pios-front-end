@@ -49,7 +49,7 @@ class AlertViewModal extends Component {
 										"orderNum",
 										"name",
 										`${key.value}`,
-										...key.relatedKeys,
+										...(key.relatedKeys || ""),
 										"lastUpdated"
 									]}
 									orders={array}
