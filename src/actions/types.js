@@ -44,3 +44,6 @@ export const ADD_FILTER = "ADD_FILTER";
 export const DELETE_FILTER = "DELETE_FILTER";
 export const EDIT_FILTER = "EDIT_FILTER";
 export const FILTERS_CLEAR = "FILTERS_CLEAR";
+// ALERTS
+export const GET_ALERTS = "GET_ALERTS";
+export const CLEAR_ALERTS = "CLEAR_ALERTS";

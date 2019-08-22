@@ -74,41 +74,7 @@ class MasterPage extends Component {
 			tableKeys: ["orderNum", "addrCheck"]
 		});
 	};
-	getAlerts = () => {
-		const { customerOrders } = this.props.item;
-		let { dbKeysList } = this.props.keys;
-		let ordersReady = customerOrders != false ? true : false;
-		let ready = ordersReady && this.state.generatedReports === false;
-		let alerts = [];
-		if (ready) {
-			dbKeysList.forEach(key => {
-				let flag = {};
-				flag.key = key;
-				flag.array = customerOrders.filter(
-					order => order[key.value] === null || order[key.value] == false
-				);
-				flag.alert = flag.array == false ? false : true;
-				alerts.push(flag);
-			});
-			this.setState({
-				generatedReports: true,
-				alerts: [...alerts]
-			});
-		}
-	};
-	renderAlerts = () => {
-		return (
-			<div className="alert-container">
-				{this.state.alerts
-					.filter(alert => alert.alert === true)
-					.map(alert => (
-						<PageAlert alert={alert} />
-					))}
-			</div>
-		);
-	};
 	render() {
-		const { customerOrders } = this.props.item;
 		const ShipNow = (
 			<Fragment>
 				<Col>
@@ -116,7 +82,18 @@ class MasterPage extends Component {
 				</Col>
 			</Fragment>
 		);
-		this.getAlerts();
+		const renderAlerts = (
+			<Fragment>
+				<div className="alert-container">
+					{this.props.alerts
+						.filter(alert => alert.alert === true)
+						.map(alert => (
+							<PageAlert alert={alert} />
+						))}
+				</div>
+			</Fragment>
+		);
+
 		return (
 			<div className="page-container">
 				<Row>
@@ -124,11 +101,12 @@ class MasterPage extends Component {
 						<Filters />
 						<OrderModal />
 					</Col>
-					<Col>{this.renderAlerts()}</Col>
+					<Col>{renderAlerts}</Col>
 				</Row>
-				<div className="table-container" style={{ overflow: "scroll" }}>
-					<TableGenerator pageKeys={this.state.tableKeys} />
-				</div>
+				<TableGenerator
+					pageKeys={this.state.tableKeys}
+					orders={this.props.item.customerOrders}
+				/>
 			</div>
 		);
 	}
@@ -143,7 +121,8 @@ MasterPage.propTypes = {
 const mapStateToProps = state => ({
 	item: state.item,
 	keys: state.keys,
-	filters: state.filters
+	filters: state.filters,
+	alerts: state.alerts.alerts
 });
 
 export default connect(

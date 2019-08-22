@@ -26,9 +26,11 @@ class OrderDetails extends Component {
 		return (
 			<tr key={custOrder._id}>
 				<td>
+					<Button block color="info" className="mb-1" />
 					<PaymentModal order={this.props.custOrder} />
 					<EditModal order={this.props.custOrder} />
 					<Button
+						block
 						color="danger"
 						onClick={this.onDeleteClick.bind(this, this.props.custOrder._id)}
 					/>

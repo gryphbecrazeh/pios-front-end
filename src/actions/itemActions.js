@@ -12,9 +12,11 @@ import {
 	GET_DB_KEYS,
 	SAVE_DB_KEYS,
 	ADD_DB_KEY,
-	GET_FILTERS
+	GET_FILTERS,
+	GET_ALERTS
 } from "./types";
 import { tokenConfig } from "./authActions";
+import { getAlerts } from "./alertActions";
 import { returnErrors } from "./errorActions";
 export const getItems = filters => (dispatch, getState) => {
 	dispatch({ type: GET_FILTERS });
@@ -26,6 +28,7 @@ export const getItems = filters => (dispatch, getState) => {
 				type: GET_ITEMS,
 				payload: res.data
 			});
+			dispatch(getAlerts(res.data));
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
@@ -34,12 +37,13 @@ export const getItems = filters => (dispatch, getState) => {
 export const addItem = item => (dispatch, getState) => {
 	axios
 		.post("/api/items", item, tokenConfig(getState))
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: ADD_ITEM,
 				payload: res.data
-			})
-		)
+			});
+			dispatch(getItems());
+		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
@@ -65,12 +69,13 @@ export const editItem = item => (dispatch, getState) => {
 export const deleteItem = id => (dispatch, getState) => {
 	axios
 		.delete(`/api/items/${id}`, tokenConfig(getState))
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: DELETE_ITEM,
 				payload: id
-			})
-		)
+			});
+			dispatch(getItems());
+		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);

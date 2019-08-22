@@ -18,57 +18,67 @@ class TableGenerator extends Component {
 		}
 	};
 	filterDate = array => {
-		let range1 = this.props.filters.sortStart;
-		let range2 = this.props.filters.sortEnd;
-		let arrangeDates = range2 > range1;
-		let start = arrangeDates === true ? range1 : range2;
-		let end = arrangeDates === true ? range2 : range1;
-		// Determine if show all is active, if it is, return the unfiltered result
-		let result = !this.props.filters.showAll
-			? array.filter(
-					item => new Date(item.date) >= start && new Date(item.date) <= end
-			  )
-			: array;
-		return result;
+		if (array) {
+			let range1 = this.props.filters.sortStart;
+			let range2 = this.props.filters.sortEnd;
+			let arrangeDates = range2 > range1;
+			let start = arrangeDates === true ? range1 : range2;
+			let end = arrangeDates === true ? range2 : range1;
+			// Determine if show all is active, if it is, return the unfiltered result
+			let result = !this.props.filters.showAll
+				? array.filter(
+						item => new Date(item.date) >= start && new Date(item.date) <= end
+				  )
+				: array;
+			return result;
+		}
+		return array;
 	};
 	filterQuery = array => {
-		let result = array.filter(
-			item =>
-				item.name.match(new RegExp(this.props.filters.searchQuery), "gmi") ||
-				item.orderNum.match(new RegExp(this.props.filters.searchQuery), "gmi")
-		);
-		return this.props.filters.searchQuery !== null || "" ? result : array;
+		if (array) {
+			let result = array.filter(
+				item =>
+					item.name.match(new RegExp(this.props.filters.searchQuery), "gmi") ||
+					item.orderNum.match(new RegExp(this.props.filters.searchQuery), "gmi")
+			);
+			return this.props.filters.searchQuery !== null || "" ? result : array;
+		}
+		return array;
 	};
 	render() {
-		let { keys, pageKeys } = this.props;
+		let { keys, pageKeys, orders } = this.props;
 		let { dbKeysList } = keys;
-		let orders = this.props.item.customerOrders;
 		return (
-			<Table className="mt-3">
-				<thead>
-					<tr className="text-center text-nowrap">
-						<th>Interact</th>
-						{pageKeys.map((key, index) => {
-							let targetKey = dbKeysList.find(item => item.value === key);
-							return (
-								<th key={uuid()}>
-									{targetKey
-										? targetKey.label
-										: "This wasn't supposed to happen"}
-								</th>
-							);
+			<div
+				className="table-container"
+				style={{ overflow: "auto", maxHeight: "25em" }}
+			>
+				<Table className="mt-3">
+					<thead>
+						<tr className="text-center text-nowrap">
+							<th>Interact</th>
+							{pageKeys.map((key, index) => {
+								let targetKey = dbKeysList.find(item => item.value === key);
+								return (
+									<th key={uuid()}>
+										{targetKey
+											? targetKey.label
+											: "This wasn't supposed to happen"}
+									</th>
+								);
+							})}
+						</tr>
+					</thead>
+					<tbody id="table-result-container">
+						{this.filterTable(this.props.filter).forEach(filter => {
+							orders = orders.filter(item => !item[filter]);
 						})}
-					</tr>
-				</thead>
-				<tbody id="table-result-container">
-					{this.filterTable(this.props.filter).forEach(filter => {
-						orders = orders.filter(item => !item[filter]);
-					})}
-					{this.filterQuery(this.filterDate(orders)).map(item => {
-						return <OrderDetails custOrder={item} orderKeys={pageKeys} />;
-					})}
-				</tbody>
-			</Table>
+						{this.filterQuery(this.filterDate(orders)).map(item => {
+							return <OrderDetails custOrder={item} orderKeys={pageKeys} />;
+						})}
+					</tbody>
+				</Table>
+			</div>
 		);
 	}
 }

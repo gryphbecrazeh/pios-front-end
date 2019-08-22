@@ -30,16 +30,13 @@ class EditModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				<Button color="warning" onClick={this.toggle} />
+				<Button className="mb-1" block color="warning" onClick={this.toggle} />
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
 						<Container>
 							<Row>
-								<Col>Editting Order {` ${this.props.order.orderNum}`} </Col>
-							</Row>
-							<Row>
-								<Col>Customer Paid {` ${this.props.order.custPaidDate}`} </Col>
+								<Col>Editting Order: {` ${this.props.order.orderNum}`} </Col>
 							</Row>
 						</Container>
 					</ModalHeader>

@@ -66,7 +66,6 @@ class AppNavBar extends Component {
 				<NavItem>
 					<Dropdown isOpen={this.state.dropDown} toggle={this.toggleDropDown}>
 						<DropdownToggle className="text-nowrap" caret color="primary">
-							{" "}
 							{this.state.target.page}
 						</DropdownToggle>
 						<DropdownMenu>
@@ -81,6 +80,8 @@ class AppNavBar extends Component {
 									<NavLink href="/">User Manager</NavLink>
 								</Link>
 							</DropdownItem>
+							<DropdownItem disabled>Admin Notifications</DropdownItem>
+
 							<DropdownItem divider />
 							<DropdownItem header>Office</DropdownItem>
 
@@ -94,19 +95,23 @@ class AppNavBar extends Component {
 									<NavLink href="/">Tax Page</NavLink>
 								</Link>
 							</DropdownItem>
+							<DropdownItem disabled>Office Notifications</DropdownItem>
 							<DropdownItem divider />
-
 							<DropdownItem header>Warehouse</DropdownItem>
+							<DropdownItem disabled>Warehouse Notifications</DropdownItem>
+
 							<DropdownItem divider />
 							<DropdownItem header>Shipping</DropdownItem>
-
 							<DropdownItem>
 								<Link to="/shipping-page">
 									<NavLink href="/">Shipping Page</NavLink>
 								</Link>
 							</DropdownItem>
-							<DropdownItem divider />
+							<DropdownItem disabled>Shipping Notifications</DropdownItem>
 
+							<DropdownItem divider />
+							<DropdownItem header>User</DropdownItem>
+							<DropdownItem disabled>Notifications</DropdownItem>
 							<DropdownItem>
 								<Logout />
 							</DropdownItem>
