@@ -98,7 +98,7 @@ class OrderSheet extends Component {
                 notes: ""
             });
             // Add item via ADD_ITEM action
-            this.state.mode === "edit" ?this.props.editItem(newOrder): this.props.addItem(newOrder);
+			this.props.item.customerOrders.find(item => item.orderNum === newOrder.orderNum) ? this.props.editItem(newOrder) : this.props.addItem(newOrder);
             // Close Modal
         }
     };

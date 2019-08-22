@@ -16,7 +16,7 @@ import {
 import CSVDropDown from "./CSVDropDown";
 import * as Papa from "papaparse";
 import { connect } from "react-redux";
-import { getKeys, addKey, addItem } from "../actions/itemActions";
+import { getKeys, addKey, addItem, editItem } from "../actions/itemActions";
 import PropTypes from "prop-types";
 class UploadOrders extends Component {
 	state = {
@@ -82,7 +82,11 @@ class UploadOrders extends Component {
 			});
 
 			// Add to DB
-			this.props.addItem(result);
+			this.props.item.customerOrders.find(
+				item => item.orderNum === result.orderNum
+			)
+				? this.props.editItem(result)
+				: this.props.addItem(result);
 		});
 		// Clear Queue
 		this.toggle();
@@ -178,10 +182,11 @@ UploadOrders.propTypes = {
 };
 
 const mapStateToProps = state => ({
+	item: state.item,
 	keys: state.keys
 });
 
 export default connect(
 	mapStateToProps,
-	{ getKeys, addKey, addItem }
+	{ getKeys, addKey, addItem, editItem }
 )(UploadOrders);

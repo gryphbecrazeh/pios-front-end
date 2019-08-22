@@ -46,6 +46,7 @@ class TaxPage extends Component {
 	render() {
 		const renderAlerts = (
 			<Fragment>
+				<h4>Alerts:</h4>
 				<div className="alert-container">
 					{this.props.alerts
 						.filter(alert => alert.alert === true)

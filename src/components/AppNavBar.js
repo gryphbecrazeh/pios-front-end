@@ -85,12 +85,22 @@ class AppNavBar extends Component {
 							<DropdownItem divider />
 							<DropdownItem header>Office</DropdownItem>
 
-							<DropdownItem>
+							<DropdownItem
+								onClick={this.setPage.bind(this, {
+									page: "Master Page",
+									href: "/master-page"
+								})}
+							>
 								<Link to="/master-page">
 									<NavLink href="/">Master Page</NavLink>
 								</Link>
 							</DropdownItem>
-							<DropdownItem>
+							<DropdownItem
+								onClick={this.setPage.bind(this, {
+									page: "Financial Page",
+									href: "/tax-page"
+								})}
+							>
 								<Link to="/tax-page">
 									<NavLink href="/">Tax Page</NavLink>
 								</Link>
@@ -102,7 +112,12 @@ class AppNavBar extends Component {
 
 							<DropdownItem divider />
 							<DropdownItem header>Shipping</DropdownItem>
-							<DropdownItem>
+							<DropdownItem
+								onClick={this.setPage.bind(this, {
+									page: "Shipping Manager",
+									href: "/shipping-page"
+								})}
+							>
 								<Link to="/shipping-page">
 									<NavLink href="/">Shipping Page</NavLink>
 								</Link>
