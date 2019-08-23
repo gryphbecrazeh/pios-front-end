@@ -12,7 +12,8 @@ import {
 } from "reactstrap";
 import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+// ----------------------------Components-------------------------------------------
+import AddOrderedSkusModal from "./AddOrderedSkusModal"
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { addItem, getItems,editItem } from "../actions/itemActions";
@@ -40,6 +41,7 @@ class OrderSheet extends Component {
             disclaim: order ?order.disclaim :"",
             addrCheck: order ?order.addrCheck : false,
             rcvd: order ?order.rcvd : "",
+			orderSkus:order?order.skus:[],
             ship: order ?order.ship  :"",
             shipped: order ?order.shipped : "",
             total: order ?order.total : "",
@@ -92,6 +94,7 @@ class OrderSheet extends Component {
                 total: "",
                 nysTax: "",
                 caTax: "",
+				orderSkus:[],
                 net: "",
                 netCrate: "",
                 netFreigt: "",
@@ -106,7 +109,7 @@ class OrderSheet extends Component {
     render() { 
         return (<Form onSubmit={this.onSubmit}>
             <FormGroup style={{ overflow: "hidden" }}>
-                <Container style={{ maxHeight: "18rem", overflow: "auto" }}>
+                <Container style={{ maxHeight: "35rem", overflow: "auto" }}>
                     {this.state.msg ? (
                         <Alert color="danger">{this.state.msg}</Alert>
                     ) : null}
@@ -129,6 +132,12 @@ class OrderSheet extends Component {
                                 onChange={this.onChangeDate}
                             />
                         </Col>
+						<Col>
+						<Label>
+												Order Status
+						</Label>
+						<Input placeholder="Pending Change me to a dropdown with options"></Input>
+						</Col>
                     </Row>
                     <Row>
                         <Col>
@@ -140,8 +149,7 @@ class OrderSheet extends Component {
                                 name="orderNum"
                                 id="orderNum"
                                 placeholder="Order Number"
-                                value={this.state.orderNum}
-                                onChange={this.onChange}
+								value={this.state.orderNum}
                             />
                         </Col>
                         <Col>
@@ -278,6 +286,28 @@ class OrderSheet extends Component {
                             />
                         </Col>
                     </Row>
+					<Row>
+						<Col>
+							<Label>
+								<strong>Order Information</strong>
+							</Label>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Row>
+								<Col>
+									<Label for="order">Skus</Label>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+								<AddOrderedSkusModal order={this.state} skus={this.props.products}/>
+								</Col>
+							</Row>
+						</Col>
+					</Row>
+
                     <Row>
                         <Col>
                             <Label>
@@ -296,7 +326,18 @@ class OrderSheet extends Component {
                                 onChange={this.onChange}
                                 value={this.state.nysTax||null}
                             />
-                        </Col>
+						</Col>                    <Col>
+							<Label for="order">CA Tax Due</Label>
+							<Input
+								type="text"
+								name="caTax"
+								id="caTax"
+								placeholder="123.50 auto-fill me"
+								onChange={this.onChange}
+								value={this.state.nysTax || null}
+							/>
+						</Col>
+
                     </Row>
                     <Row>
                         <Col>
@@ -332,69 +373,34 @@ class OrderSheet extends Component {
                     </Row>
                     <Row>
                         <Col>
-                            <Label for="order">Net Crate</Label>
-                            <Input
-                                type="text"
-                                name="net-crate"
-                                id="net-crate"
-                                placeholder="123.50"
-                                onChange={this.onChange}
-                            />
-                        </Col>
-                        <Col>
-                            <Label for="order">Net Freigt</Label>
-                            <Input
-                                type="text"
-                                name="net-freight"
-                                id="net-freight"
-                                placeholder="123.50"
-                                onChange={this.onChange}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
                             <Label>
                                 <strong>Kitchenall Shipping</strong>
                             </Label>
                         </Col>
                     </Row>
+					<Row>
+						<Col>
+							<Label for="order">Net Crate</Label>
+							<Input
+								type="text"
+								name="net-crate"
+								id="net-crate"
+								placeholder="123.50"
+								onChange={this.onChange}
+							/>
+						</Col>
+						<Col>
+							<Label for="order">Net Freigt</Label>
+							<Input
+								type="text"
+								name="net-freight"
+								id="net-freight"
+								placeholder="123.50"
+								onChange={this.onChange}
+							/>
+						</Col>
+					</Row>
 
-                    <Row>
-                        <Col>
-                            <Row>
-                                <Col>
-                                    <Label for="order">Skus</Label>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Label for="order">Enter New Sku</Label>
-                                    <Input
-                                        type="text"
-                                        name="newSku"
-                                        id="newSku"
-                                        placeholder="Sku"
-                                        onChange={this.onChange}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Label for="order">Enter New Sku Manufacturer</Label>
-                                    <Input
-                                        type="text"
-                                        name="mfr"
-                                        id="mfr"
-                                        placeholder="Manufacturer"
-                                        onChange={this.onChange}
-                                    />
-                                </Col>
-
-                                <Col>
-                                    <Button>Add Item</Button>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
                     <Row>
                         <Col>
                             <Label for="order">Order Sent To</Label>
@@ -427,18 +433,6 @@ class OrderSheet extends Component {
                             />
                         </Col>
                     </Row>
-                    <Row>
-                        <Col>
-                            <Label for="order">Ship Date</Label>
-                            <Datepicker
-                                dateFormat="MM/dd/yyyy"
-                                selected={this.state.shipped}
-                                onChange={this.onChangeDate}
-                                name="shipped"
-                                id="shipped"
-                            />
-                        </Col>
-                    </Row>
                 </Container>
                 <Button color="primary" style={{ marginTop: "2rem" }} block>
                     Save
@@ -455,7 +449,8 @@ OrderSheet.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    item: state.item
+    item: state.item,
+	products:state.products.products
 });
 
 export default connect(

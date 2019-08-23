@@ -34,7 +34,6 @@ class AppNavBar extends Component {
 		});
 	};
 	setPage = item => {
-		console.log(item);
 		this.setState({
 			target: item
 		});
