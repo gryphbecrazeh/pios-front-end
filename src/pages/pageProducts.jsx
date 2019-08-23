@@ -24,13 +24,17 @@ class ProductPage extends Component {
 					<Row>
 						<Col>
 							<TableGeneratorSimple
-								keys={this.props.keys.filter(
-									key => key.collection === "product"
-								)}
+								keys={[
+									...this.props.keys.filter(key => key.collection === "product")
+								]}
 								items={
 									this.props.products.length > 0 ? this.props.products : []
 								}
 							/>
+							{/* Add pagination to table generator, let pageArray[i]=array=array.splice(0,50) shrink the results while applying them to pages */}
+							{/* Add search and warning fields */}
+							{/* warn if sales are down on items, item hasn't sold in x amount of months */}
+							{/* warm if item has been disabled for too long without any changes, does not count permanently removed items */}
 						</Col>
 					</Row>
 				</Container>

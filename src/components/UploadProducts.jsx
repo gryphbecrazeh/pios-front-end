@@ -98,6 +98,23 @@ class UploadProducts extends Component {
 				  })();
 		return <tbody>{res}</tbody>;
 	};
+	testSubmit = e => {
+		e.preventDefault();
+		let importedCsvs = [...this.state.results];
+		function reduceProducts() {
+			let importLimiter = importedCsvs.splice(0, 20);
+			importLimiter.forEach(item => {
+				console.log("adding");
+			});
+			if (importedCsvs.length > 0)
+				setTimeout(() => {
+					reduceProducts();
+				}, 3000);
+		}
+		setTimeout(() => {
+			reduceProducts();
+		}, 3000);
+	};
 	onSubmit = e => {
 		e.preventDefault();
 		this.state.results.forEach(item => {
@@ -167,7 +184,7 @@ class UploadProducts extends Component {
 												}
 												color="primary"
 												block
-												onClick={this.onSubmit}
+												onClick={this.testSubmit}
 											>
 												Save to Database
 											</Button>

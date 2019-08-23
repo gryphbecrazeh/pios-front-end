@@ -67,7 +67,7 @@ class AppNavBar extends Component {
 						<DropdownToggle className="text-nowrap" caret color="primary">
 							{this.state.target.page}
 						</DropdownToggle>
-						<DropdownMenu>
+						<DropdownMenu style={{ overflow: "auto", maxHeight: "30em" }}>
 							<DropdownItem header>Admin</DropdownItem>
 							<DropdownItem
 								onClick={this.setPage.bind(this, {
@@ -97,11 +97,11 @@ class AppNavBar extends Component {
 							<DropdownItem
 								onClick={this.setPage.bind(this, {
 									page: "Financial Page",
-									href: "/tax-page"
+									href: "/financial-page"
 								})}
 							>
-								<Link to="/tax-page">
-									<NavLink href="/">Tax Page</NavLink>
+								<Link to="/financial-page">
+									<NavLink href="/">Financial Page</NavLink>
 								</Link>
 							</DropdownItem>
 							<DropdownItem disabled>Office Notifications</DropdownItem>
@@ -117,6 +117,8 @@ class AppNavBar extends Component {
 									<NavLink href="/">Product Manager</NavLink>
 								</Link>
 							</DropdownItem>
+							<DropdownItem disabled>Inventory Manager</DropdownItem>
+							<DropdownItem disabled>Receiving Manager</DropdownItem>
 
 							<DropdownItem disabled>Warehouse Notifications</DropdownItem>
 
@@ -132,6 +134,7 @@ class AppNavBar extends Component {
 									<NavLink href="/">Shipping Page</NavLink>
 								</Link>
 							</DropdownItem>
+							<DropdownItem disabled>Order Tracker</DropdownItem>
 							<DropdownItem disabled>Shipping Notifications</DropdownItem>
 
 							<DropdownItem divider />
@@ -175,7 +178,7 @@ class AppNavBar extends Component {
 		return (
 			<div style={{ position: "sticky", zIndex: "900", top: "0" }}>
 				<Navbar color="light" light expand="sm" className="mb-5">
-					<NavbarBrand href="/">
+					<NavbarBrand href="/" className="ml-5">
 						<img
 							style={{ height: "2em", paddingRight: "1em" }}
 							src={Logo}
