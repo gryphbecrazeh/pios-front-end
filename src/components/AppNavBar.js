@@ -108,6 +108,17 @@ class AppNavBar extends Component {
 							<DropdownItem disabled>Office Notifications</DropdownItem>
 							<DropdownItem divider />
 							<DropdownItem header>Warehouse</DropdownItem>
+							<DropdownItem
+								onClick={this.setPage.bind(this, {
+									page: "Product Manager",
+									href: "/product-manager"
+								})}
+							>
+								<Link to="/product-manager">
+									<NavLink href="/">Product Manager</NavLink>
+								</Link>
+							</DropdownItem>
+
 							<DropdownItem disabled>Warehouse Notifications</DropdownItem>
 
 							<DropdownItem divider />
@@ -163,7 +174,7 @@ class AppNavBar extends Component {
 			</Fragment>
 		);
 		return (
-			<div style={{ position: "sticky", zIndex: "900" }}>
+			<div style={{ position: "sticky", zIndex: "900", top: "0" }}>
 				<Navbar color="light" light expand="sm" className="mb-5">
 					<NavbarBrand href="/">
 						<img

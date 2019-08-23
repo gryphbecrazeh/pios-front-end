@@ -400,8 +400,8 @@ class OrderSheet extends Component {
                             <Label for="order">Order Sent To</Label>
                             <Input
                                 type="text"
-                                name="sent-to"
-                                id="sent-to"
+                                name="sentTo"
+                                id="sentTo"
                                 placeholder="KAS"
                                 onChange={this.onChange}
                             />
@@ -436,21 +436,6 @@ class OrderSheet extends Component {
                                 onChange={this.onChangeDate}
                                 name="shipped"
                                 id="shipped"
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-                <Container>
-                    <Row>
-                        <Col>
-                            <Label for="order">Notes</Label>
-                            <Input
-                                style={{ minHeight: "10em" }}
-                                type="textarea"
-                                name="ship"
-                                id="ship"
-                                placeholder="Kitchenall Notes"
-                                onChange={this.onChange}
                             />
                         </Col>
                     </Row>

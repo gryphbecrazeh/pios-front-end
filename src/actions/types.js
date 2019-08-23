@@ -47,3 +47,8 @@ export const FILTERS_CLEAR = "FILTERS_CLEAR";
 // ALERTS
 export const GET_ALERTS = "GET_ALERTS";
 export const CLEAR_ALERTS = "CLEAR_ALERTS";
+// SKUS
+export const GET_PRODUCTS = "GET_PRODUCTS";
+export const ADD_PRODUCT = "ADD_PRODUCT";
+export const EDIT_PRODUCT = "EDIT_PRODUCT";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";

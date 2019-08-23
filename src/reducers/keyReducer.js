@@ -16,14 +16,18 @@ export const initialState = {
 			value: "name",
 			alert: "where no name has been entered",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: true
 		},
 		{
 			label: "Order Number",
 			value: "orderNum",
 			alert: "where no order number has been entered",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: true
 		},
 		{
 			label: "Order Date",
@@ -32,28 +36,36 @@ export const initialState = {
 			type: "date",
 			alert: "where no order date has been entered",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: true
 		},
 		{
 			label: "Recipient State",
 			value: "st",
 			alert: "where no recipient state has been entered",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Manufacturer",
 			value: "mfr",
 			alert: "where no manufacturer has been entered",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Sent To",
 			value: "sentTo",
 			alert: "where the order(s) have not been sent to the shipper",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Customer Due",
@@ -63,7 +75,9 @@ export const initialState = {
 			payable: true,
 			alert: "where the customer due amount has not been entered",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Customer Paid Date",
@@ -72,7 +86,9 @@ export const initialState = {
 			type: "date",
 			alert: "where the customer has a remaining balance",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Net Due",
@@ -80,25 +96,31 @@ export const initialState = {
 			sortable: true,
 			type: "integer",
 			payable: true,
-			alert: "where the net due has not been entered",
+			alert: "where the Net due has not been entered",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Net Paid Date",
 			value: "netPaidDate",
 			sortable: true,
 			type: "date",
-			alert: "where the Net has not been paid",
+			alert: "where the Net has a remaining balance",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Disclaim",
 			value: "disclaim",
 			alert: "where the disclaimer has not been sent",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Addr Check",
@@ -107,7 +129,9 @@ export const initialState = {
 			type: "boolean",
 			alert: "where the recipient and billing addresses have not been checked",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Received",
@@ -116,14 +140,18 @@ export const initialState = {
 			type: "date",
 			alert: "where the order has not been recieved from the shipper",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Ship",
 			value: "ship",
 			alert: "where the order is not ready to ship",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Shipped",
@@ -132,7 +160,9 @@ export const initialState = {
 			type: "date",
 			alert: "where the order has not been shipped",
 			relatedKeys: [],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Order Total",
@@ -150,7 +180,9 @@ export const initialState = {
 				"net",
 				"netPaid"
 			],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "NYS Tax",
@@ -160,7 +192,9 @@ export const initialState = {
 			payable: true,
 			alert: "where the NYS tax due has not been entered",
 			relatedKeys: ["nysTaxPaid", "nysTaxPaidDate"],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "CA Tax",
@@ -170,7 +204,9 @@ export const initialState = {
 			payable: true,
 			alert: "where the CA tax due has not been entered",
 			relatedKeys: ["caTaxPaid", "caTaxPaidDate"],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Net",
@@ -180,7 +216,9 @@ export const initialState = {
 			type: "integer",
 			alert: "where the Net value has not been entered",
 			relatedKeys: ["netPaid", "netPaidDate"],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Net Crate",
@@ -188,7 +226,19 @@ export const initialState = {
 			sortable: true,
 			type: "integer",
 			alert: "where the Net Crate has not been entered",
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
+		},
+		{
+			label: "Ready To Be Shipped",
+			value: "readyShip",
+			sortable: true,
+			type: "boolean",
+			alert: "ready to be shipped",
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Net Freight",
@@ -196,12 +246,16 @@ export const initialState = {
 			sortable: true,
 			type: "integer",
 			alert: "where the Net Freight has not been entered",
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Notes",
 			value: "notes",
-			warn: false
+			warn: false,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Customer Paid",
@@ -211,7 +265,9 @@ export const initialState = {
 			type: "integer",
 			alert: "where the customer has not made a payment",
 			relatedKeys: ["custDue", "custPaidDate"],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "Net Paid",
@@ -221,7 +277,9 @@ export const initialState = {
 			type: "integer",
 			alert: "where the Net has not been paid",
 			relatedKeys: ["net", "netPaidDate"],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "NYS Taxes Paid",
@@ -231,7 +289,9 @@ export const initialState = {
 			type: "integer",
 			alert: "where the NYS taxes have not been paid",
 			relatedKeys: ["nysTax", "nysTaxPaidDate"],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "CA Taxes Paid",
@@ -241,7 +301,9 @@ export const initialState = {
 			type: "integer",
 			alert: "where no payment has been made to CA taxes",
 			relatedKeys: ["caTax", "caTaxPaidDate"],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 		{
 			label: "CA Taxes Paid Date",
@@ -251,7 +313,9 @@ export const initialState = {
 			type: "integer",
 			alert: "where the CA taxes have not been paid in full",
 			relatedKeys: ["caTax", "caTaxPaid"],
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
 		},
 
 		{
@@ -259,7 +323,63 @@ export const initialState = {
 			value: "lastUpdated",
 			sortable: true,
 			type: "date",
-			warn: true
+			warn: true,
+			collection: "item",
+			required: false
+		},
+		{
+			label: "SKU / Model Number",
+			value: "sku",
+			sortable: false,
+			type: "string",
+			warn: false,
+			collection: "product",
+			required: true
+		},
+		{
+			label: "Manufacturer",
+			value: "manufacturer",
+			sortable: false,
+			type: "string",
+			warn: false,
+			collection: "product",
+			required: true
+		},
+		{
+			label: "Manufacturer SKU / Model Number",
+			value: "manufacturerSku",
+			sortable: false,
+			type: "string",
+			warn: false,
+			collection: "product",
+			required: true
+		},
+		{
+			label: "Cost",
+			value: "cost",
+			sortable: true,
+			type: "number",
+			warn: false,
+			collection: "product",
+			required: true
+		},
+		{
+			label: "Weight",
+			value: "weight",
+			sortable: true,
+			type: "number",
+			warn: false,
+			collection: "product",
+			required: true
+		},
+		{
+			label: "Distributer / Reseller",
+			value: "distributer",
+			sortable: false,
+			type: "string",
+			warn: false,
+			collection: "product",
+			required: false
 		}
 	]
 };

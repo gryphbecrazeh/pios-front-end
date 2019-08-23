@@ -8,6 +8,7 @@ import userReducer from "./userReducer";
 import filterReducer from "./filterReducer";
 import paymentReducer from "./paymentReducer";
 import alertReducer from "./alertReducer";
+import productReducer from "./productReducer";
 export default combineReducers({
 	item: itemReducer,
 	keys: keyReducer,
@@ -17,5 +18,6 @@ export default combineReducers({
 	users: userReducer,
 	filters: filterReducer,
 	payments: paymentReducer,
-	alerts: alertReducer
+	alerts: alertReducer,
+	products: productReducer
 });

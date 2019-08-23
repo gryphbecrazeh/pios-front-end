@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Container } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
@@ -63,6 +63,26 @@ class TaxPage extends Component {
 			<div className="page-container">
 				<Row>
 					<Col>
+						<Container>
+							<Row className="mb-4">
+								<Col>
+									<Row>
+										<Col>
+											<h1>Month</h1>
+										</Col>
+									</Row>
+									<Row>
+										<Col>Total Payments Tax Payments This Month...</Col>
+									</Row>
+									<Row>
+										<Col>Total Payments NET Payments This Month...</Col>
+									</Row>
+									<Row>
+										<Col>Total Payments Customer Payments This Month...</Col>
+									</Row>
+								</Col>
+							</Row>
+						</Container>
 						<Filters />
 						<OrderModal />
 					</Col>

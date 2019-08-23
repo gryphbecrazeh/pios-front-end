@@ -12,7 +12,9 @@ import UserManagerPage from "../pages/pageUserManager";
 import { connect } from "react-redux";
 import { getItems } from "../actions/itemActions";
 import { getFilters, addFilter } from "../actions/filterActions";
+import { getProducts } from "../actions/productActions";
 import PropTypes from "prop-types";
+import ProductPage from "../pages/pageProducts";
 
 class PreLoad extends Component {
 	constructor(props) {
@@ -27,6 +29,7 @@ class PreLoad extends Component {
 		this.props.filters
 			? this.props.getItems()
 			: this.props.getFilters().then(this.props.getItems());
+		this.props.getProducts();
 	}
 	render() {
 		return (
@@ -34,6 +37,7 @@ class PreLoad extends Component {
 				<Switch>
 					<div className="App">
 						<AppNavBar />
+						<Route path="/product-manager" component={ProductPage} />
 						<Route path="/" exact component={WelcomePage} />
 						<Route path="/master-page" component={MasterPage} />
 						<Route path="/shipping-page" component={ShippingPage} />
@@ -61,5 +65,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getItems, getFilters, addFilter }
+	{ getItems, getFilters, addFilter, getProducts }
 )(PreLoad);
