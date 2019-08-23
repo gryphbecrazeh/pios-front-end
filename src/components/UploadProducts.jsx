@@ -103,7 +103,7 @@ class UploadProducts extends Component {
 		this.state.results.forEach(item => {
 			this.props.products.find(found => found.sku === item.sku) === undefined
 				? this.props.addProduct(item)
-				: this.props.editProduct(item);
+				: this.props.editProduct(item, this.props.products);
 		});
 	};
 	// Assigns item to the state

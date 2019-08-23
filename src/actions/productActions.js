@@ -34,13 +34,17 @@ export const addProduct = item => (dispatch, getState) => {
 		);
 };
 
-export const editProduct = item => (dispatch, getState) => {
-	let newItem = item;
-
+export const editProduct = (item, array) => (dispatch, getState) => {
+	let newItem = array.find(found => found.sku === item.sku);
+	console.log("item", item);
+	console.log("found item", newItem);
+	newItem = {
+		...item
+	};
 	axios
 		.put(
-			`/api/products/${item._id}`,
-			{ id: item._id, order: newItem },
+			`/api/products/${newItem._id}`,
+			{ id: newItem._id, product: newItem },
 			tokenConfig(getState)
 		)
 		.then(res =>

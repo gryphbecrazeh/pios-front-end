@@ -1,8 +1,18 @@
 import React, { Component } from "react";
-import { Table, Container, Row, Col } from "reactstrap";
-
+import { Table, Container, Row, Col, Button } from "reactstrap";
+import { connect } from "react-redux";
+import {
+	getProducts,
+	addProduct,
+	editProduct,
+	deleteProduct
+} from "../actions/productActions";
 class TableGeneratorSimple extends Component {
 	state = {};
+	deleteProduct = e => {
+		e.preventDefault();
+		this.props.deleteProduct(e.target.name);
+	};
 	render() {
 		let { items, keys } = this.props;
 		return (
@@ -12,6 +22,7 @@ class TableGeneratorSimple extends Component {
 						<Col>
 							<Table>
 								<thead>
+									<th>Interact</th>
 									{keys.map(key => (
 										<th key={key.value}>{key.label}</th>
 									))}
@@ -22,11 +33,16 @@ class TableGeneratorSimple extends Component {
 										// console.log(item);
 										return (
 											<tr>
+												<td>
+													<Button
+														color="danger"
+														onClick={this.deleteProduct}
+														name={item._id}
+														type="button"
+													/>
+												</td>
 												{keys.map(key => (
-													<td>
-														{item[key.value]}
-														{console.log(item[key.value], item, key)}
-													</td>
+													<td>{item[key.value]}</td>
 												))}
 											</tr>
 										);
@@ -41,4 +57,9 @@ class TableGeneratorSimple extends Component {
 	}
 }
 
-export default TableGeneratorSimple;
+const mapStateToProps = state => ({});
+
+export default connect(
+	mapStateToProps,
+	{ getProducts, addProduct, editProduct, deleteProduct }
+)(TableGeneratorSimple);
