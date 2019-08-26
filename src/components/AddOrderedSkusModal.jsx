@@ -15,6 +15,7 @@ import {
 	Label
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
+import { editItem } from "../actions/itemActions";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -65,22 +66,51 @@ class AddOrderedSkusModal extends Component {
 				<Row className="mt-3">
 					<Col>
 						<Label>Product Quantity</Label>
-						<Input placeholder="Quantity" />
+						<Input onChange={this.setQuantity} placeholder="Order Quantity" />
 					</Col>
 					<Col>
 						<Label>Purchase Product From</Label>
 
-						<Input placeholder="Dealer" />
+						<Input onChange={this.setDealer} placeholder="Dealer" />
 					</Col>
 				</Row>
-				<Button className="mt-3 mb-3" block color="primary">
+				<Button
+					onClick={this.saveSku}
+					className="mt-3 mb-3"
+					block
+					color="primary"
+				>
 					Add sku to order
 				</Button>
 			</div>
 		);
 		return res;
 	};
+	setQuantity = e => {
+		let sku = this.state.selectedSku;
+		sku.quantity = e.target.value;
+		this.setState({ selectedSku: sku });
+	};
+	setDealer = e => {
+		let sku = this.state.selectedSku;
+		sku.dealer = e.target.value;
+		this.setState({ selectedSku: sku });
+	};
+	saveSku = e => {
+		e.preventDefault();
+		let updatedOrder = this.props.order;
+		let sku = this.state.selectedSku;
+		sku.shipmentStatus = "ready";
+		sku.dateAdded = Date();
+
+		updatedOrder.orderSkus =
+			updatedOrder.orderSkus === undefined
+				? []
+				: [...updatedOrder.orderSkus, sku];
+		this.props.editItem(updatedOrder);
+	};
 	clearSearch = () => {
+		document.querySelector("#sku").value = "";
 		this.setState({
 			selectedSku: null,
 			popoverValue: "",
@@ -88,13 +118,11 @@ class AddOrderedSkusModal extends Component {
 		});
 	};
 	selectSku = sku => {
-		this.setState(
-			{
-				selectedSku: sku
-			},
-			() => console.log(this.state)
-		);
+		this.setState({
+			selectedSku: sku
+		});
 		this.togglePopover(false);
+		// this.clearSearch();
 	};
 	toggle = () => {
 		this.setState({
@@ -109,8 +137,8 @@ class AddOrderedSkusModal extends Component {
 	render() {
 		let foundSkus = this.props.skus.filter(
 			item =>
-				item.sku.match(new RegExp(this.state.popoverValue), "gmi") ||
-				item.manufacturerSku.match(new RegExp(this.state.popoverValue), "gmi")
+				item.sku.match(new RegExp(this.state.popoverValue, "gmi")) ||
+				item.manufacturerSku.match(new RegExp(this.state.popoverValue, "gmi"))
 		);
 		foundSkus = foundSkus.splice(0, 5);
 		return (
@@ -177,11 +205,11 @@ class AddOrderedSkusModal extends Component {
 		);
 	}
 }
-AddOrderedSkusModal.propTypes = {};
+AddOrderedSkusModal.propTypes = { editItem: PropTypes.func.isRequired };
 
 const mapStateToProps = state => ({});
 
 export default connect(
 	mapStateToProps,
-	null
+	{ editItem }
 )(AddOrderedSkusModal);

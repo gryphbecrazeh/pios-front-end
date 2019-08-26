@@ -124,7 +124,7 @@ class UploadProducts extends Component {
 			if (importedCsvs.length > 0)
 				setTimeout(() => {
 					reduceProducts();
-				}, 5000);
+				}, 3000);
 			else {
 				this.setState({ upload: false });
 			}
