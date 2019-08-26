@@ -76,9 +76,8 @@ class OrderSheet extends Component {
 		// Update Auto Values
 		newOrder.lastUpdated = new Date().toString();
 		newOrder.custPaidDate =
-			newOrder.custDue === 0 && this.props.order.custDue !== 0
-				? Date.now()
-				: null;
+			newOrder.custDue === 0 && !newOrder.custPaidDate ? Date.now() : null;
+
 		let validation = this.state.required.some(att => newOrder[att] === "");
 		if (validation) {
 			alert("Please fill out required forms");
@@ -142,7 +141,7 @@ class OrderSheet extends Component {
 								<Label for="order">Skus</Label>
 							</Col>
 						</Row>
-						{!this.props.order.orderSkus
+						{!this.props.order
 							? null
 							: this.props.order.orderSkus.map(sku => (
 									<OrderedSkuCard sku={sku} order={this.props.order} />
@@ -159,7 +158,6 @@ class OrderSheet extends Component {
 				</Row>
 			</Fragment>
 		);
-		console.log(this.props.order.orderSkus);
 		return (
 			<Form onSubmit={this.onSubmit}>
 				<FormGroup style={{ overflow: "hidden" }}>
@@ -329,8 +327,8 @@ class OrderSheet extends Component {
 								<Label for="order">Customer / Business Ship To Address</Label>
 								<Input
 									type="text"
-									name="ship-to-address"
-									id="ship-to-address"
+									name="shipToAddress"
+									id="shipToAddress"
 									placeholder="123 Fake st. ste 1"
 									onChange={this.onChange}
 								/>
@@ -341,8 +339,8 @@ class OrderSheet extends Component {
 								<Label for="order">Bill To State</Label>
 								<Input
 									type="text"
-									name="bill-to-state"
-									id="bill-to-state"
+									name="billToState"
+									id="billToState"
 									placeholder="NY"
 									onChange={this.onChange}
 								/>
@@ -351,8 +349,8 @@ class OrderSheet extends Component {
 								<Label for="order">Bill To Zip Code</Label>
 								<Input
 									type="text"
-									name="bill-to-zip"
-									id="bill-to-zip"
+									name="billToZip"
+									id="billToZip"
 									placeholder="10021"
 									onChange={this.onChange}
 								/>
@@ -362,7 +360,7 @@ class OrderSheet extends Component {
 								<Input
 									type="text"
 									name="st"
-									id="ship-to-state"
+									id="st"
 									placeholder="NY"
 									value={this.state.st}
 									onChange={this.onChange}
@@ -372,8 +370,8 @@ class OrderSheet extends Component {
 								<Label for="order">Ship To Zip</Label>
 								<Input
 									type="text"
-									name="ship-to-zip"
-									id="ship-to-zip"
+									name="shipToZip"
+									id="shipToZip"
 									placeholder="10021"
 									onChange={this.onChange}
 								/>
@@ -419,7 +417,7 @@ class OrderSheet extends Component {
 									id="caTax"
 									placeholder="123.50 auto-fill me"
 									onChange={this.onChange}
-									value={this.state.nysTax || null}
+									value={this.state.caTax || null}
 								/>
 							</Col>
 						</Row>

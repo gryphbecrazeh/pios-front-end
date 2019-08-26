@@ -39,6 +39,7 @@ class MasterPage extends Component {
 			alerts: [],
 			tableKeys: [
 				"date",
+				"orderStatus",
 				"orderNum",
 				"name",
 				"st",

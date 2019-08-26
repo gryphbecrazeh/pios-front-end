@@ -380,6 +380,15 @@ export const initialState = {
 			warn: false,
 			collection: "product",
 			required: false
+		},
+		{
+			label: "Order Status",
+			value: "orderStatus",
+			sortable: false,
+			type: "string",
+			warn: false,
+			collection: "item",
+			required: false
 		}
 	]
 };
