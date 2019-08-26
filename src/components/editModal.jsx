@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 
 class EditModal extends Component {
 	state = {
-		modal: true
+		modal: false
 	};
 	toggle = () => {
 		this.setState({
