@@ -9,12 +9,14 @@ import PropTypes from "prop-types";
 class ProductPage extends Component {
 	state = {};
 	render() {
-		console.log(this.props.products);
 		return (
 			<div>
 				<Container>
 					<Row>
 						<Col>Product Manager Page</Col>
+					</Row>
+					<Row>
+						<Col>Total Products: {this.props.products.length}</Col>
 					</Row>
 					<Row className="mb-3">
 						<Col>
@@ -28,7 +30,9 @@ class ProductPage extends Component {
 									...this.props.keys.filter(key => key.collection === "product")
 								]}
 								items={
-									this.props.products.length > 0 ? this.props.products : []
+									this.props.products.length > 0
+										? this.props.products.slice(0, 50)
+										: []
 								}
 							/>
 							{/* Add pagination to table generator, let pageArray[i]=array=array.splice(0,50) shrink the results while applying them to pages */}

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import "babel-polyfill";
+import React, { Component, Fragment } from "react";
 import {
 	Button,
 	Input,
@@ -26,7 +27,8 @@ class UploadProducts extends Component {
 		csv: false,
 		results: [],
 		renderResults: false,
-		dropdown: {}
+		dropdown: {},
+		upload: false
 	};
 	componentDidMount() {
 		this.setState({
@@ -100,20 +102,37 @@ class UploadProducts extends Component {
 	};
 	testSubmit = e => {
 		e.preventDefault();
+		this.setState({ upload: true });
 		let importedCsvs = [...this.state.results];
-		function reduceProducts() {
+		let reduceProducts = () => {
 			let importLimiter = importedCsvs.splice(0, 20);
 			importLimiter.forEach(item => {
-				console.log("adding");
+				console.log("Actioning ", item.sku);
+				// Find, if exists, change, else, upload
+				Array.find(this.props.products, x => {
+					let keys = Object.keys(item);
+					// Remove extra spaces added onto text from CSV
+					keys.forEach(key =>
+						item[key] ? () => (item[key] = item[key].replace(/\s+$/, "")) : null
+					);
+					// console.log(x.sku, item.sku, String(x.sku) === String(item.sku));
+					return x.sku === item.sku;
+				})
+					? this.props.editProduct(item, this.props.products)
+					: this.props.addProduct(item);
 			});
 			if (importedCsvs.length > 0)
 				setTimeout(() => {
 					reduceProducts();
-				}, 3000);
-		}
+				}, 5000);
+			else {
+				this.setState({ upload: false });
+			}
+		};
 		setTimeout(() => {
 			reduceProducts();
 		}, 3000);
+		function checkItem() {}
 	};
 	onSubmit = e => {
 		e.preventDefault();
@@ -133,6 +152,72 @@ class UploadProducts extends Component {
 		this.toggle();
 	};
 	render() {
+		let Uploading = (
+			<Fragment>
+				<Container>
+					<Row>
+						<Col>
+							Uploading, please do not close or navigate away from this page
+						</Col>
+					</Row>
+				</Container>
+			</Fragment>
+		);
+		let Upload = (
+			<Fragment>
+				<Form>
+					<FormGroup>
+						<Container>
+							<Row>
+								<Col md={{ size: 8 }}>
+									<Input onChange={this.loadFile} type="file" />
+								</Col>
+								<Col md={{ size: 2 }}>
+									<Button
+										color="success"
+										target="csv"
+										onClick={this.renderCsv}
+										type="button"
+									>
+										Upload
+									</Button>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									Required keys to save are: 'sku', 'manufacturer',
+									'manufacturerSku', 'cost', 'weight'. 'distributer' is optional
+								</Col>
+							</Row>
+							<Container fluid style={{ maxHeight: "30em", overflow: "auto" }}>
+								<Row>
+									<Col xs="12">
+										<Table className="text-center text-nowrap">
+											{this.actionCsvHeader()}
+											{this.actionCsvBody()}
+										</Table>
+									</Col>
+								</Row>
+							</Container>
+							<Row>
+								<Col>
+									<Button
+										className={
+											this.state.results.length >= 1 ? "d-block" : "d-none"
+										}
+										color="primary"
+										block
+										onClick={this.testSubmit}
+									>
+										Save to Database
+									</Button>
+								</Col>
+							</Row>
+						</Container>
+					</FormGroup>
+				</Form>
+			</Fragment>
+		);
 		return (
 			<div>
 				<Button color="success" onClick={this.toggle}>
@@ -140,60 +225,7 @@ class UploadProducts extends Component {
 				</Button>
 				<Modal isOpen={this.state.csv} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>Upload with CSV</ModalHeader>
-					<ModalBody>
-						<Form>
-							<FormGroup>
-								<Container>
-									<Row>
-										<Col md={{ size: 8 }}>
-											<Input onChange={this.loadFile} type="file" />
-										</Col>
-										<Col md={{ size: 2 }}>
-											<Button
-												color="success"
-												target="csv"
-												onClick={this.renderCsv}
-												type="button"
-											>
-												Upload
-											</Button>
-										</Col>
-									</Row>
-									<Row>
-										<Col>
-											Required keys to save are: 'sku', 'manufacturer',
-											'manufacturerSku', 'cost', 'weight'. 'distributer' is
-											optional
-										</Col>
-									</Row>
-									<Container fluid>
-										<Row>
-											<Col xs="12">
-												<Table className="text-center text-nowrap">
-													{this.actionCsvHeader()}
-													{this.actionCsvBody()}
-												</Table>
-											</Col>
-										</Row>
-									</Container>
-									<Row>
-										<Col>
-											<Button
-												className={
-													this.state.results.length >= 1 ? "d-block" : "d-none"
-												}
-												color="primary"
-												block
-												onClick={this.testSubmit}
-											>
-												Save to Database
-											</Button>
-										</Col>
-									</Row>
-								</Container>
-							</FormGroup>
-						</Form>
-					</ModalBody>
+					<ModalBody>{this.state.upload ? Uploading : Upload}</ModalBody>
 					<ModalFooter>Upload Products with CSV, Match to headers</ModalFooter>
 				</Modal>
 			</div>

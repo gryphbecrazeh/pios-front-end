@@ -36,8 +36,6 @@ export const addProduct = item => (dispatch, getState) => {
 
 export const editProduct = (item, array) => (dispatch, getState) => {
 	let newItem = array.find(found => found.sku === item.sku);
-	console.log("item", item);
-	console.log("found item", newItem);
 	newItem = {
 		...item
 	};
