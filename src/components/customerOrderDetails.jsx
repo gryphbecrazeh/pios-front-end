@@ -42,7 +42,7 @@ class OrderDetails extends Component {
 		return (
 			<tr key={custOrder._id}>
 				<td>
-					<Button onMouseOver={this.toggleCollapse}>Interact</Button>
+					<Button onClick={this.toggleCollapse}>Interact</Button>
 					<Collapse isOpen={this.state.collapse}>
 						<ViewModal order={this.props.custOrder} />
 						<PaymentModal order={this.props.custOrder} />
