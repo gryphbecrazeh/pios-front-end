@@ -1,8 +1,12 @@
 import React, { Component } from "react";
-import { Button } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import EditModal from "./editModal";
 import PaymentModal from "./paymentModal";
+// ----------------------------Fontawesome-------------------------------------------
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/pro-light-svg-icons";
+// ----------------------------Reactstrap-------------------------------------------
+import { Button, Collapse } from "reactstrap";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -10,6 +14,9 @@ import { deleteItem } from "../actions/itemActions";
 import ViewModal from "./ViewModal";
 
 class OrderDetails extends Component {
+	state = {
+		collapse: false
+	};
 	onDeleteClick = _id => {
 		this.props.deleteItem(_id);
 	};
@@ -22,19 +29,32 @@ class OrderDetails extends Component {
 				return order[key];
 		}
 	};
+	toggleCollapse = () => {
+		this.setState({ collapse: !this.state.collapse });
+		setTimeout(() => {
+			this.setState({
+				collapse: false
+			});
+		}, 3000);
+	};
 	render() {
 		let { custOrder, orderKeys } = this.props;
 		return (
 			<tr key={custOrder._id}>
 				<td>
-					<ViewModal order={this.props.custOrder} />
-					<PaymentModal order={this.props.custOrder} />
-					<EditModal order={this.props.custOrder} />
-					<Button
-						block
-						color="danger"
-						onClick={this.onDeleteClick.bind(this, this.props.custOrder._id)}
-					/>
+					<Button onMouseOver={this.toggleCollapse}>Interact</Button>
+					<Collapse isOpen={this.state.collapse}>
+						<ViewModal order={this.props.custOrder} />
+						<PaymentModal order={this.props.custOrder} />
+						<EditModal order={this.props.custOrder} />
+						<Button
+							color="danger"
+							block
+							onClick={this.onDeleteClick.bind(this, this.props.custOrder._id)}
+						>
+							<FontAwesomeIcon icon={faTrashAlt} />
+						</Button>
+					</Collapse>
 				</td>
 				{orderKeys.map(key => {
 					return <td>{this.renderKey(custOrder, key)}</td>;

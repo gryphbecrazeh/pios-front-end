@@ -21,6 +21,10 @@ import {
 // ----------------------------Components-------------------------------------------
 import OrderSheet from "./OrderSheet";
 import NotesList from "./NotesList";
+// ----------------------------Fontawesome-------------------------------------------
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/pro-regular-svg-icons";
+
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -56,7 +60,9 @@ class EditModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				<Button className="mb-1" block color="warning" onClick={this.toggle} />
+				<Button className="mb-1" block color="warning" onClick={this.toggle}>
+					<FontAwesomeIcon icon={faPencil} />
+				</Button>
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>

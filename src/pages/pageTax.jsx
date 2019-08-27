@@ -44,6 +44,20 @@ class TaxPage extends Component {
 		});
 	};
 	render() {
+		const months = [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"Septembet",
+			"October",
+			"November",
+			"December"
+		];
 		const renderAlerts = (
 			<Fragment>
 				<h4>Alerts:</h4>
@@ -68,7 +82,7 @@ class TaxPage extends Component {
 								<Col>
 									<Row>
 										<Col>
-											<h1>Month</h1>
+											<h1>{months[new Date().getMonth()]}</h1>
 										</Col>
 									</Row>
 									<Row>

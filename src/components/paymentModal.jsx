@@ -24,6 +24,9 @@ import {
 	Form,
 	FormGroup
 } from "reactstrap";
+// ----------------------------Fontawesome-------------------------------------------
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDollarSign } from "@fortawesome/pro-regular-svg-icons";
 // ----------------------------Components-------------------------------------------
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
@@ -277,7 +280,9 @@ class PaymentModal extends Component {
 
 		return (
 			<div>
-				<Button className="mb-1" block color="success" onClick={this.toggle} />
+				<Button className="mb-1" block color="success" onClick={this.toggle}>
+					<FontAwesomeIcon icon={faDollarSign} />
+				</Button>
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>

@@ -21,6 +21,11 @@ import {
 // ----------------------------Components-------------------------------------------
 import NotesList from "./NotesList";
 import OrderSheetView from "./OrderSheetView";
+import OrderedSkuCard from "./OrderedSkuCard";
+// ----------------------------Fontawesome-------------------------------------------
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/pro-regular-svg-icons";
+
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -56,7 +61,9 @@ class ViewModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				<Button className="mb-1" block color="info" onClick={this.toggle} />
+				<Button className="mb-1" block color="info" onClick={this.toggle}>
+					<FontAwesomeIcon icon={faEye} />
+				</Button>
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
