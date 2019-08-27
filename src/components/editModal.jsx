@@ -15,7 +15,8 @@ import {
 	TabPane,
 	Nav,
 	NavItem,
-	NavLink
+	NavLink,
+	Badge
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import OrderSheet from "./OrderSheet";
@@ -89,6 +90,9 @@ class EditModal extends Component {
 									}}
 								>
 									Notes
+									{this.props.notes ? (
+										<Badge color="warning">{this.props.notes.length}</Badge>
+									) : null}
 								</NavLink>
 							</NavItem>
 							<NavItem>

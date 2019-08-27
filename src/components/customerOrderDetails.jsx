@@ -7,6 +7,7 @@ import PaymentModal from "./paymentModal";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { deleteItem } from "../actions/itemActions";
+import ViewModal from "./ViewModal";
 
 class OrderDetails extends Component {
 	onDeleteClick = _id => {
@@ -26,7 +27,7 @@ class OrderDetails extends Component {
 		return (
 			<tr key={custOrder._id}>
 				<td>
-					<Button block color="info" className="mb-1" />
+					<ViewModal order={this.props.custOrder} />
 					<PaymentModal order={this.props.custOrder} />
 					<EditModal order={this.props.custOrder} />
 					<Button

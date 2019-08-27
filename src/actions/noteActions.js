@@ -71,6 +71,7 @@ export const deletePayment = id => (dispatch, getState) => {
 		);
 };
 export const clearNotes = () => (dispatch, getState) => {
+	console.log("CLEAR NOTES");
 	dispatch({
 		type: CLEAR_NOTES
 	});

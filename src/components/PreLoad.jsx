@@ -41,7 +41,7 @@ class PreLoad extends Component {
 						<Route path="/" exact component={WelcomePage} />
 						<Route path="/master-page" component={MasterPage} />
 						<Route path="/shipping-page" component={ShippingPage} />
-						<Route path="/tax-page" component={TaxPage} />
+						<Route path="/financial-page" component={TaxPage} />
 						<Route path="/user-manager" component={UserManagerPage} />
 					</div>
 				</Switch>

@@ -33,11 +33,14 @@ class OrderSheet extends Component {
 			required: ["name", "date", "orderNum"],
 			name: order ? order.name : "",
 			orderNum: order ? order.orderNum : "",
-			date: order ? new Date(order.date) : new Date(),
+			date: order
+				? new Date(order.date).toDateString()
+				: new Date(Date.now()).toDateString(),
 			st: order ? order.st : "",
 			mfr: order ? order.mfr : "",
 			sentTo: order ? order.sentTo : "",
 			custDue: order ? order.custDue : "",
+			custPaid: order ? order.custPaid : "",
 			custPaidDate: order ? order.custPaidDate : "",
 			netDue: order ? order.netDue : "",
 			netPaidDate: order ? order.netPaidDate : "",
@@ -51,12 +54,20 @@ class OrderSheet extends Component {
 			nysTax: order ? order.nysTax : "",
 			caTax: order ? order.caTax : "",
 			net: order ? order.net : "",
+			netPaid: order ? order.netPaid : "",
 			netCrate: order ? order.netCrate : "",
-			netFreigt: order ? order.netFreigt : "",
+			netFreight: order ? order.netFreight : "",
+			netTotal: order ? order.netTotal : "",
 			notes: order ? order.notes : "",
 			lastUpdated: order ? order.lastUpdated : "Item has not been editted",
 			msg: null,
-			mode: mode ? mode : "view"
+			mode: mode ? mode : "view",
+			shipToAddress: order ? order.shipToAddress : "",
+			billToAddress: order ? order.billToAddress : "",
+			billToState: order ? order.billToState : "",
+			billToZip: order ? order.billToZip : "",
+			shipToZip: order ? order.shipToZip : "",
+			caTax: order ? order.caTax : ""
 		};
 
 		this.state = mountOrderProp;
@@ -65,6 +76,12 @@ class OrderSheet extends Component {
 	}
 	selectOrderStatus = e => {
 		this.setState({ orderStatus: e.target.name });
+	};
+	selectOrderStatusNew = e => {
+		let options = [...e.target.options].filter(
+			option => option.selected === true
+		);
+		console.log(options.map(item => item.value));
 	};
 	onChangeDate = e => {
 		this.setState({ date: e });
@@ -124,7 +141,13 @@ class OrderSheet extends Component {
 	toggleDropDownOpen = () => {
 		this.setState({ dropDownOpen: !this.state.dropDownOpen });
 	};
-
+	onChangeDateNew = e => {
+		let date = new Date(e.target.value) || Date.now();
+		date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+		this.setState({
+			date: new Date(date).toDateString()
+		});
+	};
 	render() {
 		let AddSkus = (
 			<Fragment>
@@ -184,14 +207,31 @@ class OrderSheet extends Component {
 								<Label style={{ color: "red" }} for="order">
 									Order Placed*
 								</Label>
-								<Datepicker
-									dateFormat="MM/dd/yyyy"
-									selected={this.state.date}
-									onChange={this.onChangeDate}
-								/>
+								{new Date(this.state.date).toDateString()}
+
+								<Input
+									type="date"
+									onChange={this.onChangeDateNew}
+									valid={this.state.date != null}
+								></Input>
 							</Col>
 							<Col>
 								<Label>Order Status</Label>
+								<Input
+									type="select"
+									id="multipleStatusSelect"
+									onChange={this.selectOrderStatusNew}
+									multiple
+								>
+									<option>Pending</option>
+									<option>Paid</option>
+									<option>Processing Order</option>
+									<option>Sent to Supplier</option>
+									<option>Received from Supplier</option>
+									<option>Ready to ship to customer</option>
+									<option>Shipped to Customer</option>
+									<option>Delivered to Customer</option>
+								</Input>
 								<Dropdown
 									isOpen={this.state.dropDownOpen}
 									toggle={this.toggleDropDownOpen}
@@ -262,6 +302,8 @@ class OrderSheet extends Component {
 									placeholder="Order Number"
 									value={this.state.orderNum || null}
 									onChange={this.onChange}
+									valid={this.state.orderNum}
+									invalid={!this.state.orderNum}
 								/>
 							</Col>
 							<Col>
@@ -275,6 +317,8 @@ class OrderSheet extends Component {
 									placeholder="123.50"
 									value={this.state.total}
 									onChange={this.onChange}
+									valid={this.state.total}
+									invalid={!this.state.total}
 								/>
 							</Col>
 						</Row>
@@ -290,6 +334,8 @@ class OrderSheet extends Component {
 									placeholder="John Smith"
 									onChange={this.onChange}
 									value={this.state.name}
+									valid={this.state.name}
+									invalid={!this.state.name}
 								/>
 							</Col>
 						</Row>
@@ -303,6 +349,8 @@ class OrderSheet extends Component {
 									placeholder="123.50 auto-fill me"
 									onChange={this.onChange}
 									value={this.state.custDue}
+									valid={this.state.custDue}
+									invalid={!this.state.custDue}
 								/>
 							</Col>
 							<Col>
@@ -314,6 +362,8 @@ class OrderSheet extends Component {
 									placeholder="0.00"
 									onChange={this.onChange}
 									value={this.state.custPaid}
+									valid={this.state.custPaid}
+									invalid={!this.state.custPaid}
 								/>
 							</Col>
 						</Row>
@@ -327,6 +377,8 @@ class OrderSheet extends Component {
 									placeholder="123 Fake st. ste 1"
 									onChange={this.onChange}
 									value={this.state.billToAddress}
+									valid={this.state.billToAddress}
+									invalid={!this.state.billToAddress}
 								/>
 							</Col>
 							<Col>
@@ -337,6 +389,9 @@ class OrderSheet extends Component {
 									id="shipToAddress"
 									placeholder="123 Fake st. ste 1"
 									onChange={this.onChange}
+									value={this.state.shipToAddress}
+									valid={this.state.shipToAddress}
+									invalid={!this.state.shipToAddress}
 								/>
 							</Col>
 						</Row>
@@ -349,6 +404,9 @@ class OrderSheet extends Component {
 									id="billToState"
 									placeholder="NY"
 									onChange={this.onChange}
+									value={this.state.billToState}
+									valid={this.state.billToState}
+									invalid={!this.state.billToState}
 								/>
 							</Col>
 							<Col>
@@ -359,6 +417,9 @@ class OrderSheet extends Component {
 									id="billToZip"
 									placeholder="10021"
 									onChange={this.onChange}
+									value={this.state.billToZip}
+									valid={this.state.billToZip}
+									invalid={!this.state.billToZip}
 								/>
 							</Col>
 							<Col>
@@ -370,6 +431,8 @@ class OrderSheet extends Component {
 									placeholder="NY"
 									value={this.state.st}
 									onChange={this.onChange}
+									valid={this.state.st}
+									invalid={!this.state.st}
 								/>
 							</Col>
 							<Col>
@@ -380,6 +443,9 @@ class OrderSheet extends Component {
 									id="shipToZip"
 									placeholder="10021"
 									onChange={this.onChange}
+									value={this.state.shipToZip}
+									valid={this.state.shipToZip}
+									invalid={!this.state.shipToZip}
 								/>
 							</Col>
 						</Row>
@@ -391,6 +457,9 @@ class OrderSheet extends Component {
 									name="disclaim"
 									id="disclaim"
 									onChange={this.onChange}
+									value={this.state.disclaim}
+									valid={this.state.disclaim}
+									invalid={!this.state.disclaim}
 								/>
 							</Col>
 						</Row>
@@ -413,8 +482,10 @@ class OrderSheet extends Component {
 									placeholder="123.50 auto-fill me"
 									onChange={this.onChange}
 									value={this.state.nysTax || null}
+									valid={this.state.nysTax}
+									invalid={!this.state.nysTax}
 								/>
-							</Col>{" "}
+							</Col>
 							<Col>
 								<Label for="order">CA Tax Due</Label>
 								<Input
@@ -423,7 +494,9 @@ class OrderSheet extends Component {
 									id="caTax"
 									placeholder="123.50 auto-fill me"
 									onChange={this.onChange}
-									value={this.state.caTax || null}
+									value={this.state.caTax}
+									valid={this.state.caTax}
+									invalid={!this.state.caTax}
 								/>
 							</Col>
 						</Row>
@@ -436,26 +509,35 @@ class OrderSheet extends Component {
 									id="netDue"
 									placeholder="123.50 auto-fill me"
 									onChange={this.onChange}
+									value={this.state.netDue}
+									valid={this.state.netDue}
+									invalid={!this.state.netDue}
 								/>
 							</Col>
 							<Col>
 								<Label for="order">Net Paid</Label>
 								<Input
 									type="text"
-									name="net-paid"
-									id="net-paid"
+									name="netPaid"
+									id="netPaid"
 									placeholder="0.00"
 									onChange={this.onChange}
+									value={this.state.netPaid}
+									valid={this.state.netPaid}
+									invalid={!this.state.netPaid}
 								/>
 							</Col>
 							<Col>
 								<Label for="order">Total Net</Label>
 								<Input
 									type="text"
-									name="net-total"
-									id="net-total"
+									name="netTotal"
+									id="netTotal"
 									placeholder="123.50"
 									onChange={this.onChange}
+									value={this.state.netTotal}
+									valid={this.state.netTotal}
+									invalid={!this.state.netTotal}
 								/>
 							</Col>
 						</Row>
@@ -471,20 +553,26 @@ class OrderSheet extends Component {
 								<Label for="order">Net Crate</Label>
 								<Input
 									type="text"
-									name="net-crate"
-									id="net-crate"
+									name="netCrate"
+									id="netCrate"
 									placeholder="123.50"
 									onChange={this.onChange}
+									value={this.state.netCrate}
+									valid={this.state.netCrate}
+									invalid={!this.state.netCrate}
 								/>
 							</Col>
 							<Col>
-								<Label for="order">Net Freigt</Label>
+								<Label for="order">Net Freight</Label>
 								<Input
 									type="text"
-									name="net-freight"
-									id="net-freight"
+									name="netFreight"
+									id="netFreight"
 									placeholder="123.50"
 									onChange={this.onChange}
+									value={this.state.netFreight}
+									valid={this.state.netFreight}
+									invalid={!this.state.netFreight}
 								/>
 							</Col>
 						</Row>
@@ -498,6 +586,9 @@ class OrderSheet extends Component {
 									id="sentTo"
 									placeholder="KAS"
 									onChange={this.onChange}
+									value={this.state.sentTo}
+									valid={this.state.sentTo}
+									invalid={!this.state.sentTo}
 								/>
 							</Col>
 							<Col>
@@ -508,6 +599,9 @@ class OrderSheet extends Component {
 									id="rcvd"
 									placeholder="KAS"
 									onChange={this.onChange}
+									value={this.state.rcvd}
+									valid={this.state.rcvd}
+									invalid={!this.state.rcvd}
 								/>
 							</Col>
 							<Col>
@@ -518,6 +612,9 @@ class OrderSheet extends Component {
 									id="ship"
 									placeholder="Kitchenall"
 									onChange={this.onChange}
+									value={this.state.ship}
+									valid={this.state.ship}
+									invalid={!this.state.ship}
 								/>
 							</Col>
 						</Row>
