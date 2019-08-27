@@ -52,3 +52,9 @@ export const GET_PRODUCTS = "GET_PRODUCTS";
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const EDIT_PRODUCT = "EDIT_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
+// NOTES
+export const GET_NOTES = "GET_NOTES";
+export const ADD_NOTE = "ADD_NOTE";
+export const EDIT_NOTE = "EDIT_NOTE";
+export const DELETE_NOTE = "DELETE_NOTE";
+export const CLEAR_NOTES = "CLEAR_NOTES";

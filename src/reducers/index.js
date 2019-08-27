@@ -9,6 +9,7 @@ import filterReducer from "./filterReducer";
 import paymentReducer from "./paymentReducer";
 import alertReducer from "./alertReducer";
 import productReducer from "./productReducer";
+import NoteReducer from "./NoteReducer";
 export default combineReducers({
 	item: itemReducer,
 	keys: keyReducer,
@@ -19,5 +20,6 @@ export default combineReducers({
 	filters: filterReducer,
 	payments: paymentReducer,
 	alerts: alertReducer,
-	products: productReducer
+	products: productReducer,
+	notes: NoteReducer
 });

@@ -1,5 +1,6 @@
 // ----------------------------React-------------------------------------------
 import React, { Component } from "react";
+import classnames from "classnames";
 // ----------------------------Reactstrap-------------------------------------------
 import {
 	Modal,
@@ -9,22 +10,46 @@ import {
 	Button,
 	Container,
 	Row,
-	Col
+	Col,
+	TabContent,
+	TabPane,
+	Nav,
+	NavItem,
+	NavLink
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import OrderSheet from "./OrderSheet";
+import NotesList from "./NotesList";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { getNotes, clearNotes } from "../actions/noteActions";
 
 class EditModal extends Component {
 	state = {
-		modal: false
+		modal: false,
+		activeTab: "orderSheet"
 	};
 	toggle = () => {
-		this.setState({
-			modal: !this.state.modal
-		});
+		let { order } = this.props;
+		this.setState(
+			{
+				modal: !this.state.modal
+			},
+			() => {
+				if (this.state.modal) this.props.getNotes(order.orderNum);
+				else {
+					this.props.clearNotes();
+				}
+			}
+		);
+	};
+	toggleTab = tab => {
+		if (this.state.activeTab !== tab) {
+			this.setState({
+				activeTab: tab
+			});
+		}
 	};
 	render() {
 		const { order } = this.props;
@@ -41,7 +66,53 @@ class EditModal extends Component {
 						</Container>
 					</ModalHeader>
 					<ModalBody>
-						<OrderSheet order={this.props.order} mode="edit" />
+						<Nav tabs>
+							<NavItem>
+								<NavLink
+									className={classnames({
+										active: this.state.activeTab === "orderSheet"
+									})}
+									onClick={() => {
+										this.toggleTab("orderSheet");
+									}}
+								>
+									Order Sheet
+								</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink
+									className={classnames({
+										active: this.state.activeTab === "notes"
+									})}
+									onClick={() => {
+										this.toggleTab("notes");
+									}}
+								>
+									Notes
+								</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink
+									className={classnames({
+										active: this.state.activeTab === "changes"
+									})}
+									onClick={() => {
+										this.toggleTab("changes");
+									}}
+								>
+									Changes
+								</NavLink>
+							</NavItem>
+						</Nav>
+						<TabContent activeTab={this.state.activeTab}>
+							<TabPane tabId="orderSheet">
+								<OrderSheet order={this.props.order} mode="edit" />
+							</TabPane>
+							<TabPane tabId="notes">
+								<NotesList order={this.props.order} active={this.state.modal} />
+							</TabPane>
+							<TabPane tabId="changes">Changes will be stored here</TabPane>
+						</TabContent>
 					</ModalBody>
 					<ModalFooter>
 						<Container>
@@ -63,10 +134,11 @@ EditModal.propTypes = {
 
 const mapStateToProps = state => ({
 	item: state.item,
-	users: state.users
+	users: state.users,
+	notes: state.notes.notes
 });
 
 export default connect(
 	mapStateToProps,
-	null
+	{ getNotes, clearNotes }
 )(EditModal);

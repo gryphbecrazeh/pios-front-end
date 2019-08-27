@@ -60,6 +60,8 @@ class OrderSheet extends Component {
 		};
 
 		this.state = mountOrderProp;
+		// Need to slim this down and optimize this, this shouldn't be this cluttered and redudant
+		// this.state = { ...this.props.order, ...this.props.mode, msg: null };
 	}
 	selectOrderStatus = e => {
 		this.setState({ orderStatus: e.target.name });
@@ -143,8 +145,12 @@ class OrderSheet extends Component {
 						</Row>
 						{!this.props.order
 							? null
-							: this.props.order.orderSkus.map(sku => (
-									<OrderedSkuCard sku={sku} order={this.props.order} />
+							: this.props.order.orderSkus.map((sku, index) => (
+									<OrderedSkuCard
+										skuKey={index}
+										sku={sku}
+										order={this.props.order}
+									/>
 							  ))}
 						<Row>
 							<Col>
@@ -161,7 +167,7 @@ class OrderSheet extends Component {
 		return (
 			<Form onSubmit={this.onSubmit}>
 				<FormGroup style={{ overflow: "hidden" }}>
-					<Container style={{ maxHeight: "35rem", overflow: "auto" }}>
+					<Container style={{ maxHeight: "30rem", overflow: "auto" }}>
 						{this.state.msg ? (
 							<Alert color="danger">{this.state.msg}</Alert>
 						) : null}

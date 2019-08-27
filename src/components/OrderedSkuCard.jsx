@@ -37,7 +37,7 @@ class OrderedSkuCard extends Component {
 	render() {
 		let { sku, order } = this.props;
 		return (
-			<div>
+			<div key={this.props.skuKey}>
 				<Alert color={this.ShipmentStatusColor()}>
 					<Container>
 						<Row>

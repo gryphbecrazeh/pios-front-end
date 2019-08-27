@@ -54,7 +54,7 @@ export const initialState = {
 			value: "mfr",
 			alert: "where no manufacturer has been entered",
 			relatedKeys: [],
-			warn: true,
+			warn: false,
 			collection: "item",
 			required: false
 		},
