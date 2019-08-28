@@ -59,7 +59,113 @@ class AppNavBar extends Component {
 	};
 	render() {
 		const { isAuthenticated, user } = this.props.auth;
+		const AdminLinks = (
+			<Fragment>
+				<DropdownItem header>Admin</DropdownItem>
+				<DropdownItem
+					onClick={this.setPage.bind(this, {
+						page: "User Manager",
+						href: "/user-manager"
+					})}
+				>
+					<Link to="/user-manager">
+						<NavLink href="/">User Manager</NavLink>
+					</Link>
+				</DropdownItem>
+				<DropdownItem disabled>Admin Notifications</DropdownItem>
 
+				<DropdownItem divider />
+			</Fragment>
+		);
+		const OfficeLinks = (
+			<Fragment>
+				<DropdownItem header>Office</DropdownItem>
+
+				<DropdownItem
+					onClick={this.setPage.bind(this, {
+						page: "Master Page",
+						href: "/master-page"
+					})}
+				>
+					<Link to="/master-page">
+						<NavLink href="/">Master Page</NavLink>
+					</Link>
+				</DropdownItem>
+				<DropdownItem
+					onClick={this.setPage.bind(this, {
+						page: "Financial Page",
+						href: "/financial-page"
+					})}
+				>
+					<Link to="/financial-page">
+						<NavLink href="/">Financial Page</NavLink>
+					</Link>
+				</DropdownItem>
+				<DropdownItem disabled>Office Notifications</DropdownItem>
+				<DropdownItem divider />
+			</Fragment>
+		);
+		const WarehouseLinks = (
+			<Fragment>
+				<DropdownItem header>Warehouse</DropdownItem>
+				<DropdownItem
+					onClick={this.setPage.bind(this, {
+						page: "Product Manager",
+						href: "/product-manager"
+					})}
+				>
+					<Link to="/product-manager">
+						<NavLink href="/">Product Manager</NavLink>
+					</Link>
+				</DropdownItem>
+				<DropdownItem disabled>Inventory Manager</DropdownItem>
+				<DropdownItem disabled>Receiving Manager</DropdownItem>
+
+				<DropdownItem disabled>Warehouse Notifications</DropdownItem>
+
+				<DropdownItem divider />
+			</Fragment>
+		);
+		const ShippingLinks = (
+			<Fragment>
+				<DropdownItem header>Shipping</DropdownItem>
+				<DropdownItem
+					onClick={this.setPage.bind(this, {
+						page: "Shipping Manager",
+						href: "/shipping-page"
+					})}
+				>
+					<Link to="/shipping-page">
+						<NavLink href="/">Shipping Page</NavLink>
+					</Link>
+				</DropdownItem>
+				<DropdownItem disabled>Order Tracker</DropdownItem>
+				<DropdownItem disabled>Container Tracker</DropdownItem>
+
+				<DropdownItem disabled>Shipping Notifications</DropdownItem>
+
+				<DropdownItem divider />
+			</Fragment>
+		);
+		const AssetProtectionLinks = (
+			<Fragment>
+				<DropdownItem header>Asset Protection</DropdownItem>
+				<DropdownItem disabled>Customer Claims</DropdownItem>
+				<DropdownItem disabled>Vendor Claims</DropdownItem>
+				<DropdownItem disabled>Asset Protection Notifications</DropdownItem>
+
+				<DropdownItem divider />
+			</Fragment>
+		);
+		const WebsiteLinks = (
+			<Fragment>
+				<DropdownItem header>Website</DropdownItem>
+				<DropdownItem disabled>Filter Tracker</DropdownItem>
+				<DropdownItem disabled>Broken Link Monitor</DropdownItem>
+				<DropdownItem disabled>Website Notifications</DropdownItem>
+				<DropdownItem divider />
+			</Fragment>
+		);
 		const authLinks = (
 			<Fragment>
 				<NavItem>
@@ -68,76 +174,12 @@ class AppNavBar extends Component {
 							{this.state.target.page}
 						</DropdownToggle>
 						<DropdownMenu style={{ overflow: "auto", maxHeight: "30em" }}>
-							<DropdownItem header>Admin</DropdownItem>
-							<DropdownItem
-								onClick={this.setPage.bind(this, {
-									page: "User Manager",
-									href: "/user-manager"
-								})}
-							>
-								<Link to="/user-manager">
-									<NavLink href="/">User Manager</NavLink>
-								</Link>
-							</DropdownItem>
-							<DropdownItem disabled>Admin Notifications</DropdownItem>
-
-							<DropdownItem divider />
-							<DropdownItem header>Office</DropdownItem>
-
-							<DropdownItem
-								onClick={this.setPage.bind(this, {
-									page: "Master Page",
-									href: "/master-page"
-								})}
-							>
-								<Link to="/master-page">
-									<NavLink href="/">Master Page</NavLink>
-								</Link>
-							</DropdownItem>
-							<DropdownItem
-								onClick={this.setPage.bind(this, {
-									page: "Financial Page",
-									href: "/financial-page"
-								})}
-							>
-								<Link to="/financial-page">
-									<NavLink href="/">Financial Page</NavLink>
-								</Link>
-							</DropdownItem>
-							<DropdownItem disabled>Office Notifications</DropdownItem>
-							<DropdownItem divider />
-							<DropdownItem header>Warehouse</DropdownItem>
-							<DropdownItem
-								onClick={this.setPage.bind(this, {
-									page: "Product Manager",
-									href: "/product-manager"
-								})}
-							>
-								<Link to="/product-manager">
-									<NavLink href="/">Product Manager</NavLink>
-								</Link>
-							</DropdownItem>
-							<DropdownItem disabled>Inventory Manager</DropdownItem>
-							<DropdownItem disabled>Receiving Manager</DropdownItem>
-
-							<DropdownItem disabled>Warehouse Notifications</DropdownItem>
-
-							<DropdownItem divider />
-							<DropdownItem header>Shipping</DropdownItem>
-							<DropdownItem
-								onClick={this.setPage.bind(this, {
-									page: "Shipping Manager",
-									href: "/shipping-page"
-								})}
-							>
-								<Link to="/shipping-page">
-									<NavLink href="/">Shipping Page</NavLink>
-								</Link>
-							</DropdownItem>
-							<DropdownItem disabled>Order Tracker</DropdownItem>
-							<DropdownItem disabled>Shipping Notifications</DropdownItem>
-
-							<DropdownItem divider />
+							{AdminLinks}
+							{OfficeLinks}
+							{AssetProtectionLinks}
+							{WarehouseLinks}
+							{ShippingLinks}
+							{WebsiteLinks}
 							<DropdownItem header>User</DropdownItem>
 							<DropdownItem disabled>Notifications</DropdownItem>
 							<DropdownItem>
