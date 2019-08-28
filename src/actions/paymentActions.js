@@ -13,6 +13,7 @@ export const clearPayments = () => (dispatch, getState) => {
 	dispatch({ type: CLEAR_PAYMENTS });
 };
 export const getPayments = id => (dispatch, getState) => {
+	// Gets orders by order number as ID
 	dispatch(setPaymentsLoading);
 	axios
 		.get(`/api/payments/${id}`)

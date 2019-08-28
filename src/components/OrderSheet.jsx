@@ -13,6 +13,8 @@ import {
 // ----------------------------Components-------------------------------------------
 import AddOrderedSkusModal from "./AddOrderedSkusModal";
 import OrderedSkuCard from "./OrderedSkuCard";
+import ClaimModal from "./ClaimModal";
+
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { addItem, getItems, editItem } from "../actions/itemActions";
@@ -84,6 +86,9 @@ class OrderSheet extends Component {
 		this.setState({
 			date: new Date(date).toDateString()
 		});
+	};
+	reportProblem = () => {
+		alert("Claim Modal yet to be created");
 	};
 	render() {
 		let {
@@ -258,8 +263,7 @@ class OrderSheet extends Component {
 								<Col>
 									<Label style={{ color: "red" }} for="order">
 										Order Placed*
-									</Label>{" "}
-									{new Date(this.state.date).toDateString()}
+									</Label>
 									<Input
 										placeholder={this.state.date}
 										type="text"
@@ -522,6 +526,7 @@ class OrderSheet extends Component {
 					<Button color="primary" style={{ marginTop: "2rem" }} block>
 						Save
 					</Button>
+					{!this.props.order ? null : <ClaimModal order={this.props.order} />}
 				</FormGroup>
 			</Form>
 		);

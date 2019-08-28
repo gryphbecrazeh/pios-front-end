@@ -16,6 +16,10 @@ table th {
 	overflow: auto;
 	max-height: 18.75rem;
 }
+.claim-container {
+	overflow: auto;
+	max-height: 18.75rem;
+}
 body {
 	overflow: hidden;
 }

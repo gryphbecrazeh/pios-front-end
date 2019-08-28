@@ -21,6 +21,7 @@ import {
 // ----------------------------Components-------------------------------------------
 import OrderSheet from "./OrderSheet";
 import NotesList from "./NotesList";
+import PaymentsList from "./PaymentsList";
 // ----------------------------Fontawesome-------------------------------------------
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/pro-regular-svg-icons";
@@ -29,6 +30,8 @@ import { faPencil } from "@fortawesome/pro-regular-svg-icons";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getNotes, clearNotes } from "../actions/noteActions";
+import { getPayments, clearPayments } from "../actions/paymentActions";
+import { getClaims, clearClaims } from "../actions/claimsAction";
 
 class EditModal extends Component {
 	state = {
@@ -42,9 +45,14 @@ class EditModal extends Component {
 				modal: !this.state.modal
 			},
 			() => {
-				if (this.state.modal) this.props.getNotes(order.orderNum);
-				else {
+				if (this.state.modal) {
+					this.props.getNotes(order.orderNum);
+					this.props.getPayments(order.orderNum);
+					this.props.getClaims(order.orderNum);
+				} else {
 					this.props.clearNotes();
+					this.props.clearPayments();
+					this.props.clearClaims();
 				}
 			}
 		);
@@ -94,6 +102,34 @@ class EditModal extends Component {
 							<NavItem>
 								<NavLink
 									className={classnames({
+										active: this.state.activeTab === "payments"
+									})}
+									onClick={() => {
+										this.toggleTab("payments");
+									}}
+								>
+									Payments
+									{this.props.payments ? (
+										<Badge color="success">{this.props.payments.length}</Badge>
+									) : null}
+								</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink
+									className={classnames({
+										active: this.state.activeTab === "skus"
+									})}
+									onClick={() => {
+										this.toggleTab("skus");
+									}}
+								>
+									Skus
+								</NavLink>
+							</NavItem>
+
+							<NavItem>
+								<NavLink
+									className={classnames({
 										active: this.state.activeTab === "notes"
 									})}
 									onClick={() => {
@@ -123,6 +159,11 @@ class EditModal extends Component {
 							<TabPane tabId="orderSheet">
 								<OrderSheet order={this.props.order} mode="edit" />
 							</TabPane>
+							<TabPane tabId="payments">
+								<PaymentsList />
+							</TabPane>
+							<TabPane tabId="skus">Skus</TabPane>
+
 							<TabPane tabId="notes">
 								<NotesList order={this.props.order} active={this.state.modal} />
 							</TabPane>
@@ -150,10 +191,11 @@ EditModal.propTypes = {
 const mapStateToProps = state => ({
 	item: state.item,
 	users: state.users,
-	notes: state.notes.notes
+	notes: state.notes.notes,
+	payments: state.payments.payments
 });
 
 export default connect(
 	mapStateToProps,
-	{ getNotes, clearNotes }
+	{ getNotes, clearNotes, getPayments, clearPayments, getClaims, clearClaims }
 )(EditModal);

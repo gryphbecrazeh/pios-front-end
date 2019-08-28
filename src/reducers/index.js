@@ -10,6 +10,7 @@ import paymentReducer from "./paymentReducer";
 import alertReducer from "./alertReducer";
 import productReducer from "./productReducer";
 import NoteReducer from "./NoteReducer";
+import claimsReducer from "./claimsReducer";
 export default combineReducers({
 	item: itemReducer,
 	keys: keyReducer,
@@ -21,5 +22,6 @@ export default combineReducers({
 	payments: paymentReducer,
 	alerts: alertReducer,
 	products: productReducer,
-	notes: NoteReducer
+	notes: NoteReducer,
+	claims: claimsReducer
 });

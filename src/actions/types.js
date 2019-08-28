@@ -58,3 +58,9 @@ export const ADD_NOTE = "ADD_NOTE";
 export const EDIT_NOTE = "EDIT_NOTE";
 export const DELETE_NOTE = "DELETE_NOTE";
 export const CLEAR_NOTES = "CLEAR_NOTES";
+// CLAIMS
+export const GET_CLAIMS = "GET_CLAIMS";
+export const ADD_CLAIM = "ADD_CLAIM";
+export const EDIT_CLAIM = "EDIT_CLAIM";
+export const DELETE_CLAIM = "DELETE_CLAIM";
+export const CLEAR_CLAIMS = "CLEAR_CLAIMS";
