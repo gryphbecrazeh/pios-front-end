@@ -21,6 +21,9 @@ import {
 // ----------------------------Components-------------------------------------------
 import NotesList from "./NotesList";
 import OrderSheetView from "./OrderSheetView";
+import EditModal from "./editModal";
+import PaymentModal from "./paymentModal";
+import DeleteModal from "./DeleteModal";
 // ----------------------------Fontawesome-------------------------------------------
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/pro-regular-svg-icons";
@@ -59,16 +62,25 @@ class ViewModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				<Button className="mb-1" block color="info" onClick={this.toggle}>
+				<Button
+					className="mb-1"
+					block={this.props.noBlock ? false : true}
+					color="info"
+					onClick={this.toggle}
+				>
 					<FontAwesomeIcon icon={faEye} />
 				</Button>
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
 						<Container>
+							<Row noGutters>
+								<Col className="text-nowrap">
+									Order: {` ${this.props.order.orderNum}`}
+								</Col>
+							</Row>
 							<Row>
-								<Col xs="5">Order: {` ${this.props.order.orderNum}`}</Col>
-								<Col xs="5">
+								<Col className="text-nowrap">
 									{`Status:
 									${this.props.order.orderStatus}`}
 								</Col>

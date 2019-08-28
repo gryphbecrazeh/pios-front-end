@@ -278,7 +278,12 @@ class PaymentModal extends Component {
 
 		return (
 			<div>
-				<Button className="mb-1" block color="success" onClick={this.toggle}>
+				<Button
+					className="mb-1"
+					block={this.props.noBlock ? false : true}
+					color="success"
+					onClick={this.toggle}
+				>
 					<FontAwesomeIcon icon={faDollarSign} />
 				</Button>
 

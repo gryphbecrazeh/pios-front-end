@@ -47,8 +47,7 @@ class MasterPage extends Component {
 				"caTax",
 				"net",
 				"netCrate",
-				"netFreight",
-				"notes"
+				"netFreight"
 			],
 			generatedReports: false
 		};

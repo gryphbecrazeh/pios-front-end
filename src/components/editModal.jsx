@@ -60,7 +60,12 @@ class EditModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				<Button className="mb-1" block color="warning" onClick={this.toggle}>
+				<Button
+					className="mb-1"
+					block={this.props.noBlock ? false : true}
+					color="warning"
+					onClick={this.toggle}
+				>
 					<FontAwesomeIcon icon={faPencil} />
 				</Button>
 

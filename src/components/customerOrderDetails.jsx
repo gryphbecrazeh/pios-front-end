@@ -2,8 +2,10 @@ import React, { Component } from "react";
 // ----------------------------NPM-------------------------------------------
 import uuid from "uuid";
 // ----------------------------Components-------------------------------------------
+import ViewModal from "./ViewModal";
 import EditModal from "./editModal";
 import PaymentModal from "./paymentModal";
+import DeleteModal from "./DeleteModal";
 // ----------------------------Fontawesome-------------------------------------------
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/pro-light-svg-icons";
@@ -13,7 +15,6 @@ import { Button, Collapse } from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { deleteItem } from "../actions/itemActions";
-import ViewModal from "./ViewModal";
 
 class OrderDetails extends Component {
 	state = {
@@ -51,13 +52,7 @@ class OrderDetails extends Component {
 						<ViewModal order={this.props.custOrder} />
 						<PaymentModal order={this.props.custOrder} />
 						<EditModal order={this.props.custOrder} />
-						<Button
-							color="danger"
-							block
-							onClick={this.onDeleteClick.bind(this, this.props.custOrder._id)}
-						>
-							<FontAwesomeIcon icon={faTrashAlt} />
-						</Button>
+						<DeleteModal order={this.props.custOrder} />
 					</Collapse>
 				</td>
 				{orderKeys.map(key => {

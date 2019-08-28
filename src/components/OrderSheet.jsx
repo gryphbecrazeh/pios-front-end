@@ -8,11 +8,7 @@ import {
 	Input,
 	Container,
 	Row,
-	Col,
-	Dropdown,
-	DropdownToggle,
-	DropdownMenu,
-	DropdownItem
+	Col
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import AddOrderedSkusModal from "./AddOrderedSkusModal";
@@ -28,45 +24,10 @@ class OrderSheet extends Component {
 		let { order, mode } = this.props;
 		let mountOrderProp = {
 			...order,
-			_id: order ? order._id : null,
 			required: ["name", "date", "orderNum"],
-			name: order ? order.name : "",
-			orderNum: order ? order.orderNum : "",
 			date: order
 				? new Date(order.date).toDateString()
-				: new Date(Date.now()).toDateString(),
-			st: order ? order.st : "",
-			mfr: order ? order.mfr : "",
-			sentTo: order ? order.sentTo : "",
-			custDue: order ? order.custDue : "",
-			custPaid: order ? order.custPaid : "",
-			custPaidDate: order ? order.custPaidDate : "",
-			netDue: order ? order.netDue : "",
-			netPaidDate: order ? order.netPaidDate : "",
-			disclaim: order ? order.disclaim : "",
-			addrCheck: order ? order.addrCheck : false,
-			rcvd: order ? order.rcvd : "",
-			orderSkus: order ? order.skus : [],
-			ship: order ? order.ship : "",
-			shipped: order ? order.shipped : "",
-			total: order ? order.total : "",
-			nysTax: order ? order.nysTax : "",
-			caTax: order ? order.caTax : "",
-			net: order ? order.net : "",
-			netPaid: order ? order.netPaid : "",
-			netCrate: order ? order.netCrate : "",
-			netFreight: order ? order.netFreight : "",
-			netTotal: order ? order.netTotal : "",
-			notes: order ? order.notes : "",
-			lastUpdated: order ? order.lastUpdated : "Item has not been editted",
-			msg: null,
-			mode: mode ? mode : "view",
-			shipToAddress: order ? order.shipToAddress : "",
-			billToAddress: order ? order.billToAddress : "",
-			billToState: order ? order.billToState : "",
-			billToZip: order ? order.billToZip : "",
-			shipToZip: order ? order.shipToZip : "",
-			caTax: order ? order.caTax : ""
+				: new Date(Date.now()).toDateString()
 		};
 
 		this.state = mountOrderProp;
