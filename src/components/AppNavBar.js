@@ -9,8 +9,6 @@ import {
 	NavItem,
 	Input,
 	NavLink,
-	Button,
-	Row,
 	Col,
 	Dropdown,
 	DropdownToggle,
@@ -52,7 +50,7 @@ class AppNavBar extends Component {
 			showAll: target.value ? true : false,
 			searchQuery: e.target.value || null
 		});
-		let value;
+		let value = "";
 		!target.value
 			? this.props.addFilter({ searchQuery: "" })
 			: (value = "filled");

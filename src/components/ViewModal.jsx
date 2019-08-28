@@ -21,14 +21,12 @@ import {
 // ----------------------------Components-------------------------------------------
 import NotesList from "./NotesList";
 import OrderSheetView from "./OrderSheetView";
-import OrderedSkuCard from "./OrderedSkuCard";
 // ----------------------------Fontawesome-------------------------------------------
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/pro-regular-svg-icons";
 
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { getNotes, clearNotes } from "../actions/noteActions";
 
 class ViewModal extends Component {

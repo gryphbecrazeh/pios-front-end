@@ -1,10 +1,8 @@
-import React, { Component, Fragment } from "react";
-import { Row, Col, Button, Alert } from "reactstrap";
+import React, { Component } from "react";
+import { Row, Col, Alert } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import AlertViewModal from "./AlertViewModal";
 // ----------------------------Redux-------------------------------------------
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
 class PageAlert extends Component {
 	state = {};

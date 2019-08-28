@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import UploadProducts from "../components/UploadProducts";
 import TableGeneratorSimple from "../components/TableGeneratorSimple";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 class ProductPage extends Component {
 	state = {};
 	render() {

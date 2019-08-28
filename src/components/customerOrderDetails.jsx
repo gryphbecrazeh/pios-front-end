@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+// ----------------------------NPM-------------------------------------------
+import uuid from "uuid";
 // ----------------------------Components-------------------------------------------
 import EditModal from "./editModal";
 import PaymentModal from "./paymentModal";
@@ -25,6 +27,8 @@ class OrderDetails extends Component {
 			return new Date(order[key]).toDateString();
 		}
 		switch (key) {
+			case "addrCheck":
+				return order[key] === true ? "Checked" : "Not Checked";
 			default:
 				return order[key];
 		}
@@ -57,7 +61,7 @@ class OrderDetails extends Component {
 					</Collapse>
 				</td>
 				{orderKeys.map(key => {
-					return <td>{this.renderKey(custOrder, key)}</td>;
+					return <td key={uuid()}>{this.renderKey(custOrder, key)}</td>;
 				})}
 			</tr>
 		);

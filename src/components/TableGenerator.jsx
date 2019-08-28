@@ -84,7 +84,6 @@ class TableGenerator extends Component {
 }
 
 TableGenerator.propTypes = {
-	getKeys: PropTypes.func.isRequired,
 	keys: PropTypes.object.isRequired,
 	dbKeysList: PropTypes.object
 };

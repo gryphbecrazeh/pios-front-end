@@ -132,7 +132,6 @@ class UploadProducts extends Component {
 		setTimeout(() => {
 			reduceProducts();
 		}, 3000);
-		function checkItem() {}
 	};
 	onSubmit = e => {
 		e.preventDefault();

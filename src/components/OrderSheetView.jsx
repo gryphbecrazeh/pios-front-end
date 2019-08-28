@@ -21,7 +21,6 @@ import OrderedSkuCard from "./OrderedSkuCard";
 class OrderSheetView extends Component {
 	state = {};
 	render() {
-		console.log(this.props);
 		const {
 			addrCheck,
 			billToAddress,
@@ -56,6 +55,8 @@ class OrderSheetView extends Component {
 			shipToZip,
 			shipped,
 			st,
+			shipToChecked,
+			billToChecked,
 			total,
 			skus,
 			_id
@@ -82,7 +83,7 @@ class OrderSheetView extends Component {
 		let BillToCard = (
 			<Fragment>
 				<Col>
-					<Card>
+					<Card body inverse color={billToChecked ? "success" : "danger"}>
 						<CardHeader>Bill To</CardHeader>
 						<CardBody>
 							<CardText>
@@ -103,7 +104,7 @@ class OrderSheetView extends Component {
 		let ShipToCard = (
 			<Fragment>
 				<Col>
-					<Card body inverse color={addrCheck ? "success" : "danger"}>
+					<Card body inverse color={shipToChecked ? "success" : "danger"}>
 						<CardHeader>Ship To</CardHeader>
 						<CardBody>
 							<CardText>

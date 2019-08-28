@@ -21,7 +21,6 @@ class Filters extends Component {
 		this.setState({ dropdownOpen: !this.state.dropdownOpen });
 	};
 	onChangeDate = (target, e) => {
-		let date = String(e);
 		if (target === "start") {
 			this.setState({ sortStart: e }, () => {
 				this.props.addFilter(this.state);
@@ -82,8 +81,6 @@ class Filters extends Component {
 }
 
 Filters.propTypes = {
-	getItems: PropTypes.func.isRequired,
-	item: PropTypes.object.isRequired,
 	getFilters: PropTypes.func.isRequired
 };
 

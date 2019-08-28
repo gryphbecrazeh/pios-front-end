@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-	Button,
-	Label,
-	Input,
-	Container,
-	Row,
-	Col,
-	ButtonGroup,
-	Alert
-} from "reactstrap";
+import { Button, Container, Row, Col, ButtonGroup, Alert } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 // ----------------------------Redux-------------------------------------------
 
@@ -35,7 +26,7 @@ class OrderedSkuCard extends Component {
 		}
 	};
 	render() {
-		let { sku, order } = this.props;
+		let { sku } = this.props;
 		return (
 			<div key={this.props.skuKey}>
 				<Alert color={this.ShipmentStatusColor()}>

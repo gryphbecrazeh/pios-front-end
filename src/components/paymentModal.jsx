@@ -11,12 +11,10 @@ import {
 	Row,
 	Card,
 	CardBody,
-	CardSubtitle,
 	CardTitle,
 	CardText,
 	Col,
 	Input,
-	Label,
 	Dropdown,
 	DropdownItem,
 	DropdownToggle,
@@ -311,7 +309,6 @@ class PaymentModal extends Component {
 }
 
 PaymentModal.propTypes = {
-	users: PropTypes.object.isRequired,
 	getPayments: PropTypes.func.isRequired
 };
 

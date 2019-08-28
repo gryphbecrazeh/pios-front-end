@@ -14,8 +14,6 @@ import {
 	DropdownMenu,
 	DropdownItem
 } from "reactstrap";
-import Datepicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 // ----------------------------Components-------------------------------------------
 import AddOrderedSkusModal from "./AddOrderedSkusModal";
 import OrderedSkuCard from "./OrderedSkuCard";
@@ -29,6 +27,7 @@ class OrderSheet extends Component {
 		super(props);
 		let { order, mode } = this.props;
 		let mountOrderProp = {
+			...order,
 			_id: order ? order._id : null,
 			required: ["name", "date", "orderNum"],
 			name: order ? order.name : "",
@@ -89,13 +88,18 @@ class OrderSheet extends Component {
 	onChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
 	};
+	toggleChecked = e => {
+		this.setState({ [e.target.name]: !this.state[e.target.name] }, () => {
+			this.setState({
+				addrCheck: this.state.billToChecked && this.state.shipToChecked
+			});
+		});
+	};
 	onSubmit = e => {
 		e.preventDefault();
 		const newOrder = this.state;
 		// Update Auto Values
 		newOrder.lastUpdated = new Date().toString();
-		newOrder.custPaidDate =
-			newOrder.custDue === 0 && !newOrder.custPaidDate ? Date.now() : null;
 
 		let validation = this.state.required.some(att => newOrder[att] === "");
 		if (validation) {
@@ -108,34 +112,6 @@ class OrderSheet extends Component {
 				? this.props.editItem(newOrder)
 				: this.props.addItem(newOrder);
 			// Close Modal
-			this.setState({
-				required: ["name", "date", "orderNum"],
-				name: "",
-				orderNum: "",
-				date: new Date(),
-				st: "",
-				mfr: "",
-				sentTo: "",
-				custDue: "",
-				custPaidDate: "",
-				netDue: "",
-				netPaidDate: "",
-				disclaim: "",
-				addrCheck: "",
-				rcvd: "",
-				ship: "",
-				shipped: "",
-				total: "",
-				nysTax: "",
-				caTax: "",
-				orderSkus: [],
-				net: "",
-				netCrate: "",
-				netFreigt: "",
-				notes: "",
-				dropDownOpen: false,
-				orderStatus: null
-			});
 		}
 	};
 	toggleDropDownOpen = () => {
@@ -149,6 +125,16 @@ class OrderSheet extends Component {
 		});
 	};
 	render() {
+		let {
+			billToAddress,
+			billToState,
+			billToZip,
+			st,
+			shipToAddress,
+			shipToZip
+		} = this.state;
+		let billToInfoEntered = billToAddress && billToState && billToZip;
+		let shipToInfoEntered = st && shipToAddress && shipToZip;
 		let AddSkus = (
 			<Fragment>
 				<Row>
@@ -187,6 +173,111 @@ class OrderSheet extends Component {
 				</Row>
 			</Fragment>
 		);
+		let RenderStatusOptions = (
+			<Fragment>
+				<Col>
+					<Label>Order Status</Label>
+					{!this.props.order ? null : (
+						<Input
+							type="select"
+							id="multipleStatusSelect"
+							onChange={this.selectOrderStatusNew}
+							multiple
+						>
+							<option
+								selected={
+									this.state.orderStatus.find(item => item === "Pending")
+										? true
+										: false
+								}
+							>
+								Pending
+							</option>
+							<option
+								disabled={this.props.order.custPaidDate ? false : true}
+								selected={
+									this.state.orderStatus.find(item => item === "Paid")
+										? true
+										: false
+								}
+							>
+								Paid
+							</option>
+							<option
+								selected={
+									this.state.orderStatus.find(
+										item => item === "Processing Order"
+									)
+										? true
+										: false
+								}
+							>
+								Processing Order
+							</option>
+							<option
+								disabled={this.props.order.sentTo ? false : true}
+								selected={
+									this.state.orderStatus.find(
+										item => item === "Sent to Supplier"
+									)
+										? true
+										: false
+								}
+							>
+								Sent to Supplier
+							</option>
+							<option
+								disabled={this.props.order.rcvd ? false : true}
+								selected={
+									this.state.orderStatus.find(
+										item => item === "Received from Supplier"
+									)
+										? true
+										: false
+								}
+							>
+								Received from Supplier
+							</option>
+							<option
+								selected={
+									this.state.orderStatus.find(
+										item => item === "Ready to ship to Customer"
+									)
+										? true
+										: false
+								}
+							>
+								Ready to ship to Customer
+							</option>
+							<option
+								disabled={this.state.shipped ? false : true}
+								selected={
+									this.state.orderStatus.find(
+										item => item === "Shipped to Customer"
+									)
+										? true
+										: false
+								}
+							>
+								Shipped to Customer
+							</option>
+							<option
+								disabled={this.state.shipped ? false : true}
+								selected={
+									this.state.orderStatus.find(
+										item => item === "Delivered to Customer"
+									)
+										? true
+										: false
+								}
+							>
+								Delivered to Customer
+							</option>
+						</Input>
+					)}
+				</Col>
+			</Fragment>
+		);
 		return (
 			<Form onSubmit={this.onSubmit}>
 				<FormGroup style={{ overflow: "hidden" }}>
@@ -194,430 +285,278 @@ class OrderSheet extends Component {
 						{this.state.msg ? (
 							<Alert color="danger">{this.state.msg}</Alert>
 						) : null}
+						<section name="Customer Information" className="mb-5">
+							<Row>
+								<Col>
+									<Label>
+										<strong>Customer Information</strong>
+									</Label>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<Label style={{ color: "red" }} for="order">
+										Order Placed*
+									</Label>{" "}
+									{new Date(this.state.date).toDateString()}
+									<Input
+										placeholder={this.state.date}
+										type="text"
+										onfocus="(this.type='date')"
+										onblur="(this.type='text')"
+										onChange={this.onChangeDateNew}
+										valid={this.state.date != null}
+									></Input>
+								</Col>
+								<Col>
+									<Label style={{ color: "red" }} for="order">
+										Order Number*
+									</Label>
+									<Input
+										type="text"
+										name="orderNum"
+										id="orderNum"
+										placeholder="Order Number"
+										value={this.state.orderNum || null}
+										onChange={this.onChange}
+										valid={this.state.orderNum}
+										invalid={!this.state.orderNum}
+									/>
+								</Col>
 
-						<Row>
-							<Col>
-								<Label>
-									<strong>Customer Information</strong>
-								</Label>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label style={{ color: "red" }} for="order">
-									Order Placed*
-								</Label>
-								{new Date(this.state.date).toDateString()}
-
-								<Input
-									type="date"
-									onChange={this.onChangeDateNew}
-									valid={this.state.date != null}
-								></Input>
-							</Col>
-							<Col>
-								<Label>Order Status</Label>
-								<Input
-									type="select"
-									id="multipleStatusSelect"
-									onChange={this.selectOrderStatusNew}
-									multiple
-								>
-									<option>Pending</option>
-									<option>Paid</option>
-									<option>Processing Order</option>
-									<option>Sent to Supplier</option>
-									<option>Received from Supplier</option>
-									<option>Ready to ship to customer</option>
-									<option>Shipped to Customer</option>
-									<option>Delivered to Customer</option>
-								</Input>
-								<Dropdown
-									isOpen={this.state.dropDownOpen}
-									toggle={this.toggleDropDownOpen}
-								>
-									<DropdownToggle caret>
-										{this.state.orderStatus || "Select order status"}
-									</DropdownToggle>
-									<DropdownMenu>
-										<DropdownItem
-											name="Pending"
-											onClick={this.selectOrderStatus}
-										>
-											Pending
-										</DropdownItem>
-										<DropdownItem name="Paid" onClick={this.selectOrderStatus}>
-											Paid
-										</DropdownItem>
-										<DropdownItem
-											name="Processing Order"
-											onClick={this.selectOrderStatus}
-										>
-											Processing Order
-										</DropdownItem>
-										<DropdownItem
-											name="Sent to Supplier"
-											onClick={this.selectOrderStatus}
-										>
-											Sent To Supplier
-										</DropdownItem>
-										<DropdownItem
-											name="Received from Supplier"
-											onClick={this.selectOrderStatus}
-										>
-											Received from Supplier
-										</DropdownItem>
-
-										<DropdownItem
-											name="Ready To Ship to Customer"
-											onClick={this.selectOrderStatus}
-										>
-											Ready To Ship to Customer
-										</DropdownItem>
-										<DropdownItem
-											name="Shipped to Customer"
-											onClick={this.selectOrderStatus}
-										>
-											Shipped to Customer
-										</DropdownItem>
-										<DropdownItem
-											name="Delivered to Customer"
-											onClick={this.selectOrderStatus}
-										>
-											Delivered to Customer
-										</DropdownItem>
-									</DropdownMenu>
-								</Dropdown>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label style={{ color: "red" }} for="order">
-									Order Number*
-								</Label>
-								<Input
-									type="text"
-									name="orderNum"
-									id="orderNum"
-									placeholder="Order Number"
-									value={this.state.orderNum || null}
-									onChange={this.onChange}
-									valid={this.state.orderNum}
-									invalid={!this.state.orderNum}
-								/>
-							</Col>
-							<Col>
-								<Label style={{ color: "red" }} for="order">
-									Order Total*
-								</Label>
-								<Input
-									type="text"
-									name="total"
-									id="total"
-									placeholder="123.50"
-									value={this.state.total}
-									onChange={this.onChange}
-									valid={this.state.total}
-									invalid={!this.state.total}
-								/>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label style={{ color: "red" }} for="order">
-									Customer Name / Business Name*
-								</Label>
-								<Input
-									type="text"
-									name="name"
-									id="name"
-									placeholder="John Smith"
-									onChange={this.onChange}
-									value={this.state.name}
-									valid={this.state.name}
-									invalid={!this.state.name}
-								/>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label for="order">Customer Due</Label>
-								<Input
-									type="text"
-									name="custDue"
-									id="custDue"
-									placeholder="123.50 auto-fill me"
-									onChange={this.onChange}
-									value={this.state.custDue}
-									valid={this.state.custDue}
-									invalid={!this.state.custDue}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Customer Paid</Label>
-								<Input
-									type="text"
-									name="custPaid"
-									id="custPaid"
-									placeholder="0.00"
-									onChange={this.onChange}
-									value={this.state.custPaid}
-									valid={this.state.custPaid}
-									invalid={!this.state.custPaid}
-								/>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label for="order">Customer / Business Bill To Address</Label>
-								<Input
-									type="text"
-									name="billToAddress"
-									id="billToAddress"
-									placeholder="123 Fake st. ste 1"
-									onChange={this.onChange}
-									value={this.state.billToAddress}
-									valid={this.state.billToAddress}
-									invalid={!this.state.billToAddress}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Customer / Business Ship To Address</Label>
-								<Input
-									type="text"
-									name="shipToAddress"
-									id="shipToAddress"
-									placeholder="123 Fake st. ste 1"
-									onChange={this.onChange}
-									value={this.state.shipToAddress}
-									valid={this.state.shipToAddress}
-									invalid={!this.state.shipToAddress}
-								/>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label for="order">Bill To State</Label>
-								<Input
-									type="text"
-									name="billToState"
-									id="billToState"
-									placeholder="NY"
-									onChange={this.onChange}
-									value={this.state.billToState}
-									valid={this.state.billToState}
-									invalid={!this.state.billToState}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Bill To Zip Code</Label>
-								<Input
-									type="text"
-									name="billToZip"
-									id="billToZip"
-									placeholder="10021"
-									onChange={this.onChange}
-									value={this.state.billToZip}
-									valid={this.state.billToZip}
-									invalid={!this.state.billToZip}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Ship To State</Label>
-								<Input
-									type="text"
-									name="st"
-									id="st"
-									placeholder="NY"
-									value={this.state.st}
-									onChange={this.onChange}
-									valid={this.state.st}
-									invalid={!this.state.st}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Ship To Zip</Label>
-								<Input
-									type="text"
-									name="shipToZip"
-									id="shipToZip"
-									placeholder="10021"
-									onChange={this.onChange}
-									value={this.state.shipToZip}
-									valid={this.state.shipToZip}
-									invalid={!this.state.shipToZip}
-								/>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label for="order">Disclaimer</Label>
-								<Input
-									type="text"
-									name="disclaim"
-									id="disclaim"
-									onChange={this.onChange}
-									value={this.state.disclaim}
-									valid={this.state.disclaim}
-									invalid={!this.state.disclaim}
-								/>
-							</Col>
-						</Row>
-						{this.props.order ? AddSkus : null}
-
-						<Row>
-							<Col>
-								<Label>
-									<strong>Kitchenall Information</strong>
-								</Label>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label for="order">NYS Tax Due</Label>
-								<Input
-									type="text"
-									name="nysTax"
-									id="nysTax"
-									placeholder="123.50 auto-fill me"
-									onChange={this.onChange}
-									value={this.state.nysTax || null}
-									valid={this.state.nysTax}
-									invalid={!this.state.nysTax}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">CA Tax Due</Label>
-								<Input
-									type="text"
-									name="caTax"
-									id="caTax"
-									placeholder="123.50 auto-fill me"
-									onChange={this.onChange}
-									value={this.state.caTax}
-									valid={this.state.caTax}
-									invalid={!this.state.caTax}
-								/>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label for="order">Net Due</Label>
-								<Input
-									type="text"
-									name="netDue"
-									id="netDue"
-									placeholder="123.50 auto-fill me"
-									onChange={this.onChange}
-									value={this.state.netDue}
-									valid={this.state.netDue}
-									invalid={!this.state.netDue}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Net Paid</Label>
-								<Input
-									type="text"
-									name="netPaid"
-									id="netPaid"
-									placeholder="0.00"
-									onChange={this.onChange}
-									value={this.state.netPaid}
-									valid={this.state.netPaid}
-									invalid={!this.state.netPaid}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Total Net</Label>
-								<Input
-									type="text"
-									name="netTotal"
-									id="netTotal"
-									placeholder="123.50"
-									onChange={this.onChange}
-									value={this.state.netTotal}
-									valid={this.state.netTotal}
-									invalid={!this.state.netTotal}
-								/>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label>
-									<strong>Kitchenall Shipping</strong>
-								</Label>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Label for="order">Net Crate</Label>
-								<Input
-									type="text"
-									name="netCrate"
-									id="netCrate"
-									placeholder="123.50"
-									onChange={this.onChange}
-									value={this.state.netCrate}
-									valid={this.state.netCrate}
-									invalid={!this.state.netCrate}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Net Freight</Label>
-								<Input
-									type="text"
-									name="netFreight"
-									id="netFreight"
-									placeholder="123.50"
-									onChange={this.onChange}
-									value={this.state.netFreight}
-									valid={this.state.netFreight}
-									invalid={!this.state.netFreight}
-								/>
-							</Col>
-						</Row>
-
-						<Row>
-							<Col>
-								<Label for="order">Order Sent To</Label>
-								<Input
-									type="text"
-									name="sentTo"
-									id="sentTo"
-									placeholder="KAS"
-									onChange={this.onChange}
-									value={this.state.sentTo}
-									valid={this.state.sentTo}
-									invalid={!this.state.sentTo}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Order Received From</Label>
-								<Input
-									type="text"
-									name="rcvd"
-									id="rcvd"
-									placeholder="KAS"
-									onChange={this.onChange}
-									value={this.state.rcvd}
-									valid={this.state.rcvd}
-									invalid={!this.state.rcvd}
-								/>
-							</Col>
-							<Col>
-								<Label for="order">Order Ship VIA</Label>
-								<Input
-									type="text"
-									name="ship"
-									id="ship"
-									placeholder="Kitchenall"
-									onChange={this.onChange}
-									value={this.state.ship}
-									valid={this.state.ship}
-									invalid={!this.state.ship}
-								/>
-							</Col>
-						</Row>
+								{this.props.order ? RenderStatusOptions : null}
+							</Row>
+							<Row>
+								<Col>
+									<Label>Order Total</Label>
+									<Input
+										type="text"
+										name="total"
+										id="total"
+										placeholder="123.50"
+										value={this.state.total}
+										onChange={this.onChange}
+										valid={this.state.total}
+										invalid={!this.state.total}
+									/>
+								</Col>
+								<Col>
+									<Label for="order">Customer Due</Label>
+									<Input
+										type="text"
+										name="custDue"
+										id="custDue"
+										placeholder="123.50 auto-fill me"
+										onChange={this.onChange}
+										value={this.state.custDue}
+										valid={this.state.custDue}
+										invalid={!this.state.custDue}
+									/>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<Label style={{ color: "red" }} for="order">
+										Customer Name / Business Name*
+									</Label>
+									<Input
+										type="text"
+										name="name"
+										id="name"
+										placeholder="John Smith"
+										onChange={this.onChange}
+										value={this.state.name}
+										valid={this.state.name}
+										invalid={!this.state.name}
+									/>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<Label for="order">Customer / Business Bill To Address</Label>
+									<Input
+										type="text"
+										name="billToAddress"
+										id="billToAddress"
+										placeholder="123 Fake st. ste 1"
+										onChange={this.onChange}
+										valid={this.state.billToAddress}
+										invalid={!this.state.billToAddress}
+									/>
+								</Col>
+								<Col>
+									<Label for="order">Customer / Business Ship To Address</Label>
+									<Input
+										type="text"
+										name="shipToAddress"
+										id="shipToAddress"
+										placeholder="123 Fake st. ste 1"
+										onChange={this.onChange}
+										value={this.state.shipToAddress}
+										valid={this.state.shipToAddress}
+										invalid={!this.state.shipToAddress}
+									/>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<Label for="order">Bill To State</Label>
+									<Input
+										type="text"
+										name="billToState"
+										id="billToState"
+										placeholder="NY"
+										onChange={this.onChange}
+										value={this.state.billToState}
+										valid={this.state.billToState}
+										invalid={!this.state.billToState}
+									/>
+								</Col>
+								<Col>
+									<Label for="order">Bill To Zip Code</Label>
+									<Input
+										type="text"
+										name="billToZip"
+										id="billToZip"
+										placeholder="10021"
+										onChange={this.onChange}
+										value={this.state.billToZip}
+										valid={this.state.billToZip}
+										invalid={!this.state.billToZip}
+									/>
+								</Col>
+								<Col>
+									<Label for="order">Ship To State</Label>
+									<Input
+										type="text"
+										name="st"
+										id="st"
+										placeholder="NY"
+										value={this.state.st}
+										onChange={this.onChange}
+										valid={this.state.st}
+										invalid={!this.state.st}
+									/>
+								</Col>
+								<Col>
+									<Label for="order">Ship To Zip</Label>
+									<Input
+										type="text"
+										name="shipToZip"
+										id="shipToZip"
+										placeholder="10021"
+										onChange={this.onChange}
+										value={this.state.shipToZip}
+										valid={this.state.shipToZip}
+										invalid={!this.state.shipToZip}
+									/>
+								</Col>
+							</Row>
+							{!billToInfoEntered && !shipToInfoEntered ? null : (
+								<Row>
+									<Col xs={{ size: 6, offset: 1 }}>
+										<Input
+											name="billToChecked"
+											type="checkbox"
+											onClick={this.toggleChecked}
+											checked={this.state.billToChecked ? true : false}
+										/>{" "}
+										Bill to address checked?
+									</Col>
+									<Col>
+										<Label check>
+											<Input
+												name="shipToChecked"
+												type="checkbox"
+												onClick={this.toggleChecked}
+												checked={this.state.shipToChecked ? true : false}
+											/>{" "}
+											Ship to address checked?
+										</Label>
+									</Col>
+								</Row>
+							)}
+							<Row>
+								<Col>
+									<Label for="order">Disclaimer</Label>
+									<Input
+										type="text"
+										name="disclaim"
+										id="disclaim"
+										onChange={this.onChange}
+										value={this.state.disclaim}
+										valid={this.state.disclaim}
+										invalid={!this.state.disclaim}
+									/>
+								</Col>
+							</Row>
+							{this.props.order ? AddSkus : null}
+						</section>
+						<section name="Kitchenall Information" className="mb-5">
+							<Row>
+								<Col>
+									<Label>
+										<strong>Kitchenall Information</strong>
+									</Label>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<Label for="order">NYS Tax Due</Label>
+									<Input
+										type="number"
+										name="nysTax"
+										id="nysTax"
+										placeholder="123.50 auto-fill me"
+										onChange={this.onChange}
+										value={this.state.nysTax || null}
+										valid={this.state.nysTax}
+										invalid={!this.state.nysTax}
+									/>
+								</Col>
+								<Col>
+									<Label for="order">CA Tax Due</Label>
+									<Input
+										type="number"
+										name="caTax"
+										id="caTax"
+										placeholder="123.50 auto-fill me"
+										onChange={this.onChange}
+										value={this.state.caTax}
+										valid={this.state.caTax}
+										invalid={!this.state.caTax}
+									/>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<Label for="order">Net Due</Label>
+									<Input
+										type="number"
+										name="netDue"
+										id="netDue"
+										placeholder="123.50 auto-fill me"
+										onChange={this.onChange}
+										value={this.state.netDue}
+										valid={this.state.netDue}
+										invalid={!this.state.netDue}
+									/>
+								</Col>
+								<Col>
+									<Label for="order">Total Net</Label>
+									<Input
+										type="number"
+										name="netTotal"
+										id="netTotal"
+										placeholder="123.50"
+										onChange={this.onChange}
+										value={this.state.netTotal}
+										valid={this.state.netTotal}
+										invalid={!this.state.netTotal}
+									/>
+								</Col>
+							</Row>
+						</section>
 					</Container>
 					<Button color="primary" style={{ marginTop: "2rem" }} block>
 						Save

@@ -11,7 +11,6 @@ import {
 import TableGenerator from "./TableGenerator";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { addFilter } from "../actions/filterActions";
 class AlertViewModal extends Component {
 	state = {

@@ -1,20 +1,8 @@
 import React, { Component, Fragment } from "react";
-import {
-	Label,
-	Container,
-	Row,
-	Input,
-	Col,
-	Dropdown,
-	DropdownItem,
-	Button,
-	DropdownMenu,
-	DropdownToggle
-} from "reactstrap";
+import { Row, Col } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
-import Datepicker from "react-datepicker";
 import PageAlert from "../components/PageAlert";
 import "react-datepicker/dist/react-datepicker.css";
 import Filters from "../components/Filters";
@@ -76,13 +64,6 @@ class MasterPage extends Component {
 		});
 	};
 	render() {
-		const ShipNow = (
-			<Fragment>
-				<Col>
-					<Button color="success">View now</Button>
-				</Col>
-			</Fragment>
-		);
 		const renderAlerts = (
 			<Fragment>
 				<h4>

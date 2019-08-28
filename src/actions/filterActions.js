@@ -1,11 +1,9 @@
-import axios from "axios";
 import {
 	GET_FILTERS,
 	ADD_FILTER,
 	EDIT_FILTER,
 	DELETE_FILTER,
-	FILTERS_CLEAR,
-	GET_ITEMS
+	FILTERS_CLEAR
 } from "./types";
 
 export const getFilters = () => (dispatch, getState) => {
