@@ -19,10 +19,14 @@ import { faTrashAlt } from "@fortawesome/pro-light-svg-icons";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getNotes, clearNotes } from "../actions/noteActions";
-import { getPayments } from "../actions/paymentActions";
+import { getNotes, deleteNote, clearNotes } from "../actions/noteActions";
+import {
+	getPayments,
+	deletePayment,
+	clearPayments
+} from "../actions/paymentActions";
 import { deleteItem } from "../actions/itemActions";
-
+import { getClaims, deleteClaim, clearClaims } from "../actions/claimsAction";
 class DeleteModal extends Component {
 	state = {
 		modal: false,
@@ -35,9 +39,14 @@ class DeleteModal extends Component {
 				modal: !this.state.modal
 			},
 			() => {
-				if (this.state.modal) this.props.getNotes(order.orderNum);
-				else {
+				if (this.state.modal) {
+					this.props.getNotes(order.orderNum);
+					this.props.getPayments(order.orderNum);
+					this.props.getClaims(order.orderNum);
+				} else {
 					this.props.clearNotes();
+					this.props.clearPayments();
+					this.props.clearClaims();
 				}
 			}
 		);
@@ -48,9 +57,31 @@ class DeleteModal extends Component {
 		});
 	};
 	deleteOrder = () => {
-		if (this.props.order.orderNum === this.state.delete)
-			this.props.deleteItem(this.props.order._id);
-		else {
+		let {
+			payments,
+			notes,
+			claims,
+			deleteClaim,
+			deleteItem,
+			deleteNote,
+			deletePayment
+		} = this.props;
+		if (this.props.order.orderNum === this.state.delete) {
+			// Delete all payments for that order
+			payments.forEach(payment => {
+				deletePayment(payment._id);
+			});
+			// Delete all notes for that order
+			notes.forEach(note => {
+				deleteNote(note._id);
+			});
+			// delete all claims for that order
+			claims.forEach(claim => {
+				deleteClaim(claim._id);
+			});
+
+			deleteItem(this.props.order._id);
+		} else {
 			alert("Wrong value entered");
 			this.toggle();
 		}
@@ -133,10 +164,23 @@ DeleteModal.propTypes = {
 const mapStateToProps = state => ({
 	item: state.item,
 	users: state.users,
-	notes: state.notes.notes
+	notes: state.notes.notes,
+	payments: state.payments.payments,
+	claims: state.claims.claims
 });
 
 export default connect(
 	mapStateToProps,
-	{ getNotes, clearNotes, getPayments, deleteItem }
+	{
+		getNotes,
+		deleteNote,
+		clearNotes,
+		getPayments,
+		deletePayment,
+		clearPayments,
+		getClaims,
+		deleteClaim,
+		clearClaims,
+		deleteItem
+	}
 )(DeleteModal);

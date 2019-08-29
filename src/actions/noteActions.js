@@ -23,7 +23,6 @@ export const getNotes = id => (dispatch, getState) => {
 		);
 };
 export const addNote = item => (dispatch, getState) => {
-	console.log(item);
 	axios
 		.post("/api/notes", item, tokenConfig(getState))
 		.then(res =>
@@ -57,7 +56,7 @@ export const editNote = item => (dispatch, getState) => {
 		);
 };
 
-export const deletePayment = id => (dispatch, getState) => {
+export const deleteNote = id => (dispatch, getState) => {
 	axios
 		.delete(`/api/notes/${id}`, tokenConfig(getState))
 		.then(res =>

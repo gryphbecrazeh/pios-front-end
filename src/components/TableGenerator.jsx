@@ -38,8 +38,8 @@ class TableGenerator extends Component {
 		if (array) {
 			let result = array.filter(
 				item =>
-					item.name.match(new RegExp(this.props.filters.searchQuery), "gmi") ||
-					item.orderNum.match(new RegExp(this.props.filters.searchQuery), "gmi")
+					item.name.match(new RegExp(this.props.filters.searchQuery, "gmi")) ||
+					item.orderNum.match(new RegExp(this.props.filters.searchQuery, "gmi"))
 			);
 			return this.props.filters.searchQuery !== null || "" ? result : array;
 		}
