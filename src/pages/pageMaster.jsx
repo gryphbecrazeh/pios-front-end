@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
@@ -65,18 +65,22 @@ class MasterPage extends Component {
 	render() {
 		const renderAlerts = (
 			<Fragment>
-				<h4>
-					{this.props.alerts.filter(alert => alert.alert === true).length}{" "}
-					Alerts:
-				</h4>
-
-				<div className="alert-container">
-					{this.props.alerts
-						.filter(alert => alert.alert === true)
-						.map(alert => (
-							<PageAlert alert={alert} />
-						))}
-				</div>
+				<Card>
+					<CardHeader>
+						{`
+						${this.props.alerts.filter(alert => alert.alert === true).length}
+						Alerts:`}
+					</CardHeader>
+					<CardBody>
+						<div className="alert-container">
+							{this.props.alerts
+								.filter(alert => alert.alert === true)
+								.map(alert => (
+									<PageAlert alert={alert} />
+								))}
+						</div>
+					</CardBody>
+				</Card>
 			</Fragment>
 		);
 

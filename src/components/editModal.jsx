@@ -126,7 +126,6 @@ class EditModal extends Component {
 									Skus
 								</NavLink>
 							</NavItem>
-
 							<NavItem>
 								<NavLink
 									className={classnames({
@@ -139,6 +138,21 @@ class EditModal extends Component {
 									Notes
 									{this.props.notes ? (
 										<Badge color="warning">{this.props.notes.length}</Badge>
+									) : null}
+								</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink
+									className={classnames({
+										active: this.state.activeTab === "claims"
+									})}
+									onClick={() => {
+										this.toggleTab("claims");
+									}}
+								>
+									Claims
+									{this.props.claims.length > 0 ? (
+										<Badge color="danger">{this.props.claims.length}</Badge>
 									) : null}
 								</NavLink>
 							</NavItem>
@@ -163,7 +177,7 @@ class EditModal extends Component {
 								<PaymentsList />
 							</TabPane>
 							<TabPane tabId="skus">Skus</TabPane>
-
+							<TabPane tabId="claims">Claims</TabPane>
 							<TabPane tabId="notes">
 								<NotesList order={this.props.order} active={this.state.modal} />
 							</TabPane>
@@ -192,7 +206,8 @@ const mapStateToProps = state => ({
 	item: state.item,
 	users: state.users,
 	notes: state.notes.notes,
-	payments: state.payments.payments
+	payments: state.payments.payments,
+	claims: state.claims.claims
 });
 
 export default connect(

@@ -123,7 +123,7 @@ export const initialState = {
 			required: false
 		},
 		{
-			label: "Addr Check",
+			label: "Addresses Checked",
 			value: "addrCheck",
 			sortable: true,
 			type: "boolean",

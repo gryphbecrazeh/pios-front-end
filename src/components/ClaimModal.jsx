@@ -11,13 +11,15 @@ import {
 	Row,
 	Col,
 	Label,
-	Input
+	Input,
+	Form,
+	FormGroup
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { addNote } from "../actions/noteActions";
+import { addClaim } from "../actions/claimsAction";
 import { timingSafeEqual } from "crypto";
 
 class ClaimModal extends Component {
@@ -26,8 +28,13 @@ class ClaimModal extends Component {
 		let { order, auth } = this.props;
 		this.state = {
 			...order,
+			category: "Customer Order",
+			claim_status: "Pending",
 			modal: false,
 			user: auth.user.name,
+			date_purchased: new Date(order.date).toDateString(),
+			order_number: order.orderNum,
+			customer_order: order._id,
 			date_reported: order
 				? new Date(order.date).toDateString()
 				: new Date(Date.now()).toDateString()
@@ -45,10 +52,24 @@ class ClaimModal extends Component {
 			[e.target.name]: new Date(date).toDateString()
 		});
 	};
+	selectOrderStatus = e => {
+		let options = [...e.target.options]
+			.filter(option => option.selected === true)
+			.map(option => option.value);
+		this.setState({
+			[e.target.name]: [...options]
+		});
+	};
 	onChange = e => {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
+	};
+	createClaim = () => {
+		let newClaim = {
+			...this.state
+		};
+		this.props.addClaim(newClaim);
 	};
 	render() {
 		let ProductClaim = (
@@ -62,7 +83,7 @@ class ClaimModal extends Component {
 					<Col>
 						<Label>Date Purchased</Label>
 						<Input
-							placeholder={this.state.date_purchased}
+							placeholder={this.state.date_purchased || "When was it purchased"}
 							type="text"
 							onfocus="(this.type='date')"
 							onblur="(this.type='text')"
@@ -74,7 +95,9 @@ class ClaimModal extends Component {
 					<Col>
 						<Label>Date Delivered</Label>
 						<Input
-							placeholder={this.state.date_delivered}
+							placeholder={
+								this.state.date_delivered || "Has it been delivered?"
+							}
 							type="text"
 							onfocus="(this.type='date')"
 							onblur="(this.type='text')"
@@ -84,6 +107,33 @@ class ClaimModal extends Component {
 						></Input>
 					</Col>
 				</Row>
+				<Row>
+					<Col>
+						<Label>Product Tracking Number</Label>
+						<Input
+							onChange={this.onChange}
+							type="text"
+							placeholder={
+								this.state.sku_tracking_number ||
+								"Please enter shipment tracking number"
+							}
+							valid={this.state.sku_tracking_number != null}
+							name="sku_tracking_number"
+						></Input>
+					</Col>
+
+					<Col>
+						<Label>Product Condition</Label>
+						<Input
+							onChange={this.onChange}
+							type="text"
+							placeholder="Product Condition"
+							valid={this.state.sku_condition != null}
+							name="sku_condition"
+						></Input>
+					</Col>
+				</Row>
+
 				<Row>
 					<Col>
 						<Label>Manufacturer</Label>
@@ -118,6 +168,47 @@ class ClaimModal extends Component {
 						></Input>
 					</Col>
 					<Col>
+						<Label>Product Quantity</Label>
+						<Input
+							onChange={this.onChange}
+							type="text"
+							placeholder="Product Quantity Ordered"
+							valid={this.state.claimed_skus != null}
+							name="skus_quantity"
+						></Input>
+					</Col>
+				</Row>
+				<Row>
+					<Col>
+						<Label>Claim Action</Label>
+						<Input
+							onChange={this.onChange}
+							type="select"
+							valid={this.state.claim_action != null}
+							name="claim_action"
+						>
+							<option
+								valid={this.state.claim_action === "Replace" ? true : false}
+							>
+								Replace
+							</option>
+							<option
+								valid={this.state.claim_action === "Service" ? true : false}
+							>
+								Service
+							</option>
+							<option
+								valid={
+									this.state.claim_action === "Manufacturer" ? true : false
+								}
+							>
+								Manufacturer Warranty
+							</option>
+						</Input>
+					</Col>
+				</Row>
+				<Row>
+					<Col>
 						<Label>Replacement Sku</Label>
 						<Input
 							onChange={this.onChange}
@@ -129,10 +220,9 @@ class ClaimModal extends Component {
 							name="replacement_skus"
 						></Input>
 					</Col>
-				</Row>
-				<Row>
+
 					<Col>
-						<Label>Freight Cost to ship replacement</Label>
+						<Label>Freight Cost to Ship Replacement</Label>
 						<Input
 							onChange={this.onChange}
 							type="number"
@@ -145,7 +235,7 @@ class ClaimModal extends Component {
 			</Fragment>
 		);
 		return (
-			<div className="claim-container">
+			<div className="claim-container" style={{ maxHeight: "18.75em" }}>
 				<Button
 					className="mb-1 mt-2"
 					block
@@ -155,92 +245,227 @@ class ClaimModal extends Component {
 					Report a problem with this order
 				</Button>
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
-					<ModalHeader toggle={this.toggle}>
-						<Container>
-							<Row>
-								<Col>
-									Creating Claim for order: {` ${this.props.order.orderNum}`}{" "}
-								</Col>
-							</Row>
-						</Container>
-					</ModalHeader>
-					<ModalBody>
-						<Container>
-							<Row>
-								<Col>User: {this.state.user}</Col>
-							</Row>
-							<Row>
-								<Col>
-									<Label>Date Reported</Label>
-									<Input
-										placeholder={this.state.date_reported}
-										type="text"
-										onfocus="(this.type='date')"
-										onblur="(this.type='text')"
-										onChange={this.onChangeDateNew}
-										valid={this.state.date_reported != null}
-										name="date_reported"
-									></Input>
-								</Col>
-								<Col>
-									<Label>Date Responded</Label>
-									<Input
-										placeholder={
-											this.state.date_responded || "Not Yet Responded"
-										}
-										type="text"
-										onfocus="(this.type='date')"
-										onblur="(this.type='text')"
-										onChange={this.onChangeDateNew}
-										name="date_responded"
-										valid={this.state.date_responded != null}
-									></Input>
-								</Col>
-							</Row>
-							<Row>
-								<Col>
-									<Label>Subject</Label>
-									<Input
-										onChange={this.onChange}
-										name="subject"
-										type="text"
-										placeholder="Subect"
-										valid={this.state.subject != null}
-									></Input>
-								</Col>
-							</Row>
-							<Row>
-								<Col>
-									<Label>Description</Label>
-									<Input
-										onChange={this.onChange}
-										name="body"
-										type="textarea"
-										placeholder="Explain the claim in depth"
-										valid={this.state.body != null}
-									></Input>
-								</Col>
-							</Row>
-							{ProductClaim}
-							<Row>
-								<Col>
-									<Label>Note</Label>
-									<Input
-										onChange={this.onChange}
-										name="note"
-										type="textarea"
-										placeholder="Explain the claim in depth"
-										valid={this.state.note != null}
-									></Input>
-								</Col>
-							</Row>
-						</Container>
-					</ModalBody>
-					<ModalFooter>
-						<Button block color="success" onClick={this.saveNote}>
-							Save Claim
-						</Button>
-					</ModalFooter>
+					<Form onSubmit={this.createClaim}>
+						<ModalHeader toggle={this.toggle}>
+							<Container>
+								<Row>
+									<Col>
+										Creating Claim for order: {` ${this.props.order.orderNum}`}{" "}
+									</Col>
+								</Row>
+							</Container>
+						</ModalHeader>
+						<ModalBody>
+							<FormGroup>
+								<Container style={{ maxHeight: "35rem", overflow: "auto" }}>
+									<Row>
+										<Col>User: {this.state.user}</Col>
+									</Row>
+									<Row>
+										<Col>
+											<Label>Claim Status</Label>
+											<Input
+												placeholder={this.state.claim_status}
+												type="select"
+												onChange={this.selectOrderStatus}
+												valid={this.state.claim_status != null}
+												name="claim_status"
+												multiple
+											>
+												<option
+													selected={
+														this.state.claim_status === "Pending" ? true : false
+													}
+												>
+													Pending
+												</option>
+												<option
+													selected={
+														this.state.claim_status === "Active" ? true : false
+													}
+												>
+													Active
+												</option>
+												<option
+													selected={
+														this.state.claim_status === "Resolved"
+															? true
+															: false
+													}
+												>
+													Resolved
+												</option>
+												<option
+													selected={
+														this.state.claim_status === "Replacement Shipped"
+															? true
+															: false
+													}
+												>
+													Replacement Shipped
+												</option>
+												<option
+													selected={
+														this.state.claim_status === "Replacement Delivered"
+															? true
+															: false
+													}
+												>
+													Replacement Delivered
+												</option>
+
+												<option
+													selected={
+														this.state.claim_status === "Closed" ? true : false
+													}
+												>
+													Closed
+												</option>
+											</Input>
+										</Col>
+										<Col>
+											<Label>Category</Label>
+											<Input
+												placeholder={this.state.category}
+												type="select"
+												onChange={this.onChange}
+												valid={this.state.category ? true : false}
+												invalid={!this.state.category ? true : false}
+												name="category"
+											>
+												<option
+													selected={
+														this.state.category === "Customer Order"
+															? true
+															: false
+													}
+												>
+													Customer Order
+												</option>
+												<option
+													selected={
+														this.state.category === "Customer Shipment"
+															? true
+															: false
+													}
+												>
+													Customer Shipment
+												</option>
+												<option
+													selected={
+														this.state.category === "Customer Delivery"
+															? true
+															: false
+													}
+												>
+													Customer Delivery
+												</option>
+												<option
+													selected={
+														this.state.category === "Vendor Order"
+															? true
+															: false
+													}
+												>
+													Vendor Order
+												</option>
+												<option
+													selected={
+														this.state.category === "Vendor Shipment"
+															? true
+															: false
+													}
+												>
+													Vendor Shipment
+												</option>
+												<option
+													selected={
+														this.state.category === "Vendor Delivery"
+															? true
+															: false
+													}
+												>
+													Vendor Delivery
+												</option>
+											</Input>
+										</Col>
+									</Row>
+									<Row>
+										<Col>
+											<Label>Date Reported</Label>
+											<Input
+												placeholder={this.state.date_reported}
+												type="text"
+												onfocus="(this.type='date')"
+												onblur="(this.type='text')"
+												onChange={this.onChangeDateNew}
+												valid={this.state.date_reported != null}
+												name="date_reported"
+											></Input>
+										</Col>
+										<Col>
+											<Label>Date Responded</Label>
+											<Input
+												placeholder={
+													this.state.date_responded || "Not Yet Responded"
+												}
+												type="text"
+												onfocus="(this.type='date')"
+												onblur="(this.type='text')"
+												onChange={this.onChangeDateNew}
+												name="date_responded"
+												valid={this.state.date_responded ? true : false}
+											></Input>
+										</Col>
+									</Row>
+									<Row>
+										<Col>
+											<Label>Subject</Label>
+											<Input
+												onChange={this.onChange}
+												name="subject"
+												type="text"
+												placeholder="Subect"
+												valid={this.state.subject ? true : false}
+												invalid={!this.state.subject ? true : false}
+											></Input>
+										</Col>
+									</Row>
+									<Row>
+										<Col>
+											<Label>Description</Label>
+											<Input
+												onChange={this.onChange}
+												name="body"
+												type="textarea"
+												placeholder="Explain the claim in depth"
+												valid={this.state.body ? true : false}
+												invalid={!this.state.body ? true : false}
+											></Input>
+										</Col>
+									</Row>
+									{ProductClaim}
+									<Row>
+										<Col>
+											<Label>Note</Label>
+											<Input
+												onChange={this.onChange}
+												name="note"
+												type="textarea"
+												placeholder="Explain the claim in depth"
+												valid={this.state.note != null}
+											></Input>
+										</Col>
+									</Row>
+								</Container>
+							</FormGroup>
+						</ModalBody>
+						<ModalFooter>
+							<Button block color="success" type="submit">
+								Save Claim
+							</Button>
+						</ModalFooter>
+					</Form>
 				</Modal>
 			</div>
 		);
@@ -257,5 +482,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ addNote }
+	{ addClaim }
 )(ClaimModal);

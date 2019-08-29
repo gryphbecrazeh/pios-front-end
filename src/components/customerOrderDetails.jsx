@@ -10,7 +10,7 @@ import DeleteModal from "./DeleteModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/pro-light-svg-icons";
 // ----------------------------Reactstrap-------------------------------------------
-import { Button, Collapse } from "reactstrap";
+import { Button, Collapse, Card, CardBody } from "reactstrap";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -49,10 +49,14 @@ class OrderDetails extends Component {
 				<td>
 					<Button onClick={this.toggleCollapse}>Interact</Button>
 					<Collapse isOpen={this.state.collapse}>
-						<ViewModal order={this.props.custOrder} />
-						<PaymentModal order={this.props.custOrder} />
-						<EditModal order={this.props.custOrder} />
-						<DeleteModal order={this.props.custOrder} />
+						<Card className="mt-3">
+							<CardBody>
+								<ViewModal order={this.props.custOrder} />
+								<PaymentModal order={this.props.custOrder} />
+								<EditModal order={this.props.custOrder} />
+								<DeleteModal order={this.props.custOrder} />
+							</CardBody>
+						</Card>
 					</Collapse>
 				</td>
 				{orderKeys.map(key => {
