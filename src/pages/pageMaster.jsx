@@ -6,6 +6,7 @@ import TableGenerator from "../components/TableGenerator";
 import PageAlert from "../components/PageAlert";
 import "react-datepicker/src/stylesheets/datepicker.scss";
 import Filters from "../components/Filters";
+import AlertsContainer from "../components/AlertsContainer";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
@@ -65,22 +66,7 @@ class MasterPage extends Component {
 	render() {
 		const renderAlerts = (
 			<Fragment>
-				<Card>
-					<CardHeader>
-						{`
-						${this.props.alerts.filter(alert => alert.alert === true).length}
-						Alerts:`}
-					</CardHeader>
-					<CardBody>
-						<div className="alert-container">
-							{this.props.alerts
-								.filter(alert => alert.alert === true)
-								.map(alert => (
-									<PageAlert alert={alert} />
-								))}
-						</div>
-					</CardBody>
-				</Card>
+				<AlertsContainer alerts={this.props.alerts} />
 			</Fragment>
 		);
 
