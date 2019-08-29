@@ -22,6 +22,7 @@ import {
 import OrderSheet from "./OrderSheet";
 import NotesList from "./NotesList";
 import PaymentsList from "./PaymentsList";
+import OrderedSkuList from "./OrderedSkuList";
 // ----------------------------Fontawesome-------------------------------------------
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/pro-regular-svg-icons";
@@ -32,6 +33,7 @@ import PropTypes from "prop-types";
 import { getNotes, clearNotes } from "../actions/noteActions";
 import { getPayments, clearPayments } from "../actions/paymentActions";
 import { getClaims, clearClaims } from "../actions/claimsAction";
+import { getOrderedSkus, clearOrderedSkus } from "../actions/orderedSkuActions";
 
 class EditModal extends Component {
 	state = {
@@ -49,10 +51,12 @@ class EditModal extends Component {
 					this.props.getNotes(order.orderNum);
 					this.props.getPayments(order.orderNum);
 					this.props.getClaims(order.orderNum);
+					this.props.getOrderedSkus(order.orderNum);
 				} else {
 					this.props.clearNotes();
 					this.props.clearPayments();
 					this.props.clearClaims();
+					this.props.clearOrderedSkus();
 				}
 			}
 		);
@@ -176,7 +180,9 @@ class EditModal extends Component {
 							<TabPane tabId="payments">
 								<PaymentsList />
 							</TabPane>
-							<TabPane tabId="skus">Skus</TabPane>
+							<TabPane tabId="skus">
+								<OrderedSkuList order={this.props.order} />
+							</TabPane>
 							<TabPane tabId="claims">Claims</TabPane>
 							<TabPane tabId="notes">
 								<NotesList order={this.props.order} active={this.state.modal} />
@@ -212,5 +218,14 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getNotes, clearNotes, getPayments, clearPayments, getClaims, clearClaims }
+	{
+		getNotes,
+		clearNotes,
+		getPayments,
+		clearPayments,
+		getClaims,
+		clearClaims,
+		getOrderedSkus,
+		clearOrderedSkus
+	}
 )(EditModal);

@@ -1,20 +1,19 @@
 import axios from "axios";
 import {
-	GET_NOTES,
-	ADD_NOTE,
-	EDIT_NOTE,
-	DELETE_NOTE,
-	CLEAR_NOTES
+	GET_ORDEREDSKUS,
+	ADD_ORDEREDSKU,
+	DELETE_ORDEREDSKU,
+	CLEAR_ORDEREDSKUS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 
-export const getNotes = id => (dispatch, getState) => {
+export const getOrderedSkus = id => (dispatch, getState) => {
 	axios
-		.get(`/api/notes/${id}`)
+		.get(`/api/orderedSkus/${id}`)
 		.then(res => {
 			dispatch({
-				type: GET_NOTES,
+				type: GET_ORDEREDSKUS,
 				payload: res.data
 			});
 		})
@@ -22,12 +21,12 @@ export const getNotes = id => (dispatch, getState) => {
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
 };
-export const addNote = item => (dispatch, getState) => {
+export const addOrderedSku = item => (dispatch, getState) => {
 	axios
-		.post("/api/notes", item, tokenConfig(getState))
+		.post("/api/orderedSkus", item, tokenConfig(getState))
 		.then(res =>
 			dispatch({
-				type: ADD_NOTE,
+				type: ADD_ORDEREDSKU,
 				payload: res.data
 			})
 		)
@@ -36,18 +35,18 @@ export const addNote = item => (dispatch, getState) => {
 		);
 };
 
-export const editNote = item => (dispatch, getState) => {
+export const editOrderedSku = item => (dispatch, getState) => {
 	let newItem = item;
 
 	axios
 		.put(
-			`/api/notes/${item._id}`,
-			{ id: item._id, note: newItem },
+			`/api/orderedSkus/${item._id}`,
+			{ id: item._id, orderedSku: newItem },
 			tokenConfig(getState)
 		)
 		.then(res =>
 			dispatch({
-				type: EDIT_NOTE,
+				type: GET_ORDEREDSKUS,
 				payload: res.data
 			})
 		)
@@ -56,12 +55,12 @@ export const editNote = item => (dispatch, getState) => {
 		);
 };
 
-export const deleteNote = id => (dispatch, getState) => {
+export const deleteOrderedSku = id => (dispatch, getState) => {
 	axios
-		.delete(`/api/notes/${id}`, tokenConfig(getState))
+		.delete(`/api/orderedSkus/${id}`, tokenConfig(getState))
 		.then(res =>
 			dispatch({
-				type: DELETE_NOTE,
+				type: DELETE_ORDEREDSKU,
 				payload: id
 			})
 		)
@@ -69,8 +68,8 @@ export const deleteNote = id => (dispatch, getState) => {
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
 };
-export const clearNotes = () => (dispatch, getState) => {
+export const clearOrderedSkus = () => (dispatch, getState) => {
 	dispatch({
-		type: CLEAR_NOTES
+		type: CLEAR_ORDEREDSKUS
 	});
 };

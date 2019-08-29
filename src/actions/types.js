@@ -52,6 +52,12 @@ export const GET_PRODUCTS = "GET_PRODUCTS";
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const EDIT_PRODUCT = "EDIT_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
+// Ordered Skus
+export const GET_ORDEREDSKUS = "GET_ORDEREDSKUS";
+export const ADD_ORDEREDSKU = "ADD_ORDEREDSKU";
+export const EDIT_ORDEREDSKU = "EDIT_ORDEREDSKU";
+export const DELETE_ORDEREDSKU = "DELETE_ORDEREDSKU";
+export const CLEAR_ORDEREDSKUS = "CLEAR_ORDEREDSKUS";
 // NOTES
 export const GET_NOTES = "GET_NOTES";
 export const ADD_NOTE = "ADD_NOTE";
