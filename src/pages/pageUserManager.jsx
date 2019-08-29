@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, Button } from "reactstrap";
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/src/stylesheets/datepicker.scss";
 // ----------------------------Components-------------------------------------------
 import UserDetails from "../components/userDetails";
 // ----------------------------Redux-------------------------------------------

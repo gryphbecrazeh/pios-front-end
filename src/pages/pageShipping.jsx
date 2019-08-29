@@ -16,7 +16,7 @@ import {
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
 import Datepicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/src/stylesheets/datepicker.scss";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
@@ -122,9 +122,9 @@ class ShippingPage extends Component {
 										isOpen={this.state.dropdownOpen}
 										toggle={this.onToggleDropdown}
 									>
-										<DropdownToggle caret>{`Search By ${
-											this.state.searchTargetLabel
-										}`}</DropdownToggle>
+										<DropdownToggle
+											caret
+										>{`Search By ${this.state.searchTargetLabel}`}</DropdownToggle>
 										<DropdownMenu>
 											<DropdownItem
 												value="name"

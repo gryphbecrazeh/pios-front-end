@@ -4,7 +4,7 @@ import { Row, Col, Container } from "reactstrap";
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
 import Filters from "../components/Filters";
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/src/stylesheets/datepicker.scss";
 import PageAlert from "../components/PageAlert";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";

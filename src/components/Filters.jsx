@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Label, Button, Container, Row, Col } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import Datepicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/src/stylesheets/datepicker.scss";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
