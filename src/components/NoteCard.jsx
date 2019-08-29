@@ -20,7 +20,6 @@ class NoteCard extends Component {
 	state = {};
 	render() {
 		let { subject, note, user, creation_date, category, _id } = this.props.note;
-		console.log(this.props.note);
 		return (
 			<div key={_id} className="mb-2">
 				<Card>

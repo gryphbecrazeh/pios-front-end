@@ -12,7 +12,7 @@ class OrderedSkuList extends Component {
 	state = {};
 	renderOrderedSkus = () => {
 		let { orderedSkus } = this.props;
-		orderedSkus.map(sku => (
+		return orderedSkus.map(sku => (
 			<Row>
 				<Col>
 					<OrderedSkuCard sku={sku} order={this.props.order} />

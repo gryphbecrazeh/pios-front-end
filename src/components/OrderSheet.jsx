@@ -101,44 +101,6 @@ class OrderSheet extends Component {
 		} = this.state;
 		let billToInfoEntered = billToAddress && billToState && billToZip;
 		let shipToInfoEntered = st && shipToAddress && shipToZip;
-		let AddSkus = (
-			<Fragment>
-				<Row>
-					<Col>
-						<Label>
-							<strong>Order Information</strong>
-						</Label>
-					</Col>
-				</Row>
-
-				<Row>
-					<Col>
-						<Row>
-							<Col>
-								<Label for="order">Skus</Label>
-							</Col>
-						</Row>
-						{!this.props.order
-							? null
-							: this.props.order.orderSkus.map((sku, index) => (
-									<OrderedSkuCard
-										skuKey={index}
-										sku={sku}
-										order={this.props.order}
-									/>
-							  ))}
-						<Row>
-							<Col>
-								<AddOrderedSkusModal
-									order={this.state}
-									skus={this.props.products}
-								/>
-							</Col>
-						</Row>
-					</Col>
-				</Row>
-			</Fragment>
-		);
 		let RenderStatusOptions = (
 			<Fragment>
 				<Col>
@@ -455,7 +417,6 @@ class OrderSheet extends Component {
 									/>
 								</Col>
 							</Row>
-							{this.props.order ? AddSkus : null}
 						</section>
 						<section name="Kitchenall Information" className="mb-5">
 							<Row>

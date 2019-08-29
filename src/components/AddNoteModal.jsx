@@ -125,10 +125,6 @@ class AddNoteModal extends Component {
 	}
 }
 
-AddNoteModal.propTypes = {
-	users: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
 	auth: state.auth
 });

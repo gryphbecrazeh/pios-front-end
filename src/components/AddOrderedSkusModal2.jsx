@@ -7,17 +7,24 @@ import {
 	ModalBody,
 	ModalFooter,
 	Card,
+	CardHeader,
+	CardText,
+	CardTitle,
+	CardSubtitle,
+	Label,
 	CardBody,
 	Container,
 	Row,
 	Col,
 	Button,
-	Input
+	Input,
+	InputGroup,
+	InputGroupAddon
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-
+import { addOrderedSku } from "../actions/orderedSkuActions";
 class AddOrderedSkusModal extends Component {
 	state = {
 		modal: false
@@ -25,6 +32,16 @@ class AddOrderedSkusModal extends Component {
 	toggle = () => {
 		this.setState({
 			modal: !this.state.modal
+		});
+	};
+	showIf = (name, item) => {
+		if (item) {
+			return <Col>{`${name} ${item}`}</Col>;
+		} else return null;
+	};
+	onChange = e => {
+		this.setState({
+			[e.target.name]: e.target.value
 		});
 	};
 	changeSearch = e => {
@@ -43,9 +60,22 @@ class AddOrderedSkusModal extends Component {
 			selected: products.find(item => item.sku === e.target.value)
 		});
 	};
+	addProduct = () => {
+		let { addOrderedSku, order, auth } = this.props;
+		let newProduct = {
+			...this.state,
+			...this.state.selected,
+			order_number: order.orderNum,
+			customer_order: order._id,
+			order_placed: order.date,
+			user: auth.user.name
+		};
+		addOrderedSku(newProduct);
+	};
 	render() {
-		console.log(this.props);
 		const { order, products } = this.props;
+		let { selected } = this.state;
+
 		let SearchRes = (
 			<Fragment>
 				{!this.state.query
@@ -86,9 +116,90 @@ class AddOrderedSkusModal extends Component {
 		);
 		let SkuData = (
 			<Fragment>
-				<Row>
-					<Col>Displaying Product Data</Col>
-				</Row>
+				{!selected ? null : (
+					<Card className="mt-5">
+						<CardHeader>
+							<strong>{`Product Sku: ${selected.sku}`}</strong>
+							{` Manufacturer Sku: ${selected.manufacturerSku}`}
+						</CardHeader>
+						<CardBody>
+							<Container>
+								<Row className="mt-2">
+									{this.showIf("Model Status : ", selected.status)}
+								</Row>
+								<Row className="mt-2">
+									{this.showIf("Brand : ", selected.brand)}
+									{this.showIf("Manufacturer :", selected.manufacterer)}
+									{this.showIf("Vendor : ", selected.distributer)}
+								</Row>
+								<Row className="mt-2">
+									{this.showIf("MAP : $", selected.priceMap)}
+									{this.showIf("List Price : $", selected.priceList)}
+									{this.showIf("Price : $", selected.price)}
+									{this.showIf("Local Price : $", selected.priceLocal)}
+									{this.showIf("Special Price : $", selected.priceSpecial)}
+								</Row>
+								<Row className="mt-2">
+									<Col xs="9">
+										<Label>Sale Price</Label>
+										<InputGroup>
+											<InputGroupAddon addonType="prepend">$</InputGroupAddon>
+											<Input
+												type="number"
+												placeholder="Price Sold At"
+												name="salePrice"
+												onChange={this.onChange}
+											/>
+										</InputGroup>
+									</Col>
+									<Col>
+										<Label>Qty.</Label>
+										<Input
+											type="number"
+											placeholder="Qty."
+											name="skus_quantity"
+											onChange={this.onChange}
+										/>
+									</Col>
+								</Row>
+								<Row className="mt-2">
+									{this.showIf("Cost : ", selected.cost)}
+									{this.showIf("Daroma Cost : ", selected.costDaroma)}
+								</Row>
+								<Row className="mt-2">
+									{this.showIf("Weight : ", selected.weight)}
+									{this.showIf("Shipping Weight : ", selected.weightShip)}
+								</Row>
+								<Row className="mt-2">
+									<Col>
+										<Label>Order From</Label>
+										<Input
+											type="text"
+											name="vendor"
+											onChange={this.onChange}
+											placeholder="Enter Alternate Vendor Here"
+										></Input>
+									</Col>
+									<Col>
+										<Label>Total Alternate Cost</Label>
+										<InputGroup>
+											<InputGroupAddon addonType="prepend">$</InputGroupAddon>
+											<Input
+												type="number"
+												name="altCost"
+												placeholder="Alternate Cost"
+												onChange={this.onChange}
+											></Input>
+										</InputGroup>
+									</Col>
+								</Row>
+								<Row className="mt-2">
+									{this.showIf("Last Updated : ", selected.dateEditted)}
+								</Row>
+							</Container>
+						</CardBody>
+					</Card>
+				)}
 			</Fragment>
 		);
 		return (
@@ -125,6 +236,13 @@ class AddOrderedSkusModal extends Component {
 								: SkuData}
 						</Container>
 					</ModalBody>
+					<ModalFooter>
+						{!this.state.selected ? null : (
+							<Button onClick={this.addProduct} block color="success">
+								Add Item to Order
+							</Button>
+						)}
+					</ModalFooter>
 				</Modal>
 			</div>
 		);
@@ -132,10 +250,11 @@ class AddOrderedSkusModal extends Component {
 }
 
 const mapStateToProps = state => ({
-	products: state.products.products
+	products: state.products.products,
+	auth: state.auth
 });
 
 export default connect(
 	mapStateToProps,
-	null
+	{ addOrderedSku }
 )(AddOrderedSkusModal);

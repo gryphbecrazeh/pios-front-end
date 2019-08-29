@@ -90,7 +90,7 @@ class EditModal extends Component {
 						</Container>
 					</ModalHeader>
 					<ModalBody>
-						<Nav tabs>
+						<Nav tabs className="mb-2">
 							<NavItem>
 								<NavLink
 									className={classnames({
@@ -112,8 +112,8 @@ class EditModal extends Component {
 										this.toggleTab("payments");
 									}}
 								>
-									Payments
-									{this.props.payments ? (
+									Payments{" "}
+									{this.props.payments.length > 0 ? (
 										<Badge color="success">{this.props.payments.length}</Badge>
 									) : null}
 								</NavLink>
@@ -127,7 +127,12 @@ class EditModal extends Component {
 										this.toggleTab("skus");
 									}}
 								>
-									Skus
+									Skus{" "}
+									{this.props.orderedSkus.length > 0 ? (
+										<Badge color="primary">
+											{this.props.orderedSkus.length}
+										</Badge>
+									) : null}
 								</NavLink>
 							</NavItem>
 							<NavItem>
@@ -139,8 +144,8 @@ class EditModal extends Component {
 										this.toggleTab("notes");
 									}}
 								>
-									Notes
-									{this.props.notes ? (
+									Notes{" "}
+									{this.props.notes.length > 0 ? (
 										<Badge color="warning">{this.props.notes.length}</Badge>
 									) : null}
 								</NavLink>
@@ -154,7 +159,7 @@ class EditModal extends Component {
 										this.toggleTab("claims");
 									}}
 								>
-									Claims
+									Claims{" "}
 									{this.props.claims.length > 0 ? (
 										<Badge color="danger">{this.props.claims.length}</Badge>
 									) : null}
@@ -169,7 +174,7 @@ class EditModal extends Component {
 										this.toggleTab("changes");
 									}}
 								>
-									Changes
+									Changes{" "}
 								</NavLink>
 							</NavItem>
 						</Nav>
@@ -213,7 +218,8 @@ const mapStateToProps = state => ({
 	users: state.users,
 	notes: state.notes.notes,
 	payments: state.payments.payments,
-	claims: state.claims.claims
+	claims: state.claims.claims,
+	orderedSkus: state.orderedSkus.orderedSkus
 });
 
 export default connect(
