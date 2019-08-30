@@ -41,6 +41,7 @@ export default function(state = initialState, action) {
 			};
 		case CLAIMS_CLEAR_ACTIONS:
 			return {
+				...state,
 				success: null,
 				msg: null
 			};

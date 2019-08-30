@@ -86,6 +86,7 @@ class ClaimModal extends Component {
 		let newClaim = {
 			...this.state
 		};
+		delete newClaim._id;
 		this.props.addClaim(newClaim);
 	};
 	render() {
