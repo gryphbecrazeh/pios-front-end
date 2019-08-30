@@ -73,7 +73,7 @@ class TableGenerator extends Component {
 						{this.filterTable(this.props.filter).forEach(filter => {
 							orders = orders.filter(item => !item[filter]);
 						})}
-						{this.filterQuery(this.filterDate(orders)).map(item => {
+						{orders.map(item => {
 							return <OrderDetails custOrder={item} orderKeys={pageKeys} />;
 						})}
 					</tbody>

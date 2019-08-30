@@ -14,7 +14,7 @@ const initialState = {
 	sortStart: d,
 	showAll: false,
 	sortEnd: Date.now(),
-	searchQuery: null,
+	searchQuery: "",
 	report: null,
 	searchTarget: "name",
 	searchTargetLabel: "Customer Name"

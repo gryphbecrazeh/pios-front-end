@@ -20,16 +20,12 @@ import { tokenConfig } from "./authActions";
 import { getAlerts } from "./alertActions";
 import { returnErrors } from "./errorActions";
 export const getItems = filters => (dispatch, getState) => {
+	let sendFilters = filters || null;
 	dispatch({ type: GET_FILTERS });
 	dispatch(setItemsLoading);
 	axios
-		.get("/api/items", {
-			params: {
-				filters
-			}
-		})
+		.get("/api/items", tokenConfig(getState))
 		.then(res => {
-			console.log(res);
 			dispatch({
 				type: GET_ITEMS,
 				payload: res.data.items

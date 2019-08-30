@@ -17,7 +17,6 @@ class Filters extends Component {
 	}
 	componentDidMount() {
 		this.props.getFilters();
-		this.props.getItems(this.props.filters);
 	}
 	onToggleDropdown = () => {
 		this.setState({ dropdownOpen: !this.state.dropdownOpen });
@@ -26,12 +25,10 @@ class Filters extends Component {
 		if (target === "start") {
 			this.setState({ sortStart: e }, () => {
 				this.props.addFilter(this.state);
-				this.props.getItems(this.props.filters);
 			});
 		} else {
 			this.setState({ sortEnd: e }, () => {
 				this.props.addFilter(this.state);
-				this.props.getItems(this.props.filters);
 			});
 		}
 	};
@@ -43,7 +40,6 @@ class Filters extends Component {
 			},
 			() => {
 				this.props.addFilter(this.state);
-				this.props.getItems(this.props.filters);
 			}
 		);
 	};

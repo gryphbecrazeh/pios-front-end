@@ -26,9 +26,6 @@ class PreLoad extends Component {
 	}
 	componentDidMount() {
 		this.props.getFilters();
-		this.props.filters
-			? this.props.getItems(this.props.filters)
-			: this.props.getFilters().then(this.props.getItems(this.props.filters));
 		this.props.getProducts();
 	}
 	render() {

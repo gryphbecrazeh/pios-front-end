@@ -59,6 +59,9 @@ class MasterPage extends Component {
 			searchQuery: this.state.searchQuery
 		});
 	}
+	componentDidMount() {
+		this.props.getItems();
+	}
 	showAlerts = item => {
 		this.setState({
 			tableKeys: ["orderNum", "addrCheck"]
