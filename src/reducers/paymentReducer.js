@@ -4,7 +4,8 @@ import {
 	EDIT_PAYMENT,
 	DELETE_PAYMENT,
 	PAYMENTS_LOADING,
-	CLEAR_PAYMENTS
+	CLEAR_PAYMENTS,
+	PAYMENTS_CLEAR_ACTIONS
 } from "../actions/types";
 const initialState = {
 	payments: [],
@@ -66,8 +67,14 @@ export default function(state = initialState, action) {
 				loading: true
 			};
 		case CLEAR_PAYMENTS: {
-			state = defaultState;
-			return defaultState;
+			return { ...defaultState, success: null, msg: null };
+		}
+		case PAYMENTS_CLEAR_ACTIONS: {
+			return {
+				...state,
+				success: null,
+				msg: null
+			};
 		}
 		default:
 			return state;

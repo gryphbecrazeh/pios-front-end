@@ -33,7 +33,8 @@ import {
 	getPayments,
 	clearPayments,
 	addPayment,
-	deletePayment
+	deletePayment,
+	clearActions
 } from "../actions/paymentActions";
 import { editItem } from "../actions/itemActions";
 class PaymentModal extends Component {
@@ -43,26 +44,40 @@ class PaymentModal extends Component {
 		makePayment: false,
 		dropdown: false
 	};
+	componentDidUpdate(prevProps) {
+		const { error } = this.props;
+		let { payments } = this.props.payments;
+		if (error !== prevProps.error) {
+			// Check for register error
+			if (payments.msg === "Save Successful") {
+				this.setState({ msg: payments.msg });
+			} else {
+				this.setState({
+					msg: null
+				});
+			}
+		}
+		// If authenticated close modal
+		if (this.state.modal && payments.success === true) {
+			this.toggle();
+		}
+	}
 	toggle = () => {
 		this.setState(
 			{
 				modal: !this.state.modal
 			},
 			() => {
-				this.state.modal
-					? this.props.getPayments(this.props.order.orderNum)
-					: this.props.clearPayments();
 				if (this.state.modal) {
 					let { order, auth } = this.props;
+					this.props.getPayments(this.props.order.orderNum);
 					this.setState({
 						customer_order: order._id,
 						order_number: order.orderNum,
 						user: auth.user.name
 					});
 				} else {
-					this.setState({
-						total_due: null
-					});
+					this.props.clearActions();
 					this.props.clearPayments();
 				}
 			}
@@ -178,14 +193,16 @@ class PaymentModal extends Component {
 	render() {
 		const PreviousPayments = (
 			<Fragment>
-				<div
-					className="previous-payments-container mb-2"
-					style={{ maxHeight: "15rem", overflow: "auto" }}
-				>
-					{this.props.payments.payments.map(payment =>
-						this.RenderPayment(payment)
-					)}
-				</div>
+				{!this.props.payments.payments ? null : (
+					<div
+						className="previous-payments-container mb-2"
+						style={{ maxHeight: "15rem", overflow: "auto" }}
+					>
+						{this.props.payments.payments.map(payment =>
+							this.RenderPayment(payment)
+						)}
+					</div>
+				)}
 			</Fragment>
 		);
 		const MakePayment = (
@@ -293,7 +310,8 @@ class PaymentModal extends Component {
 					</ModalHeader>
 					<ModalBody>
 						<Container>
-							{this.props.payments.payments.length > 0
+							{this.props.payments.payments &&
+							this.props.payments.payments.length > 0
 								? PreviousPayments
 								: "No Previous Payments"}
 							{this.state.makePayment ? NewPayment : MakePayment}
@@ -325,5 +343,12 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getPayments, clearPayments, editItem, addPayment, deletePayment }
+	{
+		getPayments,
+		clearPayments,
+		editItem,
+		addPayment,
+		deletePayment,
+		clearActions
+	}
 )(PaymentModal);

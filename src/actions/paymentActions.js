@@ -81,7 +81,7 @@ export const setPaymentsLoading = () => {
 	};
 };
 export const clearActions = () => (dispatch, getState) => {
-	return {
+	dispatch({
 		type: PAYMENTS_CLEAR_ACTIONS
-	};
+	});
 };

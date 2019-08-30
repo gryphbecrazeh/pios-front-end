@@ -16,7 +16,7 @@ import {
 // ----------------------------Components-------------------------------------------
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import { addNote } from "../actions/noteActions";
+import { addNote, clearActions } from "../actions/noteActions";
 
 class AddNoteModal extends Component {
 	constructor(props) {
@@ -27,10 +27,32 @@ class AddNoteModal extends Component {
 			date: Date()
 		};
 	}
+	componentDidUpdate(prevProps) {
+		const { error, notes } = this.props;
+		if (error !== prevProps.error) {
+			// Check for register error
+			if (notes.msg === "Save Successful") {
+				this.setState({ msg: notes.msg });
+			} else {
+				this.setState({
+					msg: null
+				});
+			}
+		}
+		// If authenticated close modal
+		if (this.state.modal && notes.success === true) {
+			this.toggle();
+		}
+	}
 	toggle = () => {
-		this.setState({
-			modal: !this.state.modal
-		});
+		this.setState(
+			{
+				modal: !this.state.modal
+			},
+			() => {
+				this.props.clearActions();
+			}
+		);
 	};
 	selectOption = e => {
 		this.setState({
@@ -49,7 +71,6 @@ class AddNoteModal extends Component {
 	};
 	saveNote = () => {
 		let { order } = this.props;
-		console.log(order, this.state);
 		this.props.addNote({
 			...this.state,
 			customer_order: order._id,
@@ -125,10 +146,11 @@ class AddNoteModal extends Component {
 }
 
 const mapStateToProps = state => ({
-	auth: state.auth
+	auth: state.auth,
+	notes: state.notes
 });
 
 export default connect(
 	mapStateToProps,
-	{ addNote }
+	{ addNote, clearActions }
 )(AddNoteModal);

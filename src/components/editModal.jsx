@@ -133,7 +133,7 @@ class EditModal extends Component {
 									}}
 								>
 									Payments{" "}
-									{this.props.payments.length > 0 ? (
+									{this.props.payments && this.props.payments.length > 0 ? (
 										<Badge color="success">{this.props.payments.length}</Badge>
 									) : null}
 								</NavLink>
