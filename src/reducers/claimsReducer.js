@@ -3,7 +3,8 @@ import {
 	ADD_CLAIM,
 	DELETE_CLAIM,
 	EDIT_CLAIM,
-	CLEAR_CLAIMS
+	CLEAR_CLAIMS,
+	CLAIMS_CLEAR_ACTIONS
 } from "../actions/types";
 const initialState = {
 	claims: []
@@ -19,12 +20,15 @@ export default function(state = initialState, action) {
 		case ADD_CLAIM: {
 			return {
 				...state,
-				claims: [action.payload, ...state.claims]
+				success: action.payload.success,
+				msg: action.payload.msg,
+				claims: [action.payload.item, ...state.claims]
 			};
 		}
 		case EDIT_CLAIM:
 			return {
-				...state
+				...state,
+				...action.payload
 			};
 		case DELETE_CLAIM:
 			return {
@@ -34,6 +38,11 @@ export default function(state = initialState, action) {
 		case CLEAR_CLAIMS:
 			return {
 				claims: []
+			};
+		case CLAIMS_CLEAR_ACTIONS:
+			return {
+				success: null,
+				msg: null
 			};
 		default:
 			return state;

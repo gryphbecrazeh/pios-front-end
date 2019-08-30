@@ -35,7 +35,7 @@ import { getPayments, clearPayments } from "../actions/paymentActions";
 import { getClaims, clearClaims } from "../actions/claimsAction";
 import { getOrderedSkus, clearOrderedSkus } from "../actions/orderedSkuActions";
 import { clearErrors } from "../actions/errorActions";
-
+import { clearActions } from "../actions/itemActions";
 class EditModal extends Component {
 	state = {
 		modal: false,
@@ -71,6 +71,7 @@ class EditModal extends Component {
 					this.props.getClaims(order.orderNum);
 					this.props.getOrderedSkus(order.orderNum);
 				} else {
+					this.props.clearActions();
 					this.props.clearNotes();
 					this.props.clearPayments();
 					this.props.clearClaims();
@@ -179,7 +180,7 @@ class EditModal extends Component {
 									}}
 								>
 									Claims{" "}
-									{this.props.claims.length > 0 ? (
+									{this.props.claims && this.props.claims.length > 0 ? (
 										<Badge color="danger">{this.props.claims.length}</Badge>
 									) : null}
 								</NavLink>
@@ -253,6 +254,7 @@ export default connect(
 		clearClaims,
 		getOrderedSkus,
 		clearOrderedSkus,
-		clearErrors
+		clearErrors,
+		clearActions
 	}
 )(EditModal);

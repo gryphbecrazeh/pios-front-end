@@ -14,13 +14,31 @@ import UploadOrders from "./uploadOrders";
 import OrderSheet from "./OrderSheet";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import { addItem, getItems } from "../actions/itemActions";
+import { addItem, getItems, clearActions } from "../actions/itemActions";
 import PropTypes from "prop-types";
 class OrderModal extends Component {
 	state = {
 		modal: false
 	};
+	componentDidUpdate(prevProps) {
+		const { error, item } = this.props;
+		if (error !== prevProps.error) {
+			// Check for register error
+			if (item.msg === "Save Successful") {
+				this.setState({ msg: item.msg });
+			} else {
+				this.setState({
+					msg: null
+				});
+			}
+		}
+		// If authenticated close modal
+		if (this.state.modal && item.success === true) {
+			this.toggle();
+		}
+	}
 	toggle = () => {
+		this.props.clearActions();
 		this.setState({
 			modal: !this.state.modal
 		});
@@ -73,5 +91,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ addItem, getItems }
+	{ addItem, getItems, clearActions }
 )(OrderModal);

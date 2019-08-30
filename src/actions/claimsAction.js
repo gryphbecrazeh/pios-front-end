@@ -4,7 +4,8 @@ import {
 	ADD_CLAIM,
 	DELETE_CLAIM,
 	EDIT_CLAIM,
-	CLEAR_CLAIMS
+	CLEAR_CLAIMS,
+	CLAIMS_CLEAR_ACTIONS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -25,12 +26,13 @@ export const getClaims = id => (dispatch, getState) => {
 export const addClaim = item => (dispatch, getState) => {
 	axios
 		.post("/api/claims", item, tokenConfig(getState))
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: ADD_CLAIM,
 				payload: res.data
-			})
-		)
+			});
+			dispatch(getClaims());
+		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
@@ -45,12 +47,13 @@ export const editClaim = item => (dispatch, getState) => {
 			{ id: item._id, claim: newItem },
 			tokenConfig(getState)
 		)
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: EDIT_CLAIM,
 				payload: res.data
-			})
-		)
+			});
+			dispatch(getClaims());
+		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
@@ -72,5 +75,10 @@ export const deleteClaim = id => (dispatch, getState) => {
 export const clearClaims = () => (dispatch, getState) => {
 	dispatch({
 		type: CLEAR_CLAIMS
+	});
+};
+export const clearActions = () => (dispatch, getState) => {
+	dispatch({
+		type: CLAIMS_CLEAR_ACTIONS
 	});
 };

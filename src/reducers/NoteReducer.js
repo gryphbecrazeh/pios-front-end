@@ -19,12 +19,15 @@ export default function(state = initialState, action) {
 		case ADD_NOTE: {
 			return {
 				...state,
-				notes: [action.payload, ...state.notes]
+				notes: [action.payload.item, ...state.notes],
+				success: action.payload.success,
+				msg: action.payload.msg
 			};
 		}
 		case EDIT_NOTE:
 			return {
-				...state
+				...state,
+				...action.payload
 			};
 		case DELETE_NOTE:
 			return {

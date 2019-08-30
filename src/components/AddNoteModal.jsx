@@ -16,7 +16,6 @@ import {
 // ----------------------------Components-------------------------------------------
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { addNote } from "../actions/noteActions";
 
 class AddNoteModal extends Component {

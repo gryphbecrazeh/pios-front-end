@@ -18,12 +18,15 @@ export default function(state = initialState, action) {
 		case ADD_PRODUCT: {
 			return {
 				...state,
-				products: [action.payload, ...state.products]
+				products: [action.payload.item, ...state.products],
+				success: action.payload.success,
+				msg: action.payload.msg
 			};
 		}
 		case EDIT_PRODUCT:
 			return {
-				...state
+				...state,
+				...action.payload
 			};
 		case DELETE_PRODUCT:
 			return {

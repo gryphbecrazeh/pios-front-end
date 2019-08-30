@@ -45,12 +45,15 @@ export default function(state = initialState, action) {
 		case ADD_PAYMENT: {
 			return {
 				...state,
-				payments: [action.payload, ...state.payments]
+				payments: [action.payload.item, ...state.payments],
+				success: action.payload.success,
+				msg: action.payload.msg
 			};
 		}
 		case EDIT_PAYMENT:
 			return {
-				...state
+				...state,
+				...action.payload
 			};
 		case DELETE_PAYMENT:
 			return {

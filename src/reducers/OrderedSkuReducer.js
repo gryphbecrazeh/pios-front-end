@@ -19,12 +19,15 @@ export default function(state = initialState, action) {
 		case ADD_ORDEREDSKU: {
 			return {
 				...state,
-				orderedSkus: [action.payload, ...state.orderedSkus]
+				orderedSkus: [action.payload.item, ...state.orderedSkus],
+				success: action.payload.success,
+				msg: action.payload.msg
 			};
 		}
 		case EDIT_ORDEREDSKU:
 			return {
-				...state
+				...state,
+				...action.payload
 			};
 		case DELETE_ORDEREDSKU:
 			return {

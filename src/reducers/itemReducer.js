@@ -4,7 +4,8 @@ import {
 	DELETE_ITEM,
 	EDIT_ITEM,
 	ITEMS_LOADING,
-	ITEMS_CLEAR
+	ITEMS_CLEAR,
+	ITEM_CLEAR_ACTIONS
 } from "../actions/types";
 const initialState = {
 	customerOrders: []
@@ -22,7 +23,9 @@ export default function(state = initialState, action) {
 		case ADD_ITEM: {
 			return {
 				...state,
-				customerOrders: [action.payload, ...state.customerOrders]
+				success: action.payload.success,
+				msg: action.payload.msg,
+				customerOrders: [action.payload.item, ...state.customerOrders]
 			};
 		}
 		case EDIT_ITEM: {
@@ -48,6 +51,12 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				customerOrders: []
+			};
+		case ITEM_CLEAR_ACTIONS:
+			return {
+				...state,
+				success: null,
+				msg: null
 			};
 		default:
 			return state;

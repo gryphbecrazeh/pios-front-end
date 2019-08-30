@@ -19,8 +19,7 @@ import {
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { addClaim } from "../actions/claimsAction";
-import { timingSafeEqual } from "crypto";
+import { addClaim, clearActions } from "../actions/claimsAction";
 
 class ClaimModal extends Component {
 	constructor(props) {
@@ -40,7 +39,25 @@ class ClaimModal extends Component {
 				: new Date(Date.now()).toDateString()
 		};
 	}
+	componentDidUpdate(prevProps) {
+		const { error, claims } = this.props;
+		if (error !== prevProps.error) {
+			// Check for register error
+			if (claims.msg === "Save Successful") {
+				this.setState({ msg: claims.msg });
+			} else {
+				this.setState({
+					msg: null
+				});
+			}
+		}
+		// If authenticated close modal
+		if (this.state.modal && claims.success === true) {
+			this.toggle();
+		}
+	}
 	toggle = () => {
+		this.props.clearActions();
 		this.setState({
 			modal: !this.state.modal
 		});
@@ -477,10 +494,11 @@ ClaimModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth
+	auth: state.auth,
+	claims: state.claims
 });
 
 export default connect(
 	mapStateToProps,
-	{ addClaim }
+	{ addClaim, clearActions }
 )(ClaimModal);

@@ -5,7 +5,8 @@ import {
 	EDIT_PAYMENT,
 	DELETE_PAYMENT,
 	PAYMENTS_LOADING,
-	CLEAR_PAYMENTS
+	CLEAR_PAYMENTS,
+	PAYMENTS_CLEAR_ACTIONS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -77,5 +78,10 @@ export const deletePayment = id => (dispatch, getState) => {
 export const setPaymentsLoading = () => {
 	return {
 		type: PAYMENTS_LOADING
+	};
+};
+export const clearActions = () => (dispatch, getState) => {
+	return {
+		type: PAYMENTS_CLEAR_ACTIONS
 	};
 };

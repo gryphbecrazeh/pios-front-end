@@ -69,7 +69,7 @@ class OrderSheet extends Component {
 			alert("Please fill out required forms");
 		} else {
 			// Add item via ADD_ITEM action
-			this.props.order._id
+			this.props.order
 				? this.props.editItem(newOrder)
 				: this.props.addItem(newOrder);
 			// Close Modal
@@ -231,6 +231,7 @@ class OrderSheet extends Component {
 										onblur="(this.type='text')"
 										onChange={this.onChangeDateNew}
 										valid={this.state.date != null}
+										disabled={this.props.order}
 									></Input>
 								</Col>
 								<Col>
@@ -246,6 +247,7 @@ class OrderSheet extends Component {
 										onChange={this.onChange}
 										valid={this.state.orderNum}
 										invalid={!this.state.orderNum}
+										disabled={this.props.order}
 									/>
 								</Col>
 

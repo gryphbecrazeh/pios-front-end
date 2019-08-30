@@ -12,6 +12,7 @@ import {
 	CardTitle,
 	CardSubtitle,
 	Label,
+	Alert,
 	CardBody,
 	Container,
 	Row,
@@ -24,12 +25,30 @@ import {
 // ----------------------------Components-------------------------------------------
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import { addOrderedSku } from "../actions/orderedSkuActions";
+import { addOrderedSku, clearActions } from "../actions/orderedSkuActions";
 class AddOrderedSkusModal extends Component {
 	state = {
 		modal: false
 	};
+	componentDidUpdate(prevProps) {
+		const { error, orderedSkus } = this.props;
+		if (error !== prevProps.error) {
+			// Check for register error
+			if (orderedSkus.msg === "Save Successful") {
+				this.setState({ msg: orderedSkus.msg });
+			} else {
+				this.setState({
+					msg: null
+				});
+			}
+		}
+		// If authenticated close modal
+		if (this.state.modal && orderedSkus.success === true) {
+			this.toggle();
+		}
+	}
 	toggle = () => {
+		this.props.clearActions();
 		this.setState({
 			modal: !this.state.modal
 		});
@@ -70,6 +89,7 @@ class AddOrderedSkusModal extends Component {
 			order_placed: order.date,
 			user: auth.user.name
 		};
+		delete newProduct._id;
 		addOrderedSku(newProduct);
 	};
 	render() {
@@ -121,6 +141,9 @@ class AddOrderedSkusModal extends Component {
 						<CardHeader>
 							<strong>{`Product Sku: ${selected.sku}`}</strong>
 							{` Manufacturer Sku: ${selected.manufacturerSku}`}
+							{this.state.msg ? (
+								<Alert color="danger">{this.state.msg}</Alert>
+							) : null}
 						</CardHeader>
 						<CardBody>
 							<Container>
@@ -149,6 +172,7 @@ class AddOrderedSkusModal extends Component {
 												placeholder="Price Sold At"
 												name="salePrice"
 												onChange={this.onChange}
+												invalid={!this.state.salePrice ? true : false}
 											/>
 										</InputGroup>
 									</Col>
@@ -159,6 +183,7 @@ class AddOrderedSkusModal extends Component {
 											placeholder="Qty."
 											name="skus_quantity"
 											onChange={this.onChange}
+											invalid={!this.state.skus_quantity ? true : false}
 										/>
 									</Col>
 								</Row>
@@ -251,10 +276,11 @@ class AddOrderedSkusModal extends Component {
 
 const mapStateToProps = state => ({
 	products: state.products.products,
-	auth: state.auth
+	auth: state.auth,
+	orderedSkus: state.orderedSkus
 });
 
 export default connect(
 	mapStateToProps,
-	{ addOrderedSku }
+	{ addOrderedSku, clearActions }
 )(AddOrderedSkusModal);
