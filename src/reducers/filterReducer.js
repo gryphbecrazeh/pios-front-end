@@ -10,14 +10,10 @@ d.setDate(d.getDate() - 14);
 
 const initialState = {
 	sort: true,
-	filters: [],
 	sortStart: d,
 	showAll: false,
-	sortEnd: Date.now(),
-	searchQuery: "",
-	report: null,
-	searchTarget: "name",
-	searchTargetLabel: "Customer Name"
+	sortEnd: new Date(Date.now()),
+	searchQuery: ""
 };
 
 export default function(state = initialState, action) {
@@ -30,17 +26,7 @@ export default function(state = initialState, action) {
 		case ADD_FILTER: {
 			return {
 				...state,
-				filters: action.payload.filters
-					? [action.payload.filters]
-					: state.filters,
-				sortStart: action.payload.sortStart
-					? action.payload.sortStart
-					: state.sortStart,
-				sortEnd: action.payload.sortEnd
-					? action.payload.sortEnd
-					: state.sortEnd,
-				searchQuery: action.payload.searchQuery,
-				report: action.payload.report ? action.payload.report : state.report,
+				...action.payload.filters,
 				showAll:
 					action.payload.showAll === true || action.payload.showAll === false
 						? action.payload.showAll

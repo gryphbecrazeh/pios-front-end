@@ -48,7 +48,7 @@ class AppNavBar extends Component {
 		let target = e.target;
 		this.props.addFilter({
 			showAll: target.value ? true : false,
-			searchQuery: e.target.value || null
+			searchQuery: e.target.value || ""
 		});
 		let value = "";
 		!target.value

@@ -13,7 +13,6 @@ class WelcomePage extends Component {
 	state = {};
 	componentDidMount() {
 		this.props.getFilters();
-		this.props.getItems();
 	}
 	render() {
 		const { isAuthenticated } = this.props.auth;

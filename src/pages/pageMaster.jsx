@@ -22,7 +22,7 @@ class MasterPage extends Component {
 			sortTarget: "date",
 			endDate: this.props.filters.sortEnd || Date.now(),
 			startDate: this.props.filters.sortStart || new Date("01/01/2016"),
-			searchQuery: this.props.filters.searchQuery || null,
+			searchQuery: this.props.filters.searchQuery || "",
 			searchTarget: "name",
 			searchTargetLabel: "Customer Name",
 			dropdownOpen: false,
@@ -59,9 +59,7 @@ class MasterPage extends Component {
 			searchQuery: this.state.searchQuery
 		});
 	}
-	componentDidMount() {
-		this.props.getItems();
-	}
+	componentDidMount() {}
 	showAlerts = item => {
 		this.setState({
 			tableKeys: ["orderNum", "addrCheck"]

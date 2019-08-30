@@ -46,6 +46,7 @@ class TableGenerator extends Component {
 		return array;
 	};
 	render() {
+		// console.log(this.props.filters);
 		let { keys, pageKeys, orders } = this.props;
 		let { dbKeysList } = keys;
 		return (
