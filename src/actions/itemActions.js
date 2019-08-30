@@ -23,13 +23,18 @@ export const getItems = filters => (dispatch, getState) => {
 	dispatch({ type: GET_FILTERS });
 	dispatch(setItemsLoading);
 	axios
-		.get("/api/items", tokenConfig(getState))
+		.get("/api/items", {
+			params: {
+				filters
+			}
+		})
 		.then(res => {
+			console.log(res);
 			dispatch({
 				type: GET_ITEMS,
-				payload: res.data
+				payload: res.data.items
 			});
-			dispatch(getAlerts(res.data));
+			dispatch(getAlerts(res.data.items));
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))

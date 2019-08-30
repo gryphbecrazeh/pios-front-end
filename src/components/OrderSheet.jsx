@@ -43,7 +43,9 @@ class OrderSheet extends Component {
 		let options = [...e.target.options].filter(
 			option => option.selected === true
 		);
-		console.log(options.map(item => item.value));
+		this.setState({
+			orderStatus: options.map(item => item.value)
+		});
 	};
 	onChangeDate = e => {
 		this.setState({ date: e });

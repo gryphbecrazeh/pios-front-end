@@ -10,6 +10,7 @@ import AlertsContainer from "../components/AlertsContainer";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
+import { getItems } from "../actions/itemActions";
 import PropTypes from "prop-types";
 
 class MasterPage extends Component {
@@ -103,5 +104,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getFilters, addFilter }
+	{ getFilters, addFilter, getItems }
 )(MasterPage);
