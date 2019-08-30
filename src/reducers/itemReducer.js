@@ -23,11 +23,14 @@ export default function(state = initialState, action) {
 				...state,
 				customerOrders: [action.payload, ...state.customerOrders]
 			};
-		case EDIT_ITEM:
+		case EDIT_ITEM: {
+			console.log("editting item");
+			console.log(action.payload);
 			return {
 				...state,
-				customerOrders: state.customerOrders
+				...action.payload
 			};
+		}
 		case DELETE_ITEM:
 			return {
 				...state,

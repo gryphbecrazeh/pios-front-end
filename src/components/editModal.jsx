@@ -34,12 +34,34 @@ import { getNotes, clearNotes } from "../actions/noteActions";
 import { getPayments, clearPayments } from "../actions/paymentActions";
 import { getClaims, clearClaims } from "../actions/claimsAction";
 import { getOrderedSkus, clearOrderedSkus } from "../actions/orderedSkuActions";
+import { clearErrors } from "../actions/errorActions";
 
 class EditModal extends Component {
 	state = {
 		modal: false,
 		activeTab: "orderSheet"
 	};
+	componentDidUpdate(prevProps) {
+		const { error, isAuthenticated } = this.props;
+		if (error !== prevProps.error) {
+			// Check for register error
+			if (error.msg.msg === "Save Successful") {
+				this.setState({ msg: error.msg.msg });
+			} else {
+				this.setState({
+					msg: null
+				});
+			}
+		}
+		// If authenticated close modal
+		if (
+			this.state.modal &&
+			isAuthenticated &&
+			error.msg.msg === "Save Successful"
+		) {
+			this.toggle();
+		}
+	}
 	toggle = () => {
 		let { order } = this.props;
 		this.setState(
@@ -60,6 +82,7 @@ class EditModal extends Component {
 				}
 			}
 		);
+		this.props.clearErrors();
 	};
 	toggleTab = tab => {
 		if (this.state.activeTab !== tab) {
@@ -219,7 +242,8 @@ const mapStateToProps = state => ({
 	notes: state.notes.notes,
 	payments: state.payments.payments,
 	claims: state.claims.claims,
-	orderedSkus: state.orderedSkus.orderedSkus
+	orderedSkus: state.orderedSkus.orderedSkus,
+	error: state.error
 });
 
 export default connect(
@@ -232,6 +256,7 @@ export default connect(
 		getClaims,
 		clearClaims,
 		getOrderedSkus,
-		clearOrderedSkus
+		clearOrderedSkus,
+		clearErrors
 	}
 )(EditModal);

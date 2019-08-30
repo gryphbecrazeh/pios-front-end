@@ -59,6 +59,10 @@ export const editItem = item => (dispatch, getState) => {
 			tokenConfig(getState)
 		)
 		.then(res => {
+			dispatch({
+				type: EDIT_ITEM,
+				payload: res.data
+			});
 			dispatch(getItems());
 		})
 		.catch(err => {
