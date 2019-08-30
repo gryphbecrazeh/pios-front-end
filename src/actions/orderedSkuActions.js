@@ -24,15 +24,17 @@ export const getOrderedSkus = id => (dispatch, getState) => {
 export const addOrderedSku = item => (dispatch, getState) => {
 	axios
 		.post("/api/orderedSkus", item, tokenConfig(getState))
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: ADD_ORDEREDSKU,
 				payload: res.data
-			})
-		)
-		.catch(err =>
-			dispatch(returnErrors(err.response.data, err.response.status))
-		);
+			});
+		})
+		.catch(err => {
+			console.log(err);
+			console.log("there was an error");
+			dispatch(returnErrors(err.response.data, err.response.status));
+		});
 };
 
 export const editOrderedSku = item => (dispatch, getState) => {

@@ -19,7 +19,7 @@ export default function(state = initialState, action) {
 		case ADD_ORDEREDSKU: {
 			return {
 				...state,
-				orderedSkus: [action.payload, ...state.notes]
+				orderedSkus: [action.payload, ...state.orderedSkus]
 			};
 		}
 		case EDIT_ORDEREDSKU:
@@ -29,7 +29,9 @@ export default function(state = initialState, action) {
 		case DELETE_ORDEREDSKU:
 			return {
 				...state,
-				orderedSkus: state.notes.filter(item => item._id !== action.payload)
+				orderedSkus: state.orderedSkus.filter(
+					item => item._id !== action.payload
+				)
 			};
 		case CLEAR_ORDEREDSKUS:
 			return {
