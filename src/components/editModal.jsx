@@ -42,11 +42,11 @@ class EditModal extends Component {
 		activeTab: "orderSheet"
 	};
 	componentDidUpdate(prevProps) {
-		const { error, isAuthenticated } = this.props;
+		const { error, item } = this.props;
 		if (error !== prevProps.error) {
 			// Check for register error
-			if (error.msg.msg === "Save Successful") {
-				this.setState({ msg: error.msg.msg });
+			if (item.msg === "Save Successful") {
+				this.setState({ msg: item.msg });
 			} else {
 				this.setState({
 					msg: null
@@ -54,11 +54,7 @@ class EditModal extends Component {
 			}
 		}
 		// If authenticated close modal
-		if (
-			this.state.modal &&
-			isAuthenticated &&
-			error.msg.msg === "Save Successful"
-		) {
+		if (this.state.modal && item.success === true) {
 			this.toggle();
 		}
 	}

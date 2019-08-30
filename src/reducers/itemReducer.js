@@ -12,32 +12,33 @@ const initialState = {
 
 export default function(state = initialState, action) {
 	switch (action.type) {
-		case GET_ITEMS:
+		case GET_ITEMS: {
 			return {
 				...state,
 				customerOrders: action.payload,
 				loading: false
 			};
-		case ADD_ITEM:
+		}
+		case ADD_ITEM: {
 			return {
 				...state,
 				customerOrders: [action.payload, ...state.customerOrders]
 			};
+		}
 		case EDIT_ITEM: {
-			console.log("editting item");
-			console.log(action.payload);
 			return {
 				...state,
 				...action.payload
 			};
 		}
-		case DELETE_ITEM:
+		case DELETE_ITEM: {
 			return {
 				...state,
 				customerOrders: state.customerOrders.filter(
 					item => item._id !== action.payload
 				)
 			};
+		}
 		case ITEMS_LOADING:
 			return {
 				...state,

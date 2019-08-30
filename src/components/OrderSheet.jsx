@@ -69,9 +69,7 @@ class OrderSheet extends Component {
 			alert("Please fill out required forms");
 		} else {
 			// Add item via ADD_ITEM action
-			this.props.item.customerOrders.find(
-				item => item.orderNum === newOrder.orderNum
-			)
+			this.props.order._id
 				? this.props.editItem(newOrder)
 				: this.props.addItem(newOrder);
 			// Close Modal
