@@ -14,7 +14,7 @@ import {
 	ADD_DB_KEY,
 	GET_FILTERS,
 	GET_ALERTS,
-	ITEM_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { getAlerts } from "./alertActions";
@@ -97,7 +97,7 @@ export const clearItems = () => {
 };
 export const clearActions = () => {
 	return {
-		type: ITEM_CLEAR_ACTIONS
+		type: CLEAR_ACTIONS
 	};
 };
 // KEYS ACTIONS

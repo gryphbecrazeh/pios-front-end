@@ -6,7 +6,7 @@ import {
 	DELETE_PAYMENT,
 	PAYMENTS_LOADING,
 	CLEAR_PAYMENTS,
-	PAYMENTS_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -82,6 +82,6 @@ export const setPaymentsLoading = () => {
 };
 export const clearActions = () => (dispatch, getState) => {
 	dispatch({
-		type: PAYMENTS_CLEAR_ACTIONS
+		type: CLEAR_ACTIONS
 	});
 };

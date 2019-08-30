@@ -4,7 +4,7 @@ import {
 	DELETE_CLAIM,
 	EDIT_CLAIM,
 	CLEAR_CLAIMS,
-	CLAIMS_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "../actions/types";
 const initialState = {
 	claims: []
@@ -39,12 +39,13 @@ export default function(state = initialState, action) {
 			return {
 				claims: []
 			};
-		case CLAIMS_CLEAR_ACTIONS:
+		case CLEAR_ACTIONS: {
 			return {
 				...state,
 				success: null,
 				msg: null
 			};
+		}
 		default:
 			return state;
 	}

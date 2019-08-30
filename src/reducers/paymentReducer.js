@@ -5,7 +5,7 @@ import {
 	DELETE_PAYMENT,
 	PAYMENTS_LOADING,
 	CLEAR_PAYMENTS,
-	PAYMENTS_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "../actions/types";
 const initialState = {
 	payments: [],
@@ -69,7 +69,7 @@ export default function(state = initialState, action) {
 		case CLEAR_PAYMENTS: {
 			return { ...defaultState, success: null, msg: null };
 		}
-		case PAYMENTS_CLEAR_ACTIONS: {
+		case CLEAR_ACTIONS: {
 			return {
 				...state,
 				success: null,

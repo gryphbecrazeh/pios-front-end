@@ -5,7 +5,7 @@ import {
 	EDIT_NOTE,
 	DELETE_NOTE,
 	CLEAR_NOTES,
-	NOTES_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -77,6 +77,6 @@ export const clearNotes = () => (dispatch, getState) => {
 };
 export const clearActions = () => (dispatch, getState) => {
 	dispatch({
-		type: NOTES_CLEAR_ACTIONS
+		type: CLEAR_ACTIONS
 	});
 };

@@ -5,7 +5,7 @@ import {
 	EDIT_ITEM,
 	ITEMS_LOADING,
 	ITEMS_CLEAR,
-	ITEM_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "../actions/types";
 const initialState = {
 	customerOrders: []
@@ -52,12 +52,13 @@ export default function(state = initialState, action) {
 				...state,
 				customerOrders: []
 			};
-		case ITEM_CLEAR_ACTIONS:
+		case CLEAR_ACTIONS: {
 			return {
 				...state,
 				success: null,
 				msg: null
 			};
+		}
 		default:
 			return state;
 	}

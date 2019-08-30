@@ -3,7 +3,8 @@ import {
 	ADD_ORDEREDSKU,
 	DELETE_ORDEREDSKU,
 	EDIT_ORDEREDSKU,
-	CLEAR_ORDEREDSKUS
+	CLEAR_ORDEREDSKUS,
+	CLEAR_ACTIONS
 } from "../actions/types";
 const initialState = {
 	orderedSkus: []
@@ -39,6 +40,12 @@ export default function(state = initialState, action) {
 		case CLEAR_ORDEREDSKUS:
 			return {
 				orderedSkus: []
+			};
+		case CLEAR_ACTIONS:
+			return {
+				...state,
+				success: null,
+				msg: null
 			};
 		default:
 			return state;

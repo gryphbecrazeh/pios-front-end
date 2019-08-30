@@ -5,7 +5,7 @@ import {
 	DELETE_CLAIM,
 	EDIT_CLAIM,
 	CLEAR_CLAIMS,
-	CLAIMS_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -79,6 +79,6 @@ export const clearClaims = () => (dispatch, getState) => {
 };
 export const clearActions = () => (dispatch, getState) => {
 	dispatch({
-		type: CLAIMS_CLEAR_ACTIONS
+		type: CLEAR_ACTIONS
 	});
 };

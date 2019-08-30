@@ -26,6 +26,11 @@ import {
 	clearPayments
 } from "../actions/paymentActions";
 import { deleteItem } from "../actions/itemActions";
+import {
+	getOrderedSkus,
+	deleteOrderedSku,
+	clearOrderedSkus
+} from "../actions/orderedSkuActions";
 import { getClaims, deleteClaim, clearClaims } from "../actions/claimsAction";
 class DeleteModal extends Component {
 	state = {
@@ -43,7 +48,9 @@ class DeleteModal extends Component {
 					this.props.getNotes(order.orderNum);
 					this.props.getPayments(order.orderNum);
 					this.props.getClaims(order.orderNum);
+					this.props.getOrderedSkus(order.orderNum);
 				} else {
+					this.props.clearOrderedSkus();
 					this.props.clearNotes();
 					this.props.clearPayments();
 					this.props.clearClaims();
@@ -61,10 +68,12 @@ class DeleteModal extends Component {
 			payments,
 			notes,
 			claims,
+			orderedSkus,
 			deleteClaim,
 			deleteItem,
 			deleteNote,
-			deletePayment
+			deletePayment,
+			deleteOrderedSku
 		} = this.props;
 		if (this.props.order.orderNum === this.state.delete) {
 			// Delete all payments for that order
@@ -79,7 +88,10 @@ class DeleteModal extends Component {
 			claims.forEach(claim => {
 				deleteClaim(claim._id);
 			});
-
+			// delete all orderedSkus for that order
+			orderedSkus.forEach(sku => {
+				deleteOrderedSku(sku._id);
+			});
 			deleteItem(this.props.order._id);
 		} else {
 			alert("Wrong value entered");
@@ -166,7 +178,8 @@ const mapStateToProps = state => ({
 	users: state.users,
 	notes: state.notes.notes,
 	payments: state.payments.payments,
-	claims: state.claims.claims
+	claims: state.claims.claims,
+	orderedSkus: state.orderedSkus.orderedSkus
 });
 
 export default connect(
@@ -181,6 +194,9 @@ export default connect(
 		getClaims,
 		deleteClaim,
 		clearClaims,
-		deleteItem
+		deleteItem,
+		getOrderedSkus,
+		deleteOrderedSku,
+		clearOrderedSkus
 	}
 )(DeleteModal);

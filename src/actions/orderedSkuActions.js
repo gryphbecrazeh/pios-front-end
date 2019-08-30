@@ -4,7 +4,7 @@ import {
 	ADD_ORDEREDSKU,
 	DELETE_ORDEREDSKU,
 	CLEAR_ORDEREDSKUS,
-	ORDEREDSKUS_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -78,6 +78,6 @@ export const clearOrderedSkus = () => (dispatch, getState) => {
 };
 export const clearActions = () => (dispatch, getState) => {
 	dispatch({
-		type: ORDEREDSKUS_CLEAR_ACTIONS
+		type: CLEAR_ACTIONS
 	});
 };

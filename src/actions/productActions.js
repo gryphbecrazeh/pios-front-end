@@ -4,7 +4,7 @@ import {
 	EDIT_PRODUCT,
 	ADD_PRODUCT,
 	DELETE_PRODUCT,
-	PRODUCTS_CLEAR_ACTIONS
+	CLEAR_ACTIONS
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -72,6 +72,6 @@ export const deleteProduct = id => (dispatch, getState) => {
 };
 export const clearActions = () => (dispatch, getState) => {
 	return {
-		type: PRODUCTS_CLEAR_ACTIONS
+		type: CLEAR_ACTIONS
 	};
 };

@@ -2,7 +2,8 @@ import {
 	GET_PRODUCTS,
 	EDIT_PRODUCT,
 	ADD_PRODUCT,
-	DELETE_PRODUCT
+	DELETE_PRODUCT,
+	CLEAR_ACTIONS
 } from "../actions/types";
 const initialState = {
 	products: []
@@ -32,6 +33,12 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				products: state.products.filter(item => item._id !== action.payload)
+			};
+		case CLEAR_ACTIONS:
+			return {
+				...state,
+				success: null,
+				msg: null
 			};
 		default:
 			return state;

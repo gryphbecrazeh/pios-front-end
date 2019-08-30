@@ -1,3 +1,6 @@
+// UNIVERSAL
+export const CLEAR_ACTIONS = "CLEAR_ACTIONS";
+
 // ITEMS
 export const GET_ITEMS = "GET_ITEMS";
 export const ADD_ITEM = "ADD_ITEM";

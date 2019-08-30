@@ -173,7 +173,6 @@ class PaymentModal extends Component {
 				this.state.remaining_balance <= 0 ? this.state.payment_date : "",
 			[this.state.payment_type]: this.state.total_remaining
 		};
-		this.props.editItem(updatedItem);
 		this.setState(
 			{
 				makePayment: false,
@@ -185,8 +184,6 @@ class PaymentModal extends Component {
 			},
 			() => {
 				this.props.editItem(updatedItem);
-				this.props.clearPayments();
-				this.toggle();
 			}
 		);
 	};
