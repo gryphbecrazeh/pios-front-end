@@ -23,16 +23,19 @@ class Filters extends Component {
 	};
 	onChangeDate = (target, e) => {
 		if (target === "start") {
-			this.setState({ sortStart: e }, () => {
+			this.setState({ sortStart: new Date(e) }, () => {
+				console.log("start", new Date(e));
 				this.props.addFilter(this.state);
 				this.props.getItems(this.props.filters);
 			});
 		} else {
-			this.setState({ sortEnd: e }, () => {
+			this.setState({ sortEnd: new Date(e) }, () => {
+				console.log("end", new Date(e));
+
 				this.props.addFilter(this.state);
-				this.props.getItems(this.props.filters);
 			});
 		}
+		setTimeout(() => this.props.getItems(this.props.filters), 50);
 	};
 
 	showAll = () => {
