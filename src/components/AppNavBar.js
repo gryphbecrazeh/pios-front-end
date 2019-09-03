@@ -20,6 +20,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Proptypes from "prop-types";
 import { addFilter } from "../actions/filterActions";
+import { getItems } from "../actions/itemActions";
+
 class AppNavBar extends Component {
 	state = {
 		isOpen: false,
@@ -47,13 +49,11 @@ class AppNavBar extends Component {
 	onChangeSearch = e => {
 		let target = e.target;
 		this.props.addFilter({
-			showAll: target.value ? true : false,
-			searchQuery: e.target.value || ""
+			showAll: target.value && target.value.length > 0 ? true : false,
+			searchQuery:
+				e.target.value && e.target.value.length > 0 ? e.target.value : ""
 		});
-		let value = "";
-		!target.value
-			? this.props.addFilter({ searchQuery: "" })
-			: (value = "filled");
+		setTimeout(() => this.props.getItems(this.props.filters), 50);
 	};
 	render() {
 		const { isAuthenticated, user } = this.props.auth;
@@ -245,5 +245,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
 	mapStateToProps,
-	{ addFilter }
+	{ addFilter, getItems }
 )(AppNavBar);

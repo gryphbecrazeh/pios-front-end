@@ -25,7 +25,6 @@ class Filters extends Component {
 		if (target === "start") {
 			this.setState({ sortStart: e }, () => {
 				this.props.addFilter(this.state);
-				console.log(this.props.filters);
 				this.props.getItems(this.props.filters);
 			});
 		} else {
@@ -43,9 +42,9 @@ class Filters extends Component {
 			},
 			() => {
 				this.props.addFilter(this.state);
+				this.props.getItems(this.props.filters);
 			}
 		);
-		this.props.getItems(this.props.filters);
 	};
 
 	render() {

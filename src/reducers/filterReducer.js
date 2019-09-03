@@ -26,7 +26,7 @@ export default function(state = initialState, action) {
 		case ADD_FILTER: {
 			return {
 				...state,
-				...action.payload.filters,
+				...action.payload,
 				showAll:
 					action.payload.showAll === true || action.payload.showAll === false
 						? action.payload.showAll

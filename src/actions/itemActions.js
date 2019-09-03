@@ -28,22 +28,23 @@ export const getItems = filters => (dispatch, getState) => {
 				sortEnd: new Date(filters.sortEnd).toDateString()
 		  };
 
-	dispatch({ type: GET_FILTERS });
-	dispatch(setItemsLoading);
-	axios
-		.get(
-			"/api/items",
-			{
+	let params = sendFilters
+		? {
 				params: {
 					sendFilters
 				}
-			},
-			tokenConfig(getState)
-		)
+		  }
+		: null;
+	dispatch({ type: GET_FILTERS });
+	dispatch(setItemsLoading);
+	axios
+		.get("/api/items", params, tokenConfig(getState))
 		.then(res => {
 			dispatch({
 				type: GET_ITEMS,
-				payload: res.data.items
+				payload: res.data.filteredResults
+					? res.data.filteredResults
+					: res.data.items
 			});
 			dispatch(getAlerts(res.data.items));
 		})
