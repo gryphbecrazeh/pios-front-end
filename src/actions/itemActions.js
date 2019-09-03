@@ -42,9 +42,7 @@ export const getItems = filters => (dispatch, getState) => {
 		.then(res => {
 			dispatch({
 				type: GET_ITEMS,
-				payload: res.data.filteredResults
-					? res.data.filteredResults
-					: res.data.items
+				payload: res.data
 			});
 			dispatch(getAlerts(res.data.items));
 		})
