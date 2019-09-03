@@ -53,7 +53,7 @@ class TaxPage extends Component {
 			"June",
 			"July",
 			"August",
-			"Septembet",
+			"September",
 			"October",
 			"November",
 			"December"

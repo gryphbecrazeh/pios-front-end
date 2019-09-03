@@ -15,6 +15,7 @@ import { getFilters, addFilter } from "../actions/filterActions";
 import { getProducts } from "../actions/productActions";
 import PropTypes from "prop-types";
 import ProductPage from "../pages/pageProducts";
+import ReceivingManagerPage from "../pages/pageReceivingManager";
 
 class PreLoad extends Component {
 	constructor(props) {
@@ -41,6 +42,7 @@ class PreLoad extends Component {
 						<Route path="/shipping-page" component={ShippingPage} />
 						<Route path="/financial-page" component={TaxPage} />
 						<Route path="/user-manager" component={UserManagerPage} />
+						<Route path="/receiving-manager" component={ReceivingManagerPage} />
 					</div>
 				</Switch>
 			</Router>
