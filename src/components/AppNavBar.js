@@ -46,7 +46,7 @@ class AppNavBar extends Component {
 	static propTypes = {
 		auth: Proptypes.object.isRequired
 	};
-	onChangeSearch = e => {
+	onChangeSearchOrder = e => {
 		let target = e.target;
 		this.props.addFilter({
 			showAll: target.value && target.value.length > 0 ? true : false,
@@ -55,6 +55,14 @@ class AppNavBar extends Component {
 		});
 		setTimeout(() => this.props.getItems(this.props.filters), 50);
 	};
+	onChangeSearchItem = e => {
+		let target = e.target;
+		this.props.addFilter({
+			productSearchQuery:
+				target.value && target.value.length > 0 ? target.value : ""
+		});
+	};
+
 	render() {
 		const { isAuthenticated, user } = this.props.auth;
 		const AdminLinks = (
@@ -215,15 +223,33 @@ class AppNavBar extends Component {
 		);
 		const SearchOrder = (
 			<Fragment>
+				<Input
+					onChange={this.onChangeSearchOrder}
+					name="search"
+					placeholder="Search for an order by name or order number"
+				/>
+			</Fragment>
+		);
+		const SearchItem = (
+			<Fragment>
+				<Input
+					onChange={this.onChangeSearchItem}
+					name="search"
+					placeholder="Search for a product by sku or brand"
+				/>
+			</Fragment>
+		);
+
+		const SearchBar = (
+			<Fragment>
 				<Col className="d-none d-md-block" xl="6" md="6">
-					<Input
-						onChange={this.onChangeSearch}
-						name="search"
-						placeholder="Search for an order by name or order number"
-					/>
+					{window.location.pathname !== "/receiving-manager"
+						? SearchOrder
+						: SearchItem}
 				</Col>
 			</Fragment>
 		);
+
 		return (
 			<div style={{ position: "sticky", zIndex: "900", top: "0" }}>
 				<Navbar color="light" light expand="sm" className="mb-5">
@@ -235,7 +261,7 @@ class AppNavBar extends Component {
 						/>
 						{isAuthenticated ? welcomeName : null}
 					</NavbarBrand>
-					{isAuthenticated ? SearchOrder : null}
+					{isAuthenticated ? SearchBar : null}
 					<NavbarToggler onClick={this.toggle} />
 					<Col>
 						<Collapse isOpen={this.state.isOpen} navbar>
