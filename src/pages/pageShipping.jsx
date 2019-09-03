@@ -100,7 +100,7 @@ const mapStateToProps = state => ({
 	item: state.item,
 	keys: state.keys,
 	filters: state.filters,
-	alerts: state.alerts.alerts
+	alerts: state.alerts.shipping
 });
 
 export default connect(

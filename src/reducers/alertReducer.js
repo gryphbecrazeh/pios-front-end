@@ -1,16 +1,20 @@
 import { GET_ALERTS, CLEAR_ALERTS } from "../actions/types";
 
 const initialstate = {
-	alerts: []
+	alerts: [],
+	shipping: []
 };
 
 export default function(state = initialstate, action) {
 	switch (action.type) {
-		case GET_ALERTS:
+		case GET_ALERTS: {
+			console.log(action.payload);
 			return {
 				...state,
-				alerts: [...action.payload]
+				shipping: [...action.payload.shipping],
+				alerts: [...action.payload.all]
 			};
+		}
 		case CLEAR_ALERTS:
 			return {
 				...state,
