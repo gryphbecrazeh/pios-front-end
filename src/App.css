@@ -1,12 +1,7 @@
 /* ************************Elements**************************** */
-.app {
-	position: relative;
-	overflow: hidden;
-}
 .page-container {
 	padding-left: 2em;
 	padding-right: 2em;
-	overflow: hidden;
 }
 table th {
 	min-width: 7em;
@@ -17,5 +12,5 @@ table th {
 	max-height: 18.75rem;
 }
 body {
-	overflow: hidden;
+	/* overflow: hidden; */
 }

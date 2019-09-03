@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
+import { Row, Col } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
-import PageAlert from "../components/PageAlert";
 import "react-datepicker/src/stylesheets/datepicker.scss";
 import Filters from "../components/Filters";
 import AlertsContainer from "../components/AlertsContainer";

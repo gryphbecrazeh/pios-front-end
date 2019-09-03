@@ -8,7 +8,6 @@ const initialstate = {
 export default function(state = initialstate, action) {
 	switch (action.type) {
 		case GET_ALERTS: {
-			console.log(action.payload);
 			return {
 				...state,
 				shipping: [...action.payload.shipping],
