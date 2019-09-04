@@ -108,11 +108,7 @@ class UserManagerPage extends Component {
 								<th code="edit" className="">
 									Edit
 								</th>
-								<th code="user-generation-date">
-									<Button name="date" onClick={this.toggleSort}>
-										User Created
-									</Button>
-								</th>
+								<th code="user-generation-date">User Created</th>
 								<th code="user-email">Email</th>
 								<th code="user-name">Name</th>
 							</tr>

@@ -30,17 +30,13 @@ export const addUser = user => (dispatch, getState) => {
 };
 export const editUser = user => (dispatch, getState) => {
 	axios
-		.put(`/api/users/${user._id}`, {
-			id: user._id,
-			name: user.name,
-			email: user.email,
-			password: user.password
-		})
+		.put(`/api/users/${user._id}`, user)
 		.then(res => {
 			dispatch({
 				type: EDIT_USER,
-				payload: res.data
+				payload: res.data.user
 			});
+			dispatch(getUsers());
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))

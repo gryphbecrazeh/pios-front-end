@@ -1,17 +1,6 @@
 import React, { Component } from "react";
-import {
-	Button,
-	Modal,
-	ModalBody,
-	ModalHeader,
-	ModalFooter,
-	Alert,
-	Form,
-	FormGroup,
-	Label,
-	Input
-} from "reactstrap";
 // ----------------------------Components-------------------------------------------
+import EditUserModal from "./auth/EditUserModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import {
@@ -24,10 +13,7 @@ import {
 class UserDetails extends Component {
 	state = {
 		modal: false,
-		_id: "",
-		name: "",
-		email: "",
-		password: ""
+		changePassword: true
 	};
 	componentDidMount() {
 		let { user } = this.props;
@@ -67,63 +53,7 @@ class UserDetails extends Component {
 		return (
 			<tr>
 				<td>
-					<Button color="warning" onClick={this.onEditClick}>
-						Edit
-					</Button>
-					<Modal isOpen={this.state.modal} toggle={this.onEditClick}>
-						<ModalHeader toggle={this.onEditClick}>{`Edit user ${
-							this.state.name
-						}`}</ModalHeader>
-						<ModalBody>
-							{this.state.msg ? (
-								<Alert color="danger">{this.state.msg}</Alert>
-							) : null}
-							<Form onSubmit={this.onSubmit}>
-								<FormGroup>
-									<Label for="name">Name</Label>
-									<Input
-										type="text"
-										name="name"
-										id="name"
-										placeholder="Name"
-										className="mb-3"
-										onChange={this.onChange}
-										value={this.state.name}
-									/>
-									<Label for="name">Email</Label>
-									<Input
-										type="text"
-										name="email"
-										id="email"
-										placeholder="email"
-										className="mb-3"
-										onChange={this.onChange}
-										value={this.state.email}
-									/>
-									<Label for="name">Password</Label>
-									<Input
-										type="password"
-										name="password"
-										id="password"
-										placeholder="Password"
-										className="mb-3"
-										onChange={this.onChange}
-									/>
-									<Button color="primary" style={{ marginTop: "2rem" }} block>
-										Update
-									</Button>
-								</FormGroup>
-							</Form>
-							<ModalFooter>{`User ID: ${this.state._id}`}</ModalFooter>
-						</ModalBody>
-					</Modal>
-
-					<Button
-						color="danger"
-						onClick={this.onDeleteClick.bind(this, user._id)}
-					>
-						Del
-					</Button>
+					<EditUserModal user={user} />
 				</td>
 				<td name="User Date" type="date" code="user-date">{`${new Date(
 					user.register_date

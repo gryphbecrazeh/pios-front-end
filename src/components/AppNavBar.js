@@ -227,9 +227,11 @@ class AppNavBar extends Component {
 		);
 		const welcomeName = (
 			<Fragment>
-				<span className="navbar-text">
-					<strong>{user ? `Welcome ${user.name}` : null}</strong>
-				</span>
+				{!isAuthenticated ? null : (
+					<span className="navbar-text d-none d-lg-inline">
+						<strong>{user.name}</strong>
+					</span>
+				)}
 			</Fragment>
 		);
 		const SearchOrder = (
