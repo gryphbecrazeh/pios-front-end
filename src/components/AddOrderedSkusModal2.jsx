@@ -53,9 +53,9 @@ class AddOrderedSkusModal extends Component {
 			modal: !this.state.modal
 		});
 	};
-	showIf = (name, item) => {
+	showIf = (name, item, altValue) => {
 		if (item) {
-			return <Col>{`${name} ${item}`}</Col>;
+			return <Col>{`${name} ${altValue || item}`}</Col>;
 		} else return null;
 	};
 	onChange = e => {
@@ -95,7 +95,6 @@ class AddOrderedSkusModal extends Component {
 	render() {
 		const { order, products } = this.props;
 		let { selected } = this.state;
-
 		let SearchRes = (
 			<Fragment>
 				{!this.state.query
@@ -188,12 +187,20 @@ class AddOrderedSkusModal extends Component {
 									</Col>
 								</Row>
 								<Row className="mt-2">
-									{this.showIf("Cost : ", selected.cost)}
-									{this.showIf("Daroma Cost : ", selected.costDaroma)}
+									{this.showIf("Cost : $", selected.cost)}
+									{this.showIf("Daroma Cost : $", selected.costDaroma)}
 								</Row>
 								<Row className="mt-2">
-									{this.showIf("Weight : ", selected.weight)}
-									{this.showIf("Shipping Weight : ", selected.weightShip)}
+									{this.showIf(
+										"Weight : ",
+										selected.weight,
+										`${selected.weight} lbs.`
+									)}
+									{this.showIf(
+										"Shipping Weight : ",
+										selected.weightShip,
+										`${selected.weightShip} lbs.`
+									)}
 								</Row>
 								<Row className="mt-2">
 									<Col>
@@ -202,24 +209,31 @@ class AddOrderedSkusModal extends Component {
 											type="text"
 											name="vendor"
 											onChange={this.onChange}
-											placeholder="Enter Alternate Vendor Here"
+											placeholder="Enter Vendor Name"
+											invalid={!this.state.vendor ? true : false}
+											valid={this.state.vendor ? true : false}
 										></Input>
 									</Col>
 									<Col>
-										<Label>Total Alternate Cost</Label>
+										<Label>Total Cost</Label>
 										<InputGroup>
 											<InputGroupAddon addonType="prepend">$</InputGroupAddon>
 											<Input
 												type="number"
-												name="altCost"
+												name="totalCost"
 												placeholder="Alternate Cost"
 												onChange={this.onChange}
+												invalid={!this.state.totalCost ? true : false}
 											></Input>
 										</InputGroup>
 									</Col>
 								</Row>
 								<Row className="mt-2">
-									{this.showIf("Last Updated : ", selected.dateEditted)}
+									{this.showIf(
+										"Last Updated : ",
+										selected.dateEditted,
+										new Date(selected.dateEditted).toDateString()
+									)}
 								</Row>
 							</Container>
 						</CardBody>

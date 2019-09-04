@@ -125,7 +125,16 @@ class AppNavBar extends Component {
 					</Link>
 				</DropdownItem>
 				<DropdownItem disabled>Inventory Manager</DropdownItem>
-				<DropdownItem disabled>Order Manager</DropdownItem>
+				<DropdownItem
+					onClick={this.setPage.bind(this, {
+						page: "Order Manager",
+						href: "/order-manager"
+					})}
+				>
+					<Link to="/order-manager">
+						<NavLink href="/">Order Manager</NavLink>
+					</Link>
+				</DropdownItem>
 
 				<DropdownItem
 					onClick={this.setPage.bind(this, {

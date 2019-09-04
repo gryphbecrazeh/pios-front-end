@@ -16,6 +16,7 @@ import { getProducts } from "../actions/productActions";
 import PropTypes from "prop-types";
 import ProductPage from "../pages/pageProducts";
 import ReceivingManagerPage from "../pages/pageReceivingManager";
+import OrderManagerPage from "../pages/pageOrderManager";
 
 class PreLoad extends Component {
 	constructor(props) {
@@ -43,6 +44,7 @@ class PreLoad extends Component {
 						<Route path="/financial-page" component={TaxPage} />
 						<Route path="/user-manager" component={UserManagerPage} />
 						<Route path="/receiving-manager" component={ReceivingManagerPage} />
+						<Route path="/order-manager" component={OrderManagerPage} />
 					</div>
 				</Switch>
 			</Router>

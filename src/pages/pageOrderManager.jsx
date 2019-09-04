@@ -8,7 +8,7 @@ import TableGenerator from "../components/TableGenerator";
 import "react-datepicker/src/stylesheets/datepicker.scss";
 import Filters from "../components/Filters";
 import AlertsContainer from "../components/AlertsContainer";
-import ProductCard from "../components/receivingManager/productCard";
+import ProductCard from "../components/orderManager/productCard";
 import MobileSearchBar from "../components/MobileSearchBar";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
@@ -17,7 +17,7 @@ import { getItems } from "../actions/itemActions";
 import { getOrderedSkus } from "../actions/orderedSkuActions";
 import PropTypes from "prop-types";
 
-class ReceivingManagerPage extends Component {
+class OrderManagerPage extends Component {
 	state = {};
 	componentDidMount() {
 		this.props.getOrderedSkus();
@@ -26,8 +26,9 @@ class ReceivingManagerPage extends Component {
 		let brands = new Set();
 		let totalProducts = 0;
 		let orders = this.props.orderedSkus.filter(
-			item => item.shipmentStatus === "Sent to Vendor"
+			item => item.shipmentStatus === "Pending"
 		);
+		console.log(orders);
 
 		orders.forEach(product => {
 			brands.add(product.brand);
@@ -43,20 +44,18 @@ class ReceivingManagerPage extends Component {
 							<MobileSearchBar />
 						</Col>
 					</Row>
-					<Row>
-						<Col>Ordered Skus Pending Arrival</Col>
-					</Row>
-					<Row>
+					<Row
+						className="mb-2"
+						style={{ position: "sticky", top: "5em", zIndex: 300 }}
+					>
 						<Col>
-							Awaiting {totalProducts} products from
-							{brandsList}
+							<strong>{totalProducts}</strong> products from
+							{brandsList} brands need to be checked and ordered
 						</Col>
-					</Row>
-					{/* <Row className="mb-2">
 						<Col>
 							<AlertsContainer alerts={this.props.alerts} />
 						</Col>
-					</Row> */}
+					</Row>
 					<div className="ordered-sku-container">
 						{orders
 							// Add items to this screen when the order has been sent to the vendor, only things pending reception will show here
@@ -81,7 +80,7 @@ class ReceivingManagerPage extends Component {
 	}
 }
 
-ReceivingManagerPage.propTypes = {
+OrderManagerPage.propTypes = {
 	item: PropTypes.object.isRequired,
 	getFilters: PropTypes.func.isRequired,
 	filters: PropTypes.object.isRequired
@@ -98,4 +97,4 @@ const mapStateToProps = state => ({
 export default connect(
 	mapStateToProps,
 	{ getFilters, addFilter, getItems, getOrderedSkus }
-)(ReceivingManagerPage);
+)(OrderManagerPage);

@@ -82,17 +82,33 @@ class TaxPage extends Component {
 								<Col>
 									<Row>
 										<Col>
-											<h1>{months[new Date().getMonth()]}</h1>
+											<h1>
+												{"<"}
+												{months[new Date().getMonth()]}
+												{">"}
+											</h1>
 										</Col>
 									</Row>
 									<Row>
-										<Col>Total Payments Tax Payments This Month...</Col>
+										<Col>
+											Total Payments Tax Payments In{" "}
+											{months[new Date().getMonth()]}
+											...
+										</Col>
 									</Row>
 									<Row>
-										<Col>Total Payments NET Payments This Month...</Col>
+										<Col>
+											Total Payments NET Payments In{" "}
+											{months[new Date().getMonth()]}
+											...
+										</Col>
 									</Row>
 									<Row>
-										<Col>Total Payments Customer Payments This Month...</Col>
+										<Col>
+											Total Payments Customer Payments In{" "}
+											{months[new Date().getMonth()]}
+											...
+										</Col>
 									</Row>
 								</Col>
 							</Row>
