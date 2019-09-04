@@ -9,6 +9,7 @@ import "react-datepicker/src/stylesheets/datepicker.scss";
 import Filters from "../components/Filters";
 import AlertsContainer from "../components/AlertsContainer";
 import ProductCard from "../components/receivingManager/productCard";
+import MobileSearchBar from "../components/MobileSearchBar";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
@@ -33,6 +34,11 @@ class ReceivingManagerPage extends Component {
 		return (
 			<div>
 				<Container fluid>
+					<Row>
+						<Col>
+							<MobileSearchBar />
+						</Col>
+					</Row>
 					<Row>
 						<Col>Ordered Skus Pending Arrival</Col>
 					</Row>

@@ -94,7 +94,7 @@ class AppNavBar extends Component {
 					})}
 				>
 					<Link to="/master-page">
-						<NavLink href="/">Master Page</NavLink>
+						<NavLink href="/">Master</NavLink>
 					</Link>
 				</DropdownItem>
 				<DropdownItem
@@ -104,7 +104,7 @@ class AppNavBar extends Component {
 					})}
 				>
 					<Link to="/financial-page">
-						<NavLink href="/">Financial Page</NavLink>
+						<NavLink href="/">Financial</NavLink>
 					</Link>
 				</DropdownItem>
 				<DropdownItem disabled>Office Notifications</DropdownItem>
@@ -125,6 +125,8 @@ class AppNavBar extends Component {
 					</Link>
 				</DropdownItem>
 				<DropdownItem disabled>Inventory Manager</DropdownItem>
+				<DropdownItem disabled>Order Manager</DropdownItem>
+
 				<DropdownItem
 					onClick={this.setPage.bind(this, {
 						page: "Receiving Manager",
