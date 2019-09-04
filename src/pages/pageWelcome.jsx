@@ -15,11 +15,17 @@ class WelcomePage extends Component {
 		this.props.getFilters();
 	}
 	render() {
-		const { isAuthenticated } = this.props.auth;
+		const { isAuthenticated, user } = this.props.auth;
 
 		const authLinks = (
 			<Fragment>
-				<Logout />
+				{!isAuthenticated ? null : (
+					<h4>
+						{/* Give time range and add welcome back option */}
+						Welcome {new Date(user.register_date) < Date.now() ? "" : ""}
+						{`${user.name}`}
+					</h4>
+				)}
 			</Fragment>
 		);
 		const guestLinks = (
@@ -37,9 +43,6 @@ class WelcomePage extends Component {
 							justifyContent: "center"
 						}}
 					>
-						<Col size="12">
-							<h1>Welcome</h1>
-						</Col>
 						<Col size="12">{isAuthenticated ? authLinks : guestLinks}</Col>
 					</Row>
 				</Container>

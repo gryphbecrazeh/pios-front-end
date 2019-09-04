@@ -70,10 +70,11 @@ class LoginModal extends Component {
 	render() {
 		return (
 			<div>
-				<Button color="primary" onClick={this.toggle} href="#">
-					Login
-				</Button>
-				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
+				<Modal
+					isOpen={!this.props.isAuthenticated}
+					toggle={this.toggle}
+					size="xl"
+				>
 					<ModalHeader toggle={this.toggle}>Login</ModalHeader>
 					<ModalBody>
 						{this.state.msg ? (
