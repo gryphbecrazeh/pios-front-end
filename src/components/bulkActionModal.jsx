@@ -87,13 +87,17 @@ class BulkActionModal extends Component {
 						let selection = this.props.item.customerOrders.filter(order =>
 							[...checkedBoxes].find(box => box.name === order._id)
 						);
-						if ([...selection].length > 0) this.toggle();
-						this.setState(
-							{
-								selection: selection
-							},
-							() => console.log(this.state.selection)
-						);
+						if ([...selection].length > 0) {
+							this.toggle();
+							this.setState(
+								{
+									selection: selection
+								},
+								() => console.log(this.state.selection)
+							);
+						} else {
+							alert("Please make a selection");
+						}
 					}}
 				>
 					Bulk Actions

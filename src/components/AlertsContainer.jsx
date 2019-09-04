@@ -4,7 +4,7 @@ import PageAlert from "../components/PageAlert";
 
 class AlertsContainer extends Component {
 	state = {
-		open: true
+		open: false
 	};
 	minimize = () => {
 		this.setState({
@@ -12,11 +12,32 @@ class AlertsContainer extends Component {
 		});
 	};
 	render() {
+		let d = new Date();
+		d.setDate(d.getDate() - 3);
+
+		let activeAlerts = this.props.alerts.filter(alert => alert.alert === true);
 		return (
 			<Card>
 				<CardHeader style={{ position: "relative" }}>
-					<Button outline block onClick={this.minimize}>
-						{`${this.props.alerts.filter(alert => alert.alert === true).length}
+					<Button
+						color={
+							activeAlerts.some(alert =>
+								alert.array.some(item => {
+									return (
+										new Date(item.date) < new Date(d) &&
+										(new Date(item.lastUpdated) < d ||
+											item.lastUpdated === "Order has never been editted")
+									);
+								})
+							)
+								? "danger"
+								: "secondary"
+						}
+						outline
+						block
+						onClick={this.minimize}
+					>
+						{`${activeAlerts.length}
                         Alerts:`}
 					</Button>
 				</CardHeader>
