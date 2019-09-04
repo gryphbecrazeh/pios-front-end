@@ -49,7 +49,7 @@ class EditUserModal extends Component {
 		alert("submit");
 	};
 	onDeleteUser = () => {
-		alert("Deleteing user");
+		this.props.deleteUser(this.props.user._id);
 		this.toggle();
 	};
 	resetPassword = () => {
