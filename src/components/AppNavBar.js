@@ -65,6 +65,9 @@ class AppNavBar extends Component {
 
 	render() {
 		const { isAuthenticated, user } = this.props.auth;
+		console.log(window.location);
+		if (!isAuthenticated && window.location.pathname !== "/")
+			window.location = "/";
 		const AdminLinks = (
 			<Fragment>
 				<DropdownItem header>Admin</DropdownItem>
@@ -218,6 +221,7 @@ class AppNavBar extends Component {
 									? WebsiteLinks
 									: null}
 								<DropdownItem header>User</DropdownItem>
+								<DropdownItem disabled>User Settings</DropdownItem>
 								<DropdownItem disabled>Notifications</DropdownItem>
 								<DropdownItem>
 									<Logout />
