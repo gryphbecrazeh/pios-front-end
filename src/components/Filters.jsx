@@ -3,6 +3,8 @@ import { Label, Button, Container, Row, Col } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import Datepicker from "react-datepicker";
 import "react-datepicker/src/stylesheets/datepicker.scss";
+import BulkActionsModal from "../components/bulkActionModal";
+
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
@@ -79,6 +81,11 @@ class Filters extends Component {
 									? "Show All Orders"
 									: "Show Orders by Range"}
 							</Button>
+						</Col>
+					</Row>
+					<Row className="mt-2">
+						<Col>
+							<BulkActionsModal />
 						</Col>
 					</Row>
 				</Container>

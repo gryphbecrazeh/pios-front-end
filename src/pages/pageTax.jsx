@@ -7,6 +7,7 @@ import TableGenerator from "../components/TableGenerator";
 import Filters from "../components/Filters";
 import "react-datepicker/src/stylesheets/datepicker.scss";
 import PageAlert from "../components/PageAlert";
+
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
@@ -79,21 +80,6 @@ class TaxPage extends Component {
 		);
 		return (
 			<div className="page-container">
-				<Row>
-					<Col>
-						<button
-							onClick={() => {
-								let checkedBoxes = document.querySelectorAll("input:checked");
-								let selection = this.props.item.customerOrders.filter(order =>
-									[...checkedBoxes].find(box => box.name === order._id)
-								);
-								console.log(selection);
-							}}
-						>
-							Bulk Actions
-						</button>
-					</Col>
-				</Row>
 				<Row>
 					<Col>
 						<Container>
