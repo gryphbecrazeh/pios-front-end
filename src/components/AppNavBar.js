@@ -194,26 +194,38 @@ class AppNavBar extends Component {
 		);
 		const authLinks = (
 			<Fragment>
-				<NavItem>
-					<Dropdown isOpen={this.state.dropDown} toggle={this.toggleDropDown}>
-						<DropdownToggle className="text-nowrap" caret color="primary">
-							{this.state.target.page}
-						</DropdownToggle>
-						<DropdownMenu style={{ overflow: "auto", maxHeight: "30em" }}>
-							{AdminLinks}
-							{OfficeLinks}
-							{AssetProtectionLinks}
-							{WarehouseLinks}
-							{ShippingLinks}
-							{WebsiteLinks}
-							<DropdownItem header>User</DropdownItem>
-							<DropdownItem disabled>Notifications</DropdownItem>
-							<DropdownItem>
-								<Logout />
-							</DropdownItem>
-						</DropdownMenu>
-					</Dropdown>
-				</NavItem>
+				{!isAuthenticated ? null : (
+					<NavItem>
+						<Dropdown isOpen={this.state.dropDown} toggle={this.toggleDropDown}>
+							<DropdownToggle className="text-nowrap" caret color="primary">
+								{this.state.target.page}
+							</DropdownToggle>
+							<DropdownMenu style={{ overflow: "auto", maxHeight: "30em" }}>
+								{user.roles.find(role => role === "Admin") ? AdminLinks : null}
+								{user.roles.find(role => role === "Office")
+									? OfficeLinks
+									: null}
+								{user.roles.find(role => role === "Asset Protection")
+									? AssetProtectionLinks
+									: null}
+								{user.roles.find(role => role === "Warehouse")
+									? WarehouseLinks
+									: null}
+								{user.roles.find(role => role === "Shipping")
+									? ShippingLinks
+									: null}
+								{user.roles.find(role => role === "Website")
+									? WebsiteLinks
+									: null}
+								<DropdownItem header>User</DropdownItem>
+								<DropdownItem disabled>Notifications</DropdownItem>
+								<DropdownItem>
+									<Logout />
+								</DropdownItem>
+							</DropdownMenu>
+						</Dropdown>
+					</NavItem>
+				)}
 			</Fragment>
 		);
 		const guestLinks = (

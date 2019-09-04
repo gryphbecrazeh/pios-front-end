@@ -72,7 +72,7 @@ class CreateUserModal extends Component {
 	render() {
 		return (
 			<div>
-				<Button className="mb-3" color="success" onClick={this.toggle}>
+				<Button className="mb-3" color="primary" onClick={this.toggle}>
 					Register New User
 				</Button>
 				<Modal isOpen={this.state.modal} toggle={this.toggle}>
