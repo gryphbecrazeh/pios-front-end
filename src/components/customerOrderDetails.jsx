@@ -10,7 +10,7 @@ import DeleteModal from "./DeleteModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/pro-light-svg-icons";
 // ----------------------------Reactstrap-------------------------------------------
-import { Button, Collapse, Card, CardBody } from "reactstrap";
+import { Button, Collapse, Card, CardBody, Input } from "reactstrap";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -46,6 +46,13 @@ class OrderDetails extends Component {
 		let { custOrder, orderKeys } = this.props;
 		return (
 			<tr key={custOrder._id}>
+				<td>
+					<input
+						name={custOrder._id}
+						type="checkbox"
+						className="form-control form-control-md"
+					/>
+				</td>
 				<td>
 					<Button onClick={this.toggleCollapse}>Interact</Button>
 					<Collapse isOpen={this.state.collapse}>

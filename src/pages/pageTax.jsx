@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Row, Col, Container } from "reactstrap";
+
 // ----------------------------Components-------------------------------------------
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
@@ -78,6 +79,21 @@ class TaxPage extends Component {
 		);
 		return (
 			<div className="page-container">
+				<Row>
+					<Col>
+						<button
+							onClick={() => {
+								let checkedBoxes = document.querySelectorAll("input:checked");
+								let selection = this.props.item.customerOrders.filter(order =>
+									[...checkedBoxes].find(box => box.name === order._id)
+								);
+								console.log(selection);
+							}}
+						>
+							Bulk Actions
+						</button>
+					</Col>
+				</Row>
 				<Row>
 					<Col>
 						<Container>
