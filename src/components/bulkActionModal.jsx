@@ -14,6 +14,8 @@ import {
 	Input
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
+import TableGenerator from "./TableGenerator";
+
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { clearActions } from "../actions/noteActions";
@@ -43,6 +45,23 @@ class BulkActionModal extends Component {
 			this.toggle();
 		}
 	}
+	getSelection = () => {
+		let checkedBoxes = document.querySelectorAll("input:checked");
+		let selection = this.props.item.customerOrders.filter(order =>
+			[...checkedBoxes].find(box => box.name === order._id)
+		);
+		if ([...selection].length > 0) {
+			this.toggle();
+			this.setState(
+				{
+					selection: selection
+				},
+				() => console.log(this.state.selection)
+			);
+		} else {
+			alert("Please make a selection");
+		}
+	};
 	toggle = () => {
 		this.setState(
 			{
@@ -53,53 +72,10 @@ class BulkActionModal extends Component {
 			}
 		);
 	};
-	selectOption = e => {
-		this.setState({
-			category: e.target.value
-		});
-	};
-	changeBody = e => {
-		this.setState({
-			note: e.target.value
-		});
-	};
-	changeSubject = e => {
-		this.setState({
-			subject: e.target.value
-		});
-	};
-	saveNote = () => {
-		let { order } = this.props;
-		this.props.addNote({
-			...this.state,
-			customer_order: order._id,
-			order_number: order.orderNum
-		});
-	};
 	render() {
 		return (
 			<div>
-				<Button
-					className="mb-1"
-					color="primary"
-					onClick={() => {
-						let checkedBoxes = document.querySelectorAll("input:checked");
-						let selection = this.props.item.customerOrders.filter(order =>
-							[...checkedBoxes].find(box => box.name === order._id)
-						);
-						if ([...selection].length > 0) {
-							this.toggle();
-							this.setState(
-								{
-									selection: selection
-								},
-								() => console.log(this.state.selection)
-							);
-						} else {
-							alert("Please make a selection");
-						}
-					}}
-				>
+				<Button className="mb-1" color="primary" onClick={this.getSelection}>
 					Bulk Actions
 				</Button>
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
@@ -110,9 +86,18 @@ class BulkActionModal extends Component {
 							</Row>
 						</Container>
 					</ModalHeader>
-					<ModalBody>Bulk Actions</ModalBody>
+					<ModalBody>
+						{this.state.modal === true ? (
+							<TableGenerator
+								pageKeys={["date", "orderNum", "name"]}
+								orders={this.state.selection}
+								noSelect
+								noInteract
+							/>
+						) : null}
+					</ModalBody>
 					<ModalFooter>
-						<Button block color="success" onClick={this.saveNote}>
+						<Button block color="success" onClick={this.applyActions}>
 							Apply Actions
 						</Button>
 					</ModalFooter>

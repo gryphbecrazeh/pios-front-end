@@ -46,26 +46,31 @@ class OrderDetails extends Component {
 		let { custOrder, orderKeys } = this.props;
 		return (
 			<tr key={custOrder._id}>
-				<td>
-					<input
-						name={custOrder._id}
-						type="checkbox"
-						className="form-control form-control-md"
-					/>
-				</td>
-				<td>
-					<Button onClick={this.toggleCollapse}>Interact</Button>
-					<Collapse isOpen={this.state.collapse}>
-						<Card className="mt-3">
-							<CardBody>
-								<ViewModal order={this.props.custOrder} />
-								<PaymentModal order={this.props.custOrder} />
-								<EditModal order={this.props.custOrder} />
-								<DeleteModal order={this.props.custOrder} />
-							</CardBody>
-						</Card>
-					</Collapse>
-				</td>
+				{this.props.noSelect ? null : (
+					<td>
+						<input
+							name={custOrder._id}
+							type="checkbox"
+							className="form-control form-control-md"
+						/>
+					</td>
+				)}
+				{this.props.noInteract ? null : (
+					<td>
+						<Button onClick={this.toggleCollapse}>Interact</Button>
+
+						<Collapse isOpen={this.state.collapse}>
+							<Card className="mt-3">
+								<CardBody>
+									<ViewModal order={this.props.custOrder} />
+									<PaymentModal order={this.props.custOrder} />
+									<EditModal order={this.props.custOrder} />
+									<DeleteModal order={this.props.custOrder} />
+								</CardBody>
+							</Card>
+						</Collapse>
+					</td>
+				)}
 				{orderKeys.map(key => {
 					return <td key={uuid()}>{this.renderKey(custOrder, key)}</td>;
 				})}

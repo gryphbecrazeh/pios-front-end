@@ -57,8 +57,8 @@ class TableGenerator extends Component {
 				<Table className="mt-3">
 					<thead>
 						<tr className="text-center text-nowrap">
-							<th>Select</th>
-							<th>Interact</th>
+							{this.props.noSelect === true ? null : <th>Select</th>}
+							{this.props.noInteract === true ? null : <th>Interact</th>}
 							{pageKeys.map((key, index) => {
 								let targetKey = dbKeysList.find(item => item.value === key);
 								return (
@@ -76,7 +76,14 @@ class TableGenerator extends Component {
 							orders = orders.filter(item => !item[filter]);
 						})}
 						{orders.map(item => {
-							return <OrderDetails custOrder={item} orderKeys={pageKeys} />;
+							return (
+								<OrderDetails
+									noInteract={this.props.noInteract ? true : false}
+									noSelect={this.props.noSelect ? true : false}
+									custOrder={item}
+									orderKeys={pageKeys}
+								/>
+							);
 						})}
 					</tbody>
 				</Table>
