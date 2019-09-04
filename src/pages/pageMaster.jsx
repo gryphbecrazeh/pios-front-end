@@ -10,6 +10,7 @@ import AlertsContainer from "../components/AlertsContainer";
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
 import { getItems } from "../actions/itemActions";
+import { getAlerts, clearAlerts } from "../actions/alertActions";
 import PropTypes from "prop-types";
 
 class MasterPage extends Component {
@@ -57,6 +58,9 @@ class MasterPage extends Component {
 			sortEnd: new Date(this.state.endDate),
 			searchQuery: this.state.searchQuery
 		});
+		// Clear and get alerts
+		this.props.clearAlerts();
+		this.props.getAlerts(this.props.item.customerOrders);
 	}
 	componentDidMount() {}
 	showAlerts = item => {
@@ -104,5 +108,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getFilters, addFilter, getItems }
+	{ getFilters, addFilter, getItems, getAlerts, clearAlerts }
 )(MasterPage);

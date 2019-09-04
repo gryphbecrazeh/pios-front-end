@@ -44,7 +44,6 @@ export const getItems = filters => (dispatch, getState) => {
 				type: GET_ITEMS,
 				payload: res.data
 			});
-			dispatch(getAlerts(res.data.items));
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))

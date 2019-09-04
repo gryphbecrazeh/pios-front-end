@@ -10,6 +10,7 @@ import PageAlert from "../components/PageAlert";
 import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
 import { getPayments } from "../actions/paymentActions";
+import { getAlerts, clearAlerts } from "../actions/alertActions";
 import PropTypes from "prop-types";
 
 class TaxPage extends Component {
@@ -36,6 +37,8 @@ class TaxPage extends Component {
 				"netFreight"
 			]
 		};
+		this.props.clearAlerts();
+		this.props.getAlerts(this.props.item.customerOrders);
 	}
 
 	onToggleDropdown = () => {
@@ -142,5 +145,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getItems, deleteItem, getDBKeys, getPayments }
+	{ getItems, deleteItem, getDBKeys, getPayments, getAlerts, clearAlerts }
 )(TaxPage);

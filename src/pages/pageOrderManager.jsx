@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
 import { getItems } from "../actions/itemActions";
 import { getOrderedSkus } from "../actions/orderedSkuActions";
-import { getAlerts } from "../actions/alertActions";
+import { getAlerts, clearAlerts } from "../actions/alertActions";
 import PropTypes from "prop-types";
 
 class OrderManagerPage extends Component {
@@ -25,6 +25,7 @@ class OrderManagerPage extends Component {
 		let orders = this.props.orderedSkus.filter(
 			item => item.shipmentStatus === "Pending"
 		);
+		this.props.clearAlerts();
 		this.props.getAlerts(orders);
 	}
 	render() {
@@ -34,6 +35,7 @@ class OrderManagerPage extends Component {
 			item => item.shipmentStatus === "Pending"
 		);
 		console.log(orders);
+		console.log(this.props.alerts);
 
 		orders.forEach(product => {
 			brands.add(product.brand);
@@ -101,5 +103,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getFilters, addFilter, getItems, getOrderedSkus, getAlerts }
+	{ getFilters, addFilter, getItems, getOrderedSkus, getAlerts, clearAlerts }
 )(OrderManagerPage);
