@@ -17,7 +17,7 @@ class TableGeneratorSimple extends Component {
 		let { items, keys } = this.props;
 		return (
 			<div>
-				<Container style={{ maxHeight: "40em", overflow: "auto" }}>
+				<Container>
 					<Row>
 						<Col>
 							<Table>

@@ -3,14 +3,14 @@
 	padding-left: 2em;
 	padding-right: 2em;
 }
-table th {
+th,
+td {
 	min-width: 7em;
+}
+th {
 	font-size: 0.75em;
 }
 .alert-container {
 	overflow: auto;
 	max-height: 18.75rem;
-}
-body {
-	/* overflow: hidden; */
 }

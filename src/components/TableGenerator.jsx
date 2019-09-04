@@ -52,7 +52,7 @@ class TableGenerator extends Component {
 		return (
 			<div
 				className="table-container"
-				style={{ overflow: "auto", maxHeight: "25em" }}
+				style={{ overflow: "auto", maxWidth: "100vw" }}
 			>
 				<Table className="mt-3">
 					<thead>
