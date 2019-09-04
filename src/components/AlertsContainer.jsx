@@ -20,7 +20,7 @@ class AlertsContainer extends Component {
                         Alerts:`}
 					</Button>
 				</CardHeader>
-				{!this.state.open ? null : (
+				{!this.state.open && this.props.alerts.length > 0 ? null : (
 					<CardBody>
 						<div className="alert-container">
 							{this.props.alerts

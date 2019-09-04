@@ -15,12 +15,17 @@ import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
 import { getItems } from "../actions/itemActions";
 import { getOrderedSkus } from "../actions/orderedSkuActions";
+import { getAlerts } from "../actions/alertActions";
 import PropTypes from "prop-types";
 
 class OrderManagerPage extends Component {
 	state = {};
 	componentDidMount() {
 		this.props.getOrderedSkus();
+		let orders = this.props.orderedSkus.filter(
+			item => item.shipmentStatus === "Pending"
+		);
+		this.props.getAlerts(orders);
 	}
 	render() {
 		let brands = new Set();
@@ -46,7 +51,7 @@ class OrderManagerPage extends Component {
 					</Row>
 					<Row
 						className="mb-2"
-						style={{ position: "sticky", top: "5em", zIndex: 300 }}
+						// style={{ position: "sticky", top: "5em", zIndex: 300 }}
 					>
 						<Col>
 							<strong>{totalProducts}</strong> products from
@@ -96,5 +101,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getFilters, addFilter, getItems, getOrderedSkus }
+	{ getFilters, addFilter, getItems, getOrderedSkus, getAlerts }
 )(OrderManagerPage);
