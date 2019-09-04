@@ -3,6 +3,7 @@ import { Table, Button } from "reactstrap";
 import "react-datepicker/src/stylesheets/datepicker.scss";
 // ----------------------------Components-------------------------------------------
 import UserDetails from "../components/userDetails";
+import CreateUserModal from "../components/auth/CreateUserModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import {
@@ -101,6 +102,7 @@ class UserManagerPage extends Component {
 		const { users } = this.props.users;
 		return (
 			<div className="page-container">
+				<CreateUserModal />
 				<div className="table-container" style={{ overflow: "auto" }}>
 					<Table id="master-customer-details">
 						<thead>

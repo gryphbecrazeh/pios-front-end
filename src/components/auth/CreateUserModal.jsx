@@ -4,7 +4,6 @@ import {
 	Modal,
 	ModalBody,
 	ModalHeader,
-	ModalFooter,
 	Alert,
 	Form,
 	FormGroup,
@@ -16,15 +15,19 @@ import {
 // ----------------------------Components-------------------------------------------
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
-import { deleteUser, editUser } from "../../actions/userActions";
+import { addUser } from "../../actions/userActions";
 
-class EditUserModal extends Component {
+class CreateUserModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			modal: false,
 			changePassword: false,
-			...props.user
+			roles: ["Guest"],
+			permissions: [],
+			name: "",
+			email: "",
+			password: ""
 		};
 	}
 	onChange = e => {
@@ -33,23 +36,24 @@ class EditUserModal extends Component {
 		});
 	};
 	toggle = () => {
-		this.setState({
-			modal: !this.state.modal
-		});
-	};
-	onSubmit = () => {
-		alert("submit");
-	};
-	onDeleteUser = () => {
-		this.props.deleteUser(this.props.user._id);
-		this.toggle();
-	};
-	resetPassword = () => {
-		this.props.editUser({
-			...this.props.user,
-			password: "password"
-		});
-		alert("Their password is now 'password'");
+		this.setState(
+			{
+				modal: !this.state.modal
+			},
+			() => {
+				if (this.state.modal === false) {
+					this.setState({
+						modal: false,
+						changePassword: false,
+						roles: ["Guest"],
+						permissions: [],
+						name: "",
+						email: "",
+						password: ""
+					});
+				}
+			}
+		);
 	};
 	multiSelect = e => {
 		let options = [...e.target.options].filter(
@@ -59,25 +63,20 @@ class EditUserModal extends Component {
 			[e.target.name]: options.map(item => item.value)
 		});
 	};
-	onUpdateUser = () => {
-		let updatedUser = {
-			...this.props.user,
+	onCreateUser = () => {
+		let newUser = {
 			...this.state
 		};
-		delete updatedUser.password;
-		this.props.editUser(updatedUser);
+		this.props.addUser(newUser);
 	};
 	render() {
-		let { user } = this.props;
 		return (
 			<div>
-				<Button block color="warning" onClick={this.toggle}>
-					Edit
+				<Button className="mb-3" color="success" onClick={this.toggle}>
+					Register New User
 				</Button>
 				<Modal isOpen={this.state.modal} toggle={this.toggle}>
-					<ModalHeader
-						toggle={this.toggle}
-					>{`Edit user ${user.name}`}</ModalHeader>
+					<ModalHeader toggle={this.toggle}>Creating New User</ModalHeader>
 					<ModalBody>
 						{this.state.msg ? (
 							<Alert color="danger">{this.state.msg}</Alert>
@@ -93,6 +92,8 @@ class EditUserModal extends Component {
 									className="mb-3"
 									onChange={this.onChange}
 									value={this.state.name}
+									invalid={this.state.name ? false : true}
+									valid={this.state.name ? true : false}
 								/>
 								<Label for="name">Email</Label>
 								<Input
@@ -103,20 +104,21 @@ class EditUserModal extends Component {
 									className="mb-3"
 									onChange={this.onChange}
 									value={this.state.email}
+									invalid={this.state.email ? false : true}
+									valid={this.state.email ? true : false}
 								/>
 								<Label for="name">Password</Label>
-								<Row>
-									<Col>
-										<Button
-											block
-											color="warning"
-											type="button"
-											onClick={this.resetPassword}
-										>
-											Reset Password
-										</Button>
-									</Col>
-								</Row>
+								<Input
+									type="password"
+									name="password"
+									id="password"
+									placeholder="Password"
+									className="mb-3"
+									onChange={this.onChange}
+									value={this.state.password}
+									invalid={this.state.password ? false : true}
+									valid={this.state.password ? true : false}
+								/>
 							</FormGroup>
 							<FormGroup>
 								<Row>
@@ -227,23 +229,14 @@ class EditUserModal extends Component {
 								</Row>
 							</FormGroup>
 							<Button
-								onClick={this.onUpdateUser}
+								onClick={this.onCreateUser}
 								color="primary"
 								style={{ marginTop: "2rem" }}
 								block
 							>
-								Update
-							</Button>
-							<Button
-								color="danger"
-								style={{ marginTop: "2rem" }}
-								block
-								onClick={this.onDeleteUser}
-							>
-								Delete
+								Create New User
 							</Button>
 						</Form>
-						<ModalFooter>{`User ID: ${user._id}`}</ModalFooter>
 					</ModalBody>
 				</Modal>
 			</div>
@@ -258,7 +251,6 @@ const mapStateToProps = state => ({
 export default connect(
 	mapStateToProps,
 	{
-		deleteUser,
-		editUser
+		addUser
 	}
-)(EditUserModal);
+)(CreateUserModal);

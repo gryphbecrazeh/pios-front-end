@@ -14,7 +14,7 @@ export default function(state = initialState, action) {
 		case ADD_USER:
 			return {
 				...state,
-				users: [action.payload, ...state.users]
+				users: []
 			};
 		case EDIT_USER: {
 			return {

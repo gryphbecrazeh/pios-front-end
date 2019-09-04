@@ -24,7 +24,6 @@ class WelcomePage extends Component {
 		);
 		const guestLinks = (
 			<Fragment>
-				<RegisterModal />
 				<LoginModal />
 			</Fragment>
 		);
