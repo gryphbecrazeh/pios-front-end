@@ -69,12 +69,15 @@ export const initialState = {
 		},
 		{
 			label: "Customer Due",
-			value: "customer",
+			value: "custDue",
 			sortable: true,
 			type: "integer",
 			payable: true,
 			alert: "where the customer due amount has not been entered",
-			relatedKeys: ["customerPaid", "customerPaidDate"],
+			relatedKeys: ["custPaid", "custPaidDate"],
+			paid: "custPaid",
+			paidDate: "custPaidDate",
+
 			warn: true,
 			collection: "item",
 			required: false
@@ -87,7 +90,9 @@ export const initialState = {
 			type: "integer",
 			payable: false,
 			alert: "where the customer due amount has not been entered",
-			relatedKeys: ["customerPaid", "customerPaidDate"],
+			relatedKeys: ["custPaid", "custPaidDate"],
+			paid: "custPaid",
+			paidDate: "custPaidDate",
 			warn: true,
 			collection: "item",
 			required: false
@@ -111,6 +116,9 @@ export const initialState = {
 			payable: true,
 			alert: "where the Net due has not been entered",
 			relatedKeys: ["net", "netPaid", "netPaidDate"],
+			paid: "netPaid",
+			paidDate: "netPaidDate",
+
 			warn: true,
 			collection: "item",
 			required: false
@@ -205,6 +213,9 @@ export const initialState = {
 			payable: true,
 			alert: "where the NYS tax due has not been entered",
 			relatedKeys: ["nysTaxPaid", "nysTaxPaidDate"],
+			paid: "nysTaxPaid",
+			paidDate: "nysTaxPaidDate",
+
 			warn: true,
 			collection: "item",
 			required: false
@@ -217,6 +228,9 @@ export const initialState = {
 			payable: true,
 			alert: "where the CA tax due has not been entered",
 			relatedKeys: ["caTaxPaid", "caTaxPaidDate"],
+			paid: "caTaxPaid",
+			paidDate: "caTaxPaidDate",
+
 			warn: true,
 			collection: "item",
 			required: false

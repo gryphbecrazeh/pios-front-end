@@ -31,34 +31,50 @@ import { addPayment, clearActions } from "../actions/paymentActions";
 
 class AddNewPaymentModal extends Component {
 	state = {
-		modal: false
+		modal: false,
+		payment_amount: 0.0,
+		remaining_balance: 0,
+		payment_date: new Date(Date.now()).toDateString()
 	};
 	toggle = () => {
 		this.setState({ modal: !this.state.modal });
 	};
 	onChange = e => {
-		let { dbKeys } = this.props;
-		if (e.target.name === "payment_target") {
-			let key = dbKeys.find(item => item.value === e.target.value);
+		let { order, dbKeys } = this.props;
+		let {
+			targetPayKey,
+			targetPayKeyDate,
+			payment_target,
+			target,
+			payment_amount,
+			remaining_balance,
+			total_due
+		} = this.state;
+		if (total_due < e.target.value) e.target.value = total_due;
+		if (e.target.name === "payment")
 			this.setState({
-				target: key,
-				targetPayKey: key.relatedKeys.find(
-					payKey => payKey === `${e.target.value}Paid`
-				),
-				targetPayKeyDate: key.relatedKeys.find(
-					payKey => payKey === `${e.target.value}PaidDate`
-				)
-			});
-		}
-		this.setState(
-			{
 				[e.target.name]: e.target.value
-			},
-			() => console.log(this.state)
-		);
+			});
 	};
+	onChangeDateNew = e => {
+		let date = new Date(e.target.value) || Date.now();
+		date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+		this.setState({
+			date: new Date(date).toDateString()
+		});
+	};
+
 	render() {
 		let { order, dbKeys } = this.props;
+		let {
+			targetPayKey,
+			targetPayKeyDate,
+			payment_target,
+			target,
+			payment_amount,
+			remaining_balance,
+			total_due
+		} = this.state;
 		let Payment = (
 			<Fragment>
 				{!this.state.payment_target ? null : (
@@ -70,7 +86,7 @@ class AddNewPaymentModal extends Component {
 									type="number"
 									name="total_due"
 									disabled
-									// value={due - paid || 0.0}
+									value={total_due}
 								></Input>
 							</Col>
 
@@ -80,7 +96,7 @@ class AddNewPaymentModal extends Component {
 									type="number"
 									name="remaining_balance"
 									disabled
-									// value={due - paid || 0.0}
+									value={this.state.remaining_balance}
 								></Input>
 							</Col>
 						</Row>
@@ -89,9 +105,11 @@ class AddNewPaymentModal extends Component {
 								<Label>Payment Amount</Label>
 								<Input
 									type="number"
-									name="state.payment_target"
+									name="payment_amount"
 									placeholder="Enter Actual Payment Amount here"
 									onChange={this.onChange}
+									valid={this.state.payment_amount}
+									invalid={!this.state.payment_amount}
 								></Input>
 							</Col>
 						</Row>
@@ -126,10 +144,14 @@ class AddNewPaymentModal extends Component {
 									<Col>
 										<Label>Payment Date</Label>
 										<Input
+											placeholder={this.state.payment_date}
+											type="text"
+											onfocus="(this.type='date')"
+											onblur="(this.type='text')"
+											onChange={this.onChangeDateNew}
+											valid={this.state.payment_date != null}
 											name="payment_date"
-											type="Date"
-											placeholder="Please Enter Payment Date"
-											onChange={this.onChange}
+											value={this.state.payment_date}
 										></Input>
 									</Col>
 									<Col>
@@ -139,6 +161,8 @@ class AddNewPaymentModal extends Component {
 											type="select"
 											multiple
 											onChange={this.onChangeMultiSelect}
+											valid={this.state.payment_type}
+											invalid={!this.state.payment_type}
 										>
 											<option>Cash</option>
 											<option>Credit</option>
@@ -158,6 +182,8 @@ class AddNewPaymentModal extends Component {
 											name="payment_target"
 											type="select"
 											onClick={this.onChange}
+											valid={this.state.payment_target}
+											invalid={!this.state.payment_target}
 										>
 											{dbKeys
 												.filter(key => key.payable === true)
@@ -172,13 +198,22 @@ class AddNewPaymentModal extends Component {
 									<Col>
 										<Label>Payment Amount Type</Label>
 										<Input
-											name="payment_amount"
+											name="payment_amount_type"
 											type="select"
-											onChange={this.onChange}
+											onClick={this.onChange}
+											valid={this.state.payment_amount_type}
+											invalid={!this.state.payment_amount_type}
 										>
-											<option>Partial</option>
-											<option>Full</option>
-											<option>Deposit</option>
+											<option
+												selected={this.state.payment_amount_type === "Partial"}
+											>
+												Partial
+											</option>
+											<option
+												selected={this.state.payment_amount_type === "Full"}
+											>
+												Full
+											</option>
 										</Input>
 									</Col>
 								</Row>
