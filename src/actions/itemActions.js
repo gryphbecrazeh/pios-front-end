@@ -60,11 +60,11 @@ export const addItem = (item, then) => (dispatch, getState) => {
 				type: ADD_ITEM,
 				payload: res.data
 			});
+			if (then) then();
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
-	if (then) then();
 };
 
 export const editItem = (item, then) => (dispatch, getState) => {
@@ -81,11 +81,11 @@ export const editItem = (item, then) => (dispatch, getState) => {
 				type: EDIT_ITEM,
 				payload: res.data
 			});
+			if (then) then();
 		})
 		.catch(err => {
 			dispatch(returnErrors(err.response.data, err.response.status));
 		});
-	if (then) then();
 };
 
 export const deleteItem = (id, then) => (dispatch, getState) => {

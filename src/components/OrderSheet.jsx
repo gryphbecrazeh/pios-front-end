@@ -18,6 +18,7 @@ import ClaimModal from "./ClaimModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { addItem, getItems, editItem } from "../actions/itemActions";
+import { getAlerts } from "../actions/alertActions";
 import PropTypes from "prop-types";
 
 class OrderSheet extends Component {
@@ -72,8 +73,14 @@ class OrderSheet extends Component {
 		} else {
 			// Add item via ADD_ITEM action
 			this.props.order
-				? this.props.editItem(newOrder)
-				: this.props.addItem(newOrder);
+				? this.props.editItem(newOrder, () => {
+						this.props.getItems(this.props.filters);
+						console.log(this.props.getItems);
+				  })
+				: this.props.addItem(newOrder, () => {
+						this.props.getItems(this.props.filters, this.props.getAlerts);
+						console.log("next");
+				  });
 			// Close Modal
 		}
 	};
@@ -504,10 +511,11 @@ OrderSheet.propTypes = {
 
 const mapStateToProps = state => ({
 	item: state.item,
-	products: state.products.products
+	products: state.products.products,
+	filters: state.filters
 });
 
 export default connect(
 	mapStateToProps,
-	{ addItem, getItems, editItem }
+	{ addItem, getItems, editItem, getAlerts }
 )(OrderSheet);
