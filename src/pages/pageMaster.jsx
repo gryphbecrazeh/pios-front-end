@@ -6,6 +6,7 @@ import TableGenerator from "../components/TableGenerator";
 import "react-datepicker/src/stylesheets/datepicker.scss";
 import Filters from "../components/Filters";
 import AlertsContainer from "../components/AlertsContainer";
+
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";

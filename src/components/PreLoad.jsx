@@ -12,6 +12,7 @@ import UserManagerPage from "../pages/pageUserManager";
 import { connect } from "react-redux";
 import { getItems } from "../actions/itemActions";
 import { getFilters, addFilter } from "../actions/filterActions";
+import { getOrderedSkus } from "../actions/orderedSkuActions";
 import { getProducts } from "../actions/productActions";
 import PropTypes from "prop-types";
 import ProductPage from "../pages/pageProducts";
@@ -29,6 +30,7 @@ class PreLoad extends Component {
 	componentDidMount() {
 		this.props.getFilters();
 		this.props.getProducts();
+		this.props.getOrderedSkus();
 		this.props.getItems(this.props.filters);
 	}
 	render() {
@@ -36,7 +38,7 @@ class PreLoad extends Component {
 			<Router>
 				<Switch>
 					<div className="App">
-						<AppNavBar />
+						{this.props.auth.isAuthenticated ? <AppNavBar /> : null}
 						<Route path="/product-manager" component={ProductPage} />
 						<Route path="/" exact component={WelcomePage} />
 						<Route path="/master-page" component={MasterPage} />
@@ -62,10 +64,11 @@ PreLoad.propTypes = {
 const mapStateToProps = state => ({
 	filters: state.filters,
 	keys: state.keys,
-	item: state.item
+	item: state.item,
+	auth: state.auth
 });
 
 export default connect(
 	mapStateToProps,
-	{ getItems, getFilters, addFilter, getProducts }
+	{ getItems, getFilters, addFilter, getProducts, getOrderedSkus }
 )(PreLoad);

@@ -21,12 +21,10 @@ import PropTypes from "prop-types";
 class OrderManagerPage extends Component {
 	state = {};
 	componentDidMount() {
-		this.props.getOrderedSkus();
+		this.props.clearAlerts();
 		let orders = this.props.orderedSkus.filter(
 			item => item.shipmentStatus === "Pending"
 		);
-		this.props.clearAlerts();
-		this.props.getAlerts(orders);
 	}
 	render() {
 		let brands = new Set();
@@ -34,8 +32,6 @@ class OrderManagerPage extends Component {
 		let orders = this.props.orderedSkus.filter(
 			item => item.shipmentStatus === "Pending"
 		);
-		console.log(orders);
-		console.log(this.props.alerts);
 
 		orders.forEach(product => {
 			brands.add(product.brand);

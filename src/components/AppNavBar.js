@@ -53,7 +53,7 @@ class AppNavBar extends Component {
 			searchQuery:
 				e.target.value && e.target.value.length > 0 ? e.target.value : ""
 		});
-		setTimeout(() => this.props.getItems(this.props.filters), 50);
+		setTimeout(() => console.log(this.props.getItems(this.props.filters)), 50);
 	};
 	onChangeSearchItem = e => {
 		let target = e.target;
@@ -65,7 +65,6 @@ class AppNavBar extends Component {
 
 	render() {
 		const { isAuthenticated, user } = this.props.auth;
-		console.log(window.location);
 		if (!isAuthenticated && window.location.pathname !== "/")
 			window.location = "/";
 		const AdminLinks = (

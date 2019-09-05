@@ -19,9 +19,6 @@ import PropTypes from "prop-types";
 
 class ReceivingManagerPage extends Component {
 	state = {};
-	componentDidMount() {
-		this.props.getOrderedSkus();
-	}
 	render() {
 		let brands = new Set();
 		let totalProducts = 0;

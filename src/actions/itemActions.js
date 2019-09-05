@@ -19,7 +19,7 @@ import {
 import { tokenConfig } from "./authActions";
 import { getAlerts } from "./alertActions";
 import { returnErrors } from "./errorActions";
-export const getItems = filters => (dispatch, getState) => {
+export const getItems = (filters, then) => (dispatch, getState) => {
 	let sendFilters = !filters
 		? null
 		: {
@@ -44,12 +44,16 @@ export const getItems = filters => (dispatch, getState) => {
 				type: GET_ITEMS,
 				payload: res.data
 			});
+			getAlerts(res.data.items);
+			if (then) {
+				then(res.data);
+			}
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
 };
-export const addItem = item => (dispatch, getState) => {
+export const addItem = (item, then) => (dispatch, getState) => {
 	axios
 		.post("/api/items", item, tokenConfig(getState))
 		.then(res => {
@@ -62,9 +66,10 @@ export const addItem = item => (dispatch, getState) => {
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
+	if (then) then();
 };
 
-export const editItem = item => (dispatch, getState) => {
+export const editItem = (item, then) => (dispatch, getState) => {
 	let newItem = item;
 	newItem.lastUpdated = Date();
 	axios
@@ -83,9 +88,10 @@ export const editItem = item => (dispatch, getState) => {
 		.catch(err => {
 			dispatch(returnErrors(err.response.data, err.response.status));
 		});
+	if (then) then();
 };
 
-export const deleteItem = id => (dispatch, getState) => {
+export const deleteItem = (id, then) => (dispatch, getState) => {
 	axios
 		.delete(`/api/items/${id}`, tokenConfig(getState))
 		.then(res => {
@@ -98,21 +104,24 @@ export const deleteItem = id => (dispatch, getState) => {
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
+	if (then) then();
 };
-export const setItemsLoading = () => {
-	return {
+export const setItemsLoading = () => (dispatch, getState) => {
+	dispatch({
 		type: ITEMS_LOADING
-	};
+	});
 };
-export const clearItems = () => {
-	return {
+export const clearItems = then => (dispatch, getState) => {
+	dispatch({
 		type: ITEMS_CLEAR
-	};
+	});
+	if (then) then();
 };
-export const clearActions = () => {
-	return {
+export const clearActions = then => (dispatch, getState) => {
+	dispatch({
 		type: CLEAR_ACTIONS
-	};
+	});
+	if (then) then();
 };
 // KEYS ACTIONS
 // SHOULD GO IN keysActions.js

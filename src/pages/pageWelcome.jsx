@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { getItems, deleteItem, getDBKeys } from "../actions/itemActions";
 import { getFilters, addFilter } from "../actions/filterActions";
 import PropTypes from "prop-types";
+import { login } from "../actions/authActions";
 class WelcomePage extends Component {
 	state = {};
 	componentDidMount() {
@@ -43,7 +44,9 @@ class WelcomePage extends Component {
 							justifyContent: "center"
 						}}
 					>
-						<Col size="12">{isAuthenticated ? authLinks : guestLinks}</Col>
+						<Col size="12">
+							{localStorage.token ? authLinks : <LoginModal />}
+						</Col>
 					</Row>
 				</Container>
 			</div>
