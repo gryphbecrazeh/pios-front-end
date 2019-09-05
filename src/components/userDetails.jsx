@@ -52,9 +52,12 @@ class UserDetails extends Component {
 		let { user } = this.props;
 		return (
 			<tr>
-				<td>
-					<EditUserModal user={user} />
-				</td>
+				{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+					<td>
+						<EditUserModal user={user} />
+					</td>
+				) : null}
+
 				<td name="User Date" type="date" code="user-date">{`${new Date(
 					user.register_date
 				).toDateString() || ""}`}</td>
@@ -73,7 +76,8 @@ class UserDetails extends Component {
 UserDetails.propTypes = {};
 
 const mapStateToProps = state => ({
-	users: state.users
+	users: state.users,
+	auth: state.auth
 });
 
 export default connect(

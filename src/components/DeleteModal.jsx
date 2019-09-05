@@ -102,15 +102,16 @@ class DeleteModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				<Button
-					className="mb-1"
-					block={this.props.noBlock ? false : true}
-					color="danger"
-					onClick={this.toggle}
-				>
-					<FontAwesomeIcon icon={faTrashAlt} />
-				</Button>
-
+				{this.props.auth.user.permissions.find(item => item === "Delete") ? (
+					<Button
+						className="mb-1"
+						block={this.props.noBlock ? false : true}
+						color="danger"
+						onClick={this.toggle}
+					>
+						<FontAwesomeIcon icon={faTrashAlt} />
+					</Button>
+				) : null}
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
 						<Container>
@@ -143,15 +144,18 @@ class DeleteModal extends Component {
 								>
 									Cancel
 								</Button>
-
-								<Button
-									onClick={this.deleteOrder}
-									className="mb-5"
-									block
-									color="danger"
-								>
-									DELETE
-								</Button>
+								{this.props.auth.user.permissions.find(
+									item => item === "Delete"
+								) ? (
+									<Button
+										onClick={this.deleteOrder}
+										className="mb-5"
+										block
+										color="danger"
+									>
+										DELETE
+									</Button>
+								) : null}
 							</Row>
 						</Container>
 					</ModalBody>
@@ -169,13 +173,12 @@ class DeleteModal extends Component {
 }
 
 DeleteModal.propTypes = {
-	item: PropTypes.object.isRequired,
-	users: PropTypes.object.isRequired
+	item: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
 	item: state.item,
-	users: state.users,
+	auth: state.auth,
 	notes: state.notes.notes,
 	payments: state.payments.payments,
 	claims: state.claims.claims,

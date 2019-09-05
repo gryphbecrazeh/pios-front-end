@@ -72,9 +72,11 @@ class CreateUserModal extends Component {
 	render() {
 		return (
 			<div>
-				<Button className="mb-3" color="primary" onClick={this.toggle}>
-					Register New User
-				</Button>
+				{this.props.auth.user.permissions.find(item => item === "Create") ? (
+					<Button className="mb-3" color="primary" onClick={this.toggle}>
+						Register New User
+					</Button>
+				) : null}
 				<Modal isOpen={this.state.modal} toggle={this.toggle}>
 					<ModalHeader toggle={this.toggle}>Creating New User</ModalHeader>
 					<ModalBody>
@@ -245,7 +247,8 @@ class CreateUserModal extends Component {
 }
 
 const mapStateToProps = state => ({
-	users: state.users
+	users: state.users,
+	auth: state.auth
 });
 
 export default connect(

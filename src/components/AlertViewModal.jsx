@@ -12,6 +12,7 @@ import TableGenerator from "./TableGenerator";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { addFilter } from "../actions/filterActions";
+import { stat } from "fs";
 class AlertViewModal extends Component {
 	state = {
 		modal: false
@@ -32,9 +33,15 @@ class AlertViewModal extends Component {
 		return (
 			<div className="">
 				<Container>
-					<Button className="text-nowrap" color="danger" onClick={this.toggle}>
-						View Now
-					</Button>
+					{this.props.auth.user.permissions.find(item => item === "View") ? (
+						<Button
+							className="text-nowrap"
+							color="danger"
+							onClick={this.toggle}
+						>
+							View Now
+						</Button>
+					) : null}
 					<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 						<ModalHeader toggle={this.toggle}>
 							{array.length} {array.length > 1 ? "orders " : "order "}
@@ -65,7 +72,8 @@ class AlertViewModal extends Component {
 AlertViewModal.propTypes = {};
 
 const mapStateToProps = state => ({
-	filters: state.filters
+	filters: state.filters,
+	auth: state.auth
 });
 
 export default connect(

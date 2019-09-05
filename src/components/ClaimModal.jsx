@@ -254,14 +254,18 @@ class ClaimModal extends Component {
 		);
 		return (
 			<div className="claim-container" style={{ maxHeight: "18.75em" }}>
-				<Button
-					className="mb-1 mt-2"
-					block
-					color="danger"
-					onClick={this.toggle}
-				>
-					Report a problem with this order
-				</Button>
+				{this.props.auth.user.roles.find(
+					item => item === "Asset Protection"
+				) ? (
+					<Button
+						className="mb-1 mt-2"
+						block
+						color="danger"
+						onClick={this.toggle}
+					>
+						Report a problem with this order
+					</Button>
+				) : null}
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<Form onSubmit={this.createClaim}>
 						<ModalHeader toggle={this.toggle}>

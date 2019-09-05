@@ -92,15 +92,16 @@ class EditModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				<Button
-					className="mb-1"
-					block={this.props.noBlock ? false : true}
-					color="warning"
-					onClick={this.toggle}
-				>
-					<FontAwesomeIcon icon={faPencil} />
-				</Button>
-
+				{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+					<Button
+						className="mb-1"
+						block={this.props.noBlock ? false : true}
+						color="warning"
+						onClick={this.toggle}
+					>
+						<FontAwesomeIcon icon={faPencil} />
+					</Button>
+				) : null}
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
 						<Container>
@@ -123,21 +124,26 @@ class EditModal extends Component {
 									Order Sheet
 								</NavLink>
 							</NavItem>
-							<NavItem>
-								<NavLink
-									className={classnames({
-										active: this.state.activeTab === "payments"
-									})}
-									onClick={() => {
-										this.toggleTab("payments");
-									}}
-								>
-									Payments{" "}
-									{this.props.payments && this.props.payments.length > 0 ? (
-										<Badge color="success">{this.props.payments.length}</Badge>
-									) : null}
-								</NavLink>
-							</NavItem>
+							{this.props.auth.user.roles.find(item => item === "Financial") ? (
+								<NavItem>
+									<NavLink
+										className={classnames({
+											active: this.state.activeTab === "payments"
+										})}
+										onClick={() => {
+											this.toggleTab("payments");
+										}}
+									>
+										Payments{" "}
+										{this.props.payments && this.props.payments.length > 0 ? (
+											<Badge color="success">
+												{this.props.payments.length}
+											</Badge>
+										) : null}
+									</NavLink>
+								</NavItem>
+							) : null}
+
 							<NavItem>
 								<NavLink
 									className={classnames({
@@ -229,13 +235,12 @@ class EditModal extends Component {
 }
 
 EditModal.propTypes = {
-	item: PropTypes.object.isRequired,
-	users: PropTypes.object.isRequired
+	item: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
 	item: state.item,
-	users: state.users,
+	auth: state.auth,
 	notes: state.notes.notes,
 	payments: state.payments.payments,
 	claims: state.claims.claims,

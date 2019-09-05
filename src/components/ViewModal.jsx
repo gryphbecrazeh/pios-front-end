@@ -62,15 +62,17 @@ class ViewModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				<Button
-					className="mb-1"
-					block={this.props.noBlock ? false : true}
-					color="info"
-					onClick={this.toggle}
-				>
-					<FontAwesomeIcon icon={faEye} />
-				</Button>
-
+				{" "}
+				{this.props.auth.user.permissions.find(item => item === "View") ? (
+					<Button
+						className="mb-1"
+						block={this.props.noBlock ? false : true}
+						color="info"
+						onClick={this.toggle}
+					>
+						<FontAwesomeIcon icon={faEye} />
+					</Button>
+				) : null}
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
 						<Container>
@@ -155,7 +157,8 @@ class ViewModal extends Component {
 ViewModal.propTypes = {};
 
 const mapStateToProps = state => ({
-	notes: state.notes.notes
+	notes: state.notes.notes,
+	auth: state.auth
 });
 
 export default connect(

@@ -243,9 +243,11 @@ class AddOrderedSkusModal extends Component {
 		);
 		return (
 			<div>
-				<Button block color="primary" onClick={this.toggle}>
-					Add New Sku to Order
-				</Button>
+				{this.props.auth.user.permissions.find(item => item === "Create") ? (
+					<Button block color="primary" onClick={this.toggle}>
+						Add New Sku to Order
+					</Button>
+				) : null}
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader
 						toggle={this.toggle}

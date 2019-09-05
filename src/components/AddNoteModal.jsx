@@ -80,9 +80,11 @@ class AddNoteModal extends Component {
 	render() {
 		return (
 			<div>
-				<Button className="mb-1" block color="warning" onClick={this.toggle}>
-					Add Note
-				</Button>
+				{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+					<Button className="mb-1" block color="warning" onClick={this.toggle}>
+						Add Note
+					</Button>
+				) : null}
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>
 						<Container>

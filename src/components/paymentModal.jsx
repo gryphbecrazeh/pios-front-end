@@ -147,14 +147,18 @@ class PaymentModal extends Component {
 						</Container>
 					</CardTitle>
 					<CardText>
-						<Button
-							onClick={this.deletePayment}
-							color="danger"
-							name={payment._id}
-							block
-						>
-							Cancel Payment
-						</Button>
+						{this.props.auth.user.permissions.find(
+							item => item === "Delete"
+						) ? (
+							<Button
+								onClick={this.deletePayment}
+								color="danger"
+								name={payment._id}
+								block
+							>
+								Cancel Payment
+							</Button>
+						) : null}
 					</CardText>
 				</CardBody>
 			</Card>
@@ -206,9 +210,11 @@ class PaymentModal extends Component {
 			<Fragment>
 				<Row>
 					<Col>
-						<Button block onClick={this.togglePayment}>
-							Make new payment
-						</Button>
+						{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+							<Button block onClick={this.togglePayment}>
+								Make new payment
+							</Button>
+						) : null}
 					</Col>
 				</Row>
 			</Fragment>
@@ -292,14 +298,16 @@ class PaymentModal extends Component {
 
 		return (
 			<div>
-				<Button
-					className="mb-1"
-					block={this.props.noBlock ? false : true}
-					color="success"
-					onClick={this.toggle}
-				>
-					<FontAwesomeIcon icon={faDollarSign} />
-				</Button>
+				{this.props.auth.user.roles.find(item => item === "Financial") ? (
+					<Button
+						className="mb-1"
+						block={this.props.noBlock ? false : true}
+						color="success"
+						onClick={this.toggle}
+					>
+						<FontAwesomeIcon icon={faDollarSign} />
+					</Button>
+				) : null}
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 					<ModalHeader toggle={this.toggle}>

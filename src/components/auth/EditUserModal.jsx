@@ -71,9 +71,22 @@ class EditUserModal extends Component {
 		let { user } = this.props;
 		return (
 			<div>
-				<Button block color="warning" onClick={this.toggle}>
-					Edit
-				</Button>
+				{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+					<Button
+						disabled={user.email === this.props.auth.user.email}
+						block
+						color={
+							user.email === this.props.auth.user.email
+								? "secondary"
+								: "warning"
+						}
+						onClick={this.toggle}
+					>
+						{user.email === this.props.auth.user.email
+							? "You Cannot Edit Yourself"
+							: "Edit"}
+					</Button>
+				) : null}
 				<Modal isOpen={this.state.modal} toggle={this.toggle}>
 					<ModalHeader
 						toggle={this.toggle}
@@ -252,7 +265,8 @@ class EditUserModal extends Component {
 }
 
 const mapStateToProps = state => ({
-	users: state.users
+	users: state.users,
+	auth: state.auth
 });
 
 export default connect(

@@ -107,9 +107,13 @@ class UserManagerPage extends Component {
 					<Table id="master-customer-details">
 						<thead>
 							<tr className="text-center text-nowrap">
-								<th code="edit" className="">
-									Edit
-								</th>
+								{this.props.auth.user.permissions.find(
+									item => item === "Edit"
+								) ? (
+									<th code="edit" className="">
+										Edit
+									</th>
+								) : null}
 								<th code="user-generation-date">User Created</th>
 								<th code="user-email">Email</th>
 								<th code="user-name">Name</th>
@@ -133,7 +137,8 @@ UserManagerPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	users: state.users
+	users: state.users,
+	auth: state.auth
 });
 
 export default connect(

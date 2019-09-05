@@ -47,13 +47,15 @@ class OrderModal extends Component {
 		return (
 			<div className="">
 				<Container>
-					<Button
-						color="primary"
-						style={{ marginBottom: "2rem" }}
-						onClick={this.toggle}
-					>
-						Add Customer Order(s)
-					</Button>
+					{this.props.auth.user.permissions.find(item => item === "Create") ? (
+						<Button
+							color="primary"
+							style={{ marginBottom: "2rem" }}
+							onClick={this.toggle}
+						>
+							Add Customer Order(s)
+						</Button>
+					) : null}
 					<Modal isOpen={this.state.modal} toggle={this.toggle} size="xl">
 						<ModalHeader toggle={this.toggle}>
 							Add Customer Order(s)
@@ -86,7 +88,8 @@ OrderModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	item: state.item
+	item: state.item,
+	auth: state.auth
 });
 
 export default connect(
