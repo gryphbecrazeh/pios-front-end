@@ -71,17 +71,23 @@ class OrderSheet extends Component {
 		if (validation) {
 			alert("Please fill out required forms");
 		} else {
-			// Add item via ADD_ITEM action
+			// Determine whether to add or edit
 			this.props.order
-				? this.props.editItem(newOrder, () => {
-						this.props.getItems(this.props.filters);
-						console.log(this.props.getItems);
+				? // If it exists, edit the item
+				  // Pass in arrow function, containing what functions to call next
+				  this.props.editItem(newOrder, () => {
+						//   Once item has been editted, get the items again, filtering the results
+						this.props.getItems(this.props.filters, item =>
+							// Create alerts from the filtered results of the items
+							this.props.getAlerts(item)
+						);
 				  })
-				: this.props.addItem(newOrder, () => {
-						this.props.getItems(this.props.filters, this.props.getAlerts);
-						console.log("next");
+				: //   If it doesn't exist, add it, and follow the same procedure as above
+				  this.props.addItem(newOrder, () => {
+						this.props.getItems(this.props.filters, item =>
+							this.props.getAlerts(item)
+						);
 				  });
-			// Close Modal
 		}
 	};
 	toggleDropDownOpen = () => {
