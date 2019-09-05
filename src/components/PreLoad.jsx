@@ -22,16 +22,12 @@ import OrderManagerPage from "../pages/pageOrderManager";
 class PreLoad extends Component {
 	constructor(props) {
 		super(props);
-		this.props.getFilters();
+		// Here for now
+		this.props.getOrderedSkus();
+		this.props.getProducts();
 		this.state = {
 			filters: this.props.filters
 		};
-	}
-	componentDidMount() {
-		this.props.getFilters();
-		this.props.getProducts();
-		this.props.getOrderedSkus();
-		this.props.getItems(this.props.filters);
 	}
 	render() {
 		return (

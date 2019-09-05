@@ -12,9 +12,6 @@ import PropTypes from "prop-types";
 import { login } from "../actions/authActions";
 class WelcomePage extends Component {
 	state = {};
-	componentDidMount() {
-		this.props.getFilters();
-	}
 	render() {
 		const { isAuthenticated, user } = this.props.auth;
 

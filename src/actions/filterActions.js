@@ -7,6 +7,7 @@ import {
 } from "./types";
 
 export const getFilters = () => (dispatch, getState) => {
+	console.log("getting filters");
 	dispatch({
 		type: GET_FILTERS
 	});

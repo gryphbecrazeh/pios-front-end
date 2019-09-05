@@ -1,6 +1,6 @@
 import { GET_ALERTS, CLEAR_ALERTS } from "./types";
 import { initialState } from "../reducers/keyReducer";
-export const getAlerts = (item = []) => {
+export const getAlerts = (item = []) => (dispatch, getState) => {
 	function generateAlerts(arr) {
 		let alerts = [];
 		let { dbKeysList } = initialState;
@@ -20,7 +20,7 @@ export const getAlerts = (item = []) => {
 		});
 		return alerts;
 	}
-	return {
+	dispatch({
 		type: GET_ALERTS,
 		payload: {
 			all: generateAlerts(item),
@@ -32,10 +32,10 @@ export const getAlerts = (item = []) => {
 				)
 			)
 		}
-	};
+	});
 };
-export const clearAlerts = () => {
-	return {
+export const clearAlerts = () => (dispatch, getState) => {
+	dispatch({
 		type: CLEAR_ALERTS
-	};
+	});
 };

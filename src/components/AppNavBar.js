@@ -53,7 +53,7 @@ class AppNavBar extends Component {
 			searchQuery:
 				e.target.value && e.target.value.length > 0 ? e.target.value : ""
 		});
-		setTimeout(() => console.log(this.props.getItems(this.props.filters)), 50);
+		setTimeout(() => this.props.getItems(this.props.filters), 50);
 	};
 	onChangeSearchItem = e => {
 		let target = e.target;

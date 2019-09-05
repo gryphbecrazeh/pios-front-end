@@ -32,7 +32,6 @@ export const tokenConfig = getState => {
 
 // Check token and load user
 export const loadUser = () => (dispatch, getState) => {
-	console.log("loading user");
 	// User Loading
 	dispatch({ type: USER_LOADING });
 	axios

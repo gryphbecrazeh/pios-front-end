@@ -7,6 +7,8 @@ import {
 	ITEMS_CLEAR,
 	CLEAR_ACTIONS
 } from "../actions/types";
+import { getAlerts } from "../actions/alertActions";
+
 const initialState = {
 	customerOrders: []
 };

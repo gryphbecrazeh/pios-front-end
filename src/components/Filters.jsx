@@ -9,16 +9,15 @@ import BulkActionsModal from "../components/bulkActionModal";
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
 import { getItems } from "../actions/itemActions";
+import { getAlerts } from "../actions/alertActions";
 import PropTypes from "prop-types";
 
 class Filters extends Component {
 	constructor(props) {
 		super(props);
+		this.props.getItems(this.props.filters, this.props.getAlerts);
 		this.state = this.props.filters;
 		this.state.dropdownOpen = false;
-	}
-	componentDidMount() {
-		this.props.getFilters();
 	}
 	onToggleDropdown = () => {
 		this.setState({ dropdownOpen: !this.state.dropdownOpen });
@@ -26,14 +25,11 @@ class Filters extends Component {
 	onChangeDate = (target, e) => {
 		if (target === "start") {
 			this.setState({ sortStart: new Date(e) }, () => {
-				console.log("start", new Date(e));
 				this.props.addFilter(this.state);
 				this.props.getItems(this.props.filters);
 			});
 		} else {
 			this.setState({ sortEnd: new Date(e) }, () => {
-				console.log("end", new Date(e));
-
 				this.props.addFilter(this.state);
 			});
 		}
@@ -104,5 +100,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getFilters, addFilter, getItems }
+	{ getFilters, addFilter, getItems, getAlerts }
 )(Filters);

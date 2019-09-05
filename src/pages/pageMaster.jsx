@@ -17,7 +17,6 @@ import PropTypes from "prop-types";
 class MasterPage extends Component {
 	constructor(props) {
 		super(props);
-		this.props.getFilters();
 		this.state = {
 			sort: true,
 			sortTarget: "date",
@@ -59,23 +58,13 @@ class MasterPage extends Component {
 			sortEnd: new Date(this.state.endDate),
 			searchQuery: this.state.searchQuery
 		});
-		// Clear and get alerts
-		this.props.clearAlerts();
-		this.props.getAlerts(this.props.item.customerOrders);
 	}
-	componentDidMount() {}
 	showAlerts = item => {
 		this.setState({
 			tableKeys: ["orderNum", "addrCheck"]
 		});
 	};
 	render() {
-		const renderAlerts = (
-			<Fragment>
-				<AlertsContainer alerts={this.props.alerts} />
-			</Fragment>
-		);
-
 		return (
 			<div className="page-container">
 				<Row>
@@ -83,7 +72,12 @@ class MasterPage extends Component {
 						<Filters />
 						<OrderModal />
 					</Col>
-					<Col>{renderAlerts}</Col>
+					<Col>
+						<AlertsContainer
+							orders={this.props.item.customerOrders}
+							alerts={this.props.alerts}
+						/>
+					</Col>
 				</Row>
 				<TableGenerator
 					pageKeys={this.state.tableKeys}

@@ -17,7 +17,8 @@ export default function(state = initialstate, action) {
 		case CLEAR_ALERTS:
 			return {
 				...state,
-				alerts: []
+				alerts: [],
+				shipping: []
 			};
 		default:
 			return {

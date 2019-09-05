@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Row, Col, Card, CardBody, CardHeader, Button } from "reactstrap";
 import PageAlert from "../components/PageAlert";
+// ----------------------------Redux-------------------------------------------
+import { connect } from "react-redux";
+import { getAlerts, clearAlerts } from "../actions/alertActions";
+import PropTypes from "prop-types";
 
 class AlertsContainer extends Component {
 	state = {
@@ -11,10 +15,12 @@ class AlertsContainer extends Component {
 			open: !this.state.open
 		});
 	};
+	componentDidMount() {
+		// this.props.clearAlerts();
+	}
 	render() {
 		let d = new Date();
 		d.setDate(d.getDate() - 3);
-
 		let activeAlerts = this.props.alerts.filter(alert => alert.alert === true);
 		return (
 			<Card>
@@ -57,4 +63,11 @@ class AlertsContainer extends Component {
 	}
 }
 
-export default AlertsContainer;
+const mapStateToProps = state => ({
+	alerts: state.alerts.alerts
+});
+
+export default connect(
+	mapStateToProps,
+	{ getAlerts, clearAlerts }
+)(AlertsContainer);
