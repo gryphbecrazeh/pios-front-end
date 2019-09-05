@@ -19,6 +19,7 @@ import Logout from "./auth/Logout";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Proptypes from "prop-types";
+import { getAlerts } from "../actions/alertActions";
 import { addFilter } from "../actions/filterActions";
 import { getItems } from "../actions/itemActions";
 
@@ -53,7 +54,13 @@ class AppNavBar extends Component {
 			searchQuery:
 				e.target.value && e.target.value.length > 0 ? e.target.value : ""
 		});
-		setTimeout(() => this.props.getItems(this.props.filters), 50);
+		setTimeout(
+			() =>
+				this.props.getItems(this.props.filters, item =>
+					this.props.getAlerts(item)
+				),
+			50
+		);
 	};
 	onChangeSearchItem = e => {
 		let target = e.target;
@@ -308,5 +315,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
 	mapStateToProps,
-	{ addFilter, getItems }
+	{ addFilter, getItems, getAlerts }
 )(AppNavBar);

@@ -96,11 +96,11 @@ export const deleteItem = (id, then) => (dispatch, getState) => {
 				type: DELETE_ITEM,
 				payload: id
 			});
+			if (then) then();
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
-	if (then) then();
 };
 export const setItemsLoading = () => (dispatch, getState) => {
 	dispatch({

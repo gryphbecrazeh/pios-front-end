@@ -25,12 +25,13 @@ import {
 	deletePayment,
 	clearPayments
 } from "../actions/paymentActions";
-import { deleteItem } from "../actions/itemActions";
+import { deleteItem, getItems } from "../actions/itemActions";
 import {
 	getOrderedSkus,
 	deleteOrderedSku,
 	clearOrderedSkus
 } from "../actions/orderedSkuActions";
+import { getAlerts } from "../actions/alertActions";
 import { getClaims, deleteClaim, clearClaims } from "../actions/claimsAction";
 class DeleteModal extends Component {
 	state = {
@@ -90,7 +91,11 @@ class DeleteModal extends Component {
 			});
 			// delete all orderedSkus for that order
 			orderedSkus.forEach(sku => {
-				deleteOrderedSku(sku._id);
+				deleteOrderedSku(sku._id, () => {
+					this.props.getItems(this.props.filters, item =>
+						this.props.getAlerts(item)
+					);
+				});
 			});
 			deleteItem(this.props.order._id);
 		} else {
@@ -204,6 +209,8 @@ export default connect(
 		deleteItem,
 		getOrderedSkus,
 		deleteOrderedSku,
-		clearOrderedSkus
+		clearOrderedSkus,
+		getItems,
+		getAlerts
 	}
 )(DeleteModal);

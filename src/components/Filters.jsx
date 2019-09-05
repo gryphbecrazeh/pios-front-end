@@ -26,14 +26,17 @@ class Filters extends Component {
 		if (target === "start") {
 			this.setState({ sortStart: new Date(e) }, () => {
 				this.props.addFilter(this.state);
-				this.props.getItems(this.props.filters);
+				this.props.getItems(this.props.filters, item => getAlerts(item));
 			});
 		} else {
 			this.setState({ sortEnd: new Date(e) }, () => {
 				this.props.addFilter(this.state);
 			});
 		}
-		setTimeout(() => this.props.getItems(this.props.filters), 50);
+		setTimeout(
+			() => this.props.getItems(this.props.filters, item => getAlerts(item)),
+			50
+		);
 	};
 
 	showAll = () => {
@@ -43,7 +46,7 @@ class Filters extends Component {
 			},
 			() => {
 				this.props.addFilter(this.state);
-				this.props.getItems(this.props.filters);
+				this.props.getItems(this.props.filters, item => getAlerts(item));
 			}
 		);
 	};
