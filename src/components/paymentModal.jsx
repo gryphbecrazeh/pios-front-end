@@ -147,9 +147,9 @@ class PaymentModal extends Component {
 						</Container>
 					</CardTitle>
 					<CardText>
-						{this.props.auth.user.permissions.find(
-							item => item === "Delete"
-						) ? (
+						{localStorage.token &&
+						this.props.auth.user &&
+						this.props.auth.user.permissions.find(item => item === "Delete") ? (
 							<Button
 								onClick={this.deletePayment}
 								color="danger"
@@ -210,7 +210,9 @@ class PaymentModal extends Component {
 			<Fragment>
 				<Row>
 					<Col>
-						{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+						{localStorage.token &&
+						this.props.auth.user &&
+						this.props.auth.user.permissions.find(item => item === "Edit") ? (
 							<Button block onClick={this.togglePayment}>
 								Make new payment
 							</Button>
@@ -298,7 +300,9 @@ class PaymentModal extends Component {
 
 		return (
 			<div>
-				{this.props.auth.user.roles.find(item => item === "Financial") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.roles.find(item => item === "Financial") ? (
 					<Button
 						className="mb-1"
 						block={this.props.noBlock ? false : true}

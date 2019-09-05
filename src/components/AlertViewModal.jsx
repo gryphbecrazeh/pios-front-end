@@ -33,7 +33,9 @@ class AlertViewModal extends Component {
 		return (
 			<div className="">
 				<Container>
-					{this.props.auth.user.permissions.find(item => item === "View") ? (
+					{localStorage.token &&
+					this.props.auth.user &&
+					this.props.auth.user.permissions.find(item => item === "View") ? (
 						<Button
 							className="text-nowrap"
 							color="danger"

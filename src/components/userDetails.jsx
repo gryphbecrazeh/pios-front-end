@@ -52,7 +52,9 @@ class UserDetails extends Component {
 		let { user } = this.props;
 		return (
 			<tr>
-				{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.permissions.find(item => item === "Edit") ? (
 					<td>
 						<EditUserModal user={user} />
 					</td>

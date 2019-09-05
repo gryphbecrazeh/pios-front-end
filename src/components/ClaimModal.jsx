@@ -254,9 +254,9 @@ class ClaimModal extends Component {
 		);
 		return (
 			<div className="claim-container" style={{ maxHeight: "18.75em" }}>
-				{this.props.auth.user.roles.find(
-					item => item === "Asset Protection"
-				) ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.roles.find(item => item === "Asset Protection") ? (
 					<Button
 						className="mb-1 mt-2"
 						block

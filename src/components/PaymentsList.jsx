@@ -3,6 +3,7 @@ import React, { Component, Fragment } from "react";
 // ----------------------------Reactstrap-------------------------------------------
 import { Container, Row, Col, Card, CardBody, CardTitle } from "reactstrap";
 // ----------------------------Components-------------------------------------------
+import AddNewPaymentModal from "./AddNewPaymentModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -50,6 +51,11 @@ class PaymentsList extends Component {
 							{this.props.payments.length > 0
 								? PreviousPayments
 								: "No Previous Payments"}
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<AddNewPaymentModal order={this.props.order} />
 						</Col>
 					</Row>
 				</Container>

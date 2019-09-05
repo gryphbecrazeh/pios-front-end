@@ -107,7 +107,9 @@ class UserManagerPage extends Component {
 					<Table id="master-customer-details">
 						<thead>
 							<tr className="text-center text-nowrap">
-								{this.props.auth.user.permissions.find(
+								{localStorage.token &&
+								this.props.auth.user &&
+								this.props.auth.user.permissions.find(
 									item => item === "Edit"
 								) ? (
 									<th code="edit" className="">

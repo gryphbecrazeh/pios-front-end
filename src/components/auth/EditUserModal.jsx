@@ -71,7 +71,9 @@ class EditUserModal extends Component {
 		let { user } = this.props;
 		return (
 			<div>
-				{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.permissions.find(item => item === "Edit") ? (
 					<Button
 						disabled={user.email === this.props.auth.user.email}
 						block

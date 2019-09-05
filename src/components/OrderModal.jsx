@@ -47,7 +47,9 @@ class OrderModal extends Component {
 		return (
 			<div className="">
 				<Container>
-					{this.props.auth.user.permissions.find(item => item === "Create") ? (
+					{localStorage.token &&
+					this.props.auth.user &&
+					this.props.auth.user.permissions.find(item => item === "Create") ? (
 						<Button
 							color="primary"
 							style={{ marginBottom: "2rem" }}

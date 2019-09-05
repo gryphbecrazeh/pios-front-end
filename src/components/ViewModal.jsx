@@ -63,7 +63,9 @@ class ViewModal extends Component {
 		return (
 			<div>
 				{" "}
-				{this.props.auth.user.permissions.find(item => item === "View") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.permissions.find(item => item === "View") ? (
 					<Button
 						className="mb-1"
 						block={this.props.noBlock ? false : true}

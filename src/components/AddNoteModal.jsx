@@ -80,7 +80,9 @@ class AddNoteModal extends Component {
 	render() {
 		return (
 			<div>
-				{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.permissions.find(item => item === "Edit") ? (
 					<Button className="mb-1" block color="warning" onClick={this.toggle}>
 						Add Note
 					</Button>

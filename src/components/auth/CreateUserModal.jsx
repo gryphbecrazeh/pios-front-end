@@ -72,7 +72,9 @@ class CreateUserModal extends Component {
 	render() {
 		return (
 			<div>
-				{this.props.auth.user.permissions.find(item => item === "Create") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.permissions.find(item => item === "Create") ? (
 					<Button className="mb-3" color="primary" onClick={this.toggle}>
 						Register New User
 					</Button>

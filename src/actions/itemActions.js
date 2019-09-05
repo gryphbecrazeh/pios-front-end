@@ -60,7 +60,6 @@ export const addItem = (item, then) => (dispatch, getState) => {
 				type: ADD_ITEM,
 				payload: res.data
 			});
-			dispatch(getItems());
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
@@ -82,7 +81,6 @@ export const editItem = (item, then) => (dispatch, getState) => {
 				type: EDIT_ITEM,
 				payload: res.data
 			});
-			dispatch(getItems());
 		})
 		.catch(err => {
 			dispatch(returnErrors(err.response.data, err.response.status));
@@ -98,7 +96,6 @@ export const deleteItem = (id, then) => (dispatch, getState) => {
 				type: DELETE_ITEM,
 				payload: id
 			});
-			dispatch(getItems());
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))

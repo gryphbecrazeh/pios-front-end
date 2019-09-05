@@ -92,7 +92,9 @@ class EditModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				{this.props.auth.user.permissions.find(item => item === "Edit") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.permissions.find(item => item === "Edit") ? (
 					<Button
 						className="mb-1"
 						block={this.props.noBlock ? false : true}
@@ -124,7 +126,9 @@ class EditModal extends Component {
 									Order Sheet
 								</NavLink>
 							</NavItem>
-							{this.props.auth.user.roles.find(item => item === "Financial") ? (
+							{localStorage.token &&
+							this.props.auth.user &&
+							this.props.auth.user.roles.find(item => item === "Financial") ? (
 								<NavItem>
 									<NavLink
 										className={classnames({
@@ -209,7 +213,7 @@ class EditModal extends Component {
 								<OrderSheet order={this.props.order} mode="edit" />
 							</TabPane>
 							<TabPane tabId="payments">
-								<PaymentsList />
+								<PaymentsList order={this.props.order} />
 							</TabPane>
 							<TabPane tabId="skus">
 								<OrderedSkuList order={this.props.order} />

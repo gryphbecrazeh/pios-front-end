@@ -243,7 +243,9 @@ class AddOrderedSkusModal extends Component {
 		);
 		return (
 			<div>
-				{this.props.auth.user.permissions.find(item => item === "Create") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.permissions.find(item => item === "Create") ? (
 					<Button block color="primary" onClick={this.toggle}>
 						Add New Sku to Order
 					</Button>

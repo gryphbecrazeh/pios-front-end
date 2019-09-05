@@ -102,7 +102,9 @@ class DeleteModal extends Component {
 		const { order } = this.props;
 		return (
 			<div>
-				{this.props.auth.user.permissions.find(item => item === "Delete") ? (
+				{localStorage.token &&
+				this.props.auth.user &&
+				this.props.auth.user.permissions.find(item => item === "Delete") ? (
 					<Button
 						className="mb-1"
 						block={this.props.noBlock ? false : true}
@@ -144,7 +146,9 @@ class DeleteModal extends Component {
 								>
 									Cancel
 								</Button>
-								{this.props.auth.user.permissions.find(
+								{localStorage.token &&
+								this.props.auth.user &&
+								this.props.auth.user.permissions.find(
 									item => item === "Delete"
 								) ? (
 									<Button
