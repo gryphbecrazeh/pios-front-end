@@ -34,7 +34,7 @@ class PreLoad extends Component {
 			<Router>
 				<Switch>
 					<div className="App">
-						{this.props.auth.isAuthenticated ? <AppNavBar /> : null}
+						<AppNavBar />
 						<Route path="/product-manager" component={ProductPage} />
 						<Route path="/" exact component={WelcomePage} />
 						<Route path="/master-page" component={MasterPage} />

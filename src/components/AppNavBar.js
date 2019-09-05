@@ -65,7 +65,7 @@ class AppNavBar extends Component {
 
 	render() {
 		const { isAuthenticated, user } = this.props.auth;
-		if (!isAuthenticated && window.location.pathname !== "/")
+		if (!localStorage.token && window.location.pathname !== "/")
 			window.location = "/";
 		const AdminLinks = (
 			<Fragment>
