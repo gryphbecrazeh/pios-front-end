@@ -7,19 +7,16 @@ import {
 } from "./types";
 
 export const getFilters = () => (dispatch, getState) => {
-	console.log("getting filters");
 	dispatch({
 		type: GET_FILTERS
 	});
 };
-export const addFilter = item => (dispatch, getState) => {
+export const addFilter = (item, next) => (dispatch, getState) => {
 	dispatch({
 		type: ADD_FILTER,
 		payload: item
 	});
-	dispatch({
-		type: GET_FILTERS
-	});
+	if (next) next();
 };
 
 export const editFilter = item => (dispatch, getState) => {

@@ -25,12 +25,15 @@ class Filters extends Component {
 	onChangeDate = (target, e) => {
 		if (target === "start") {
 			this.setState({ sortStart: new Date(e) }, () => {
-				this.props.addFilter(this.state);
-				this.props.getItems(this.props.filters, item => getAlerts(item));
+				this.props.addFilter(this.state, () => {
+					this.props.getItems(this.props.filters, item => getAlerts(item));
+				});
 			});
 		} else {
 			this.setState({ sortEnd: new Date(e) }, () => {
-				this.props.addFilter(this.state);
+				this.props.addFilter(this.state, () => {
+					this.props.getItems(this.props.filters, item => getAlerts(item));
+				});
 			});
 		}
 		setTimeout(
@@ -45,8 +48,9 @@ class Filters extends Component {
 				showAll: !this.state.showAll
 			},
 			() => {
-				this.props.addFilter(this.state);
-				this.props.getItems(this.props.filters, item => getAlerts(item));
+				this.props.addFilter(this.state, () => {
+					this.props.getItems(this.state, item => getAlerts(item));
+				});
 			}
 		);
 	};

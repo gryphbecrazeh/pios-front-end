@@ -136,17 +136,6 @@ class AppNavBar extends Component {
 				<DropdownItem disabled>Inventory Manager</DropdownItem>
 				<DropdownItem
 					onClick={this.setPage.bind(this, {
-						page: "Order Manager",
-						href: "/order-manager"
-					})}
-				>
-					<Link to="/order-manager">
-						<NavLink href="/">Order Manager</NavLink>
-					</Link>
-				</DropdownItem>
-
-				<DropdownItem
-					onClick={this.setPage.bind(this, {
 						page: "Receiving Manager",
 						href: "/receiving-manager"
 					})}
@@ -164,6 +153,16 @@ class AppNavBar extends Component {
 		const ShippingLinks = (
 			<Fragment>
 				<DropdownItem header>Shipping</DropdownItem>
+				<DropdownItem
+					onClick={this.setPage.bind(this, {
+						page: "Order Manager",
+						href: "/order-manager"
+					})}
+				>
+					<Link to="/order-manager">
+						<NavLink href="/">Pre-Ship Order Manager</NavLink>
+					</Link>
+				</DropdownItem>
 				<DropdownItem
 					onClick={this.setPage.bind(this, {
 						page: "Shipping Manager",

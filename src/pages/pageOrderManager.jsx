@@ -3,6 +3,7 @@ import React, { Component, Fragment } from "react";
 // ----------------------------NPM-------------------------------------------
 import { Row, Col, Container } from "reactstrap";
 // ----------------------------Components-------------------------------------------
+import ReadyOrdersList from "../components/orderManager/ReadyOrdersList";
 import OrderModal from "../components/OrderModal";
 import TableGenerator from "../components/TableGenerator";
 import "react-datepicker/src/stylesheets/datepicker.scss";
@@ -10,6 +11,7 @@ import Filters from "../components/Filters";
 import AlertsContainer from "../components/AlertsContainer";
 import ProductCard from "../components/orderManager/productCard";
 import MobileSearchBar from "../components/MobileSearchBar";
+import OrderedSkuList from "../components/orderManager/OrderedSkuList";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import { getFilters, addFilter } from "../actions/filterActions";
@@ -22,18 +24,29 @@ class OrderManagerPage extends Component {
 	state = {};
 	componentDidMount() {
 		this.props.clearAlerts();
-		let orders = this.props.orderedSkus.filter(
+		// Get items from the server if their status is ready to ship
+		this.props.getItems(this.props.filters, item => {
+			let newItem = item.filter(order =>
+				order.orderStatus.find(status => status === "Ready to ship to Customer")
+			);
+			this.props.getAlerts([...newItem]);
+		});
+
+		let products = this.props.orderedSkus.filter(
 			item => item.shipmentStatus === "Pending"
 		);
 	}
 	render() {
 		let brands = new Set();
 		let totalProducts = 0;
-		let orders = this.props.orderedSkus.filter(
+		let products = this.props.orderedSkus.filter(
 			item => item.shipmentStatus === "Pending"
 		);
+		let orders = this.props.item.customerOrders.filter(order =>
+			order.orderStatus.find(status => status === "Ready to ship to Customer")
+		);
 
-		orders.forEach(product => {
+		products.forEach(product => {
 			brands.add(product.brand);
 			totalProducts += Number(product.skus_quantity || 0);
 		});
@@ -56,27 +69,21 @@ class OrderManagerPage extends Component {
 							{brandsList} brands need to be checked and ordered
 						</Col>
 						<Col>
+							{/* Filter results to only show shipping related alerts */}
 							<AlertsContainer alerts={this.props.alerts} />
 						</Col>
 					</Row>
-					<div className="ordered-sku-container">
-						{orders
-							// Add items to this screen when the order has been sent to the vendor, only things pending reception will show here
-							.filter(item => {
-								let { productSearchQuery } = this.props.filters;
-								return (
-									item.brand.match(new RegExp(productSearchQuery, "gmi")) ||
-									item.sku.match(new RegExp(productSearchQuery, "gmi"))
-								);
-							})
-							.map(item => (
-								<Row className="mb-2">
-									<Col>
-										<ProductCard product={item} />
-									</Col>
-								</Row>
-							))}
-					</div>
+					<Row>
+						<Col>
+							<OrderedSkuList
+								products={products}
+								filters={this.props.filters}
+							/>
+						</Col>
+						<Col>
+							<ReadyOrdersList orders={orders} products={products} />
+						</Col>
+					</Row>
 				</Container>
 			</div>
 		);

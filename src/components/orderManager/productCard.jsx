@@ -11,11 +11,32 @@ import {
 	CardHeader,
 	CardFooter,
 	Input,
-	ButtonGroup
+	ButtonGroup,
+	InputGroup,
+	InputGroupAddon,
+	InputGroupText
 } from "reactstrap";
-
+// ----------------------------Components-------------------------------------------
+import CreateShipmentModal from "./CreateShipmentModal";
 class ProductCard extends Component {
-	state = {};
+	state = { modal: false };
+	toggle = () => {
+		this.setState({ modal: !this.state.modal });
+	};
+	updateProduct = () => {
+		console.log("update");
+	};
+	onChange = e => {
+		let { skus_quantity } = this.props.product;
+		let { name, value } = e.target;
+		if (name === "quantity" && value > skus_quantity)
+			e.target.value = skus_quantity;
+		if (name === "quantity" && value < 0) e.target.value = 0;
+
+		this.setState({
+			[name]: value
+		});
+	};
 	render() {
 		let {
 			_id,
@@ -33,10 +54,16 @@ class ProductCard extends Component {
 			costDaroma
 		} = this.props.product;
 		return (
-			<Card key={_id}>
+			<Card key={_id} style={{ maxWidth: "40rem" }}>
 				<CardHeader>{`${brand} ${sku} (Qty. ${skus_quantity})`}</CardHeader>
 				<CardBody>
-					<Container>
+					<Container fluid>
+						<CreateShipmentModal
+							isOpen={this.state.modal}
+							toggle={this.toggle}
+							product={this.props.product}
+							quantity={this.state.quantity}
+						/>
 						<Row>
 							<Col>{`Order from ${vendor}`}</Col>
 							<Col>{`Cost $${totalCost || cost || costDaroma}`}</Col>
@@ -49,15 +76,33 @@ class ProductCard extends Component {
 							<Col>Note: </Col>
 							<Col>{note ? note : "No note was left"}</Col>
 						</Row>
-						<Row>
-							<Col xs="2">
-								<Input type="number" placeholder="Quantity" />
-							</Col>
-							<Col>
-								<ButtonGroup>
-									<Button color="success">Currently In Stock</Button>
-									<Button color="info">Send to Vendor</Button>
-								</ButtonGroup>
+						<Row className="mb-2">
+							<Col xs="12">
+								<InputGroup>
+									<InputGroupAddon addonType="prepend">
+										<InputGroupText>Qty.</InputGroupText>
+									</InputGroupAddon>
+									<Input
+										onChange={this.onChange}
+										name="quantity"
+										type="number"
+									/>
+									<InputGroupAddon addonType="append">
+										<ButtonGroup>
+											<Button
+												onClick={
+													this.state.quantity == skus_quantity
+														? this.toggle
+														: this.updateProduct
+												}
+												color="success"
+											>
+												Currently In Stock
+											</Button>
+											<Button color="info">Send to Vendor</Button>
+										</ButtonGroup>
+									</InputGroupAddon>
+								</InputGroup>
 							</Col>
 						</Row>
 					</Container>
