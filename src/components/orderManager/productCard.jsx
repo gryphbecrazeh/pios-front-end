@@ -16,13 +16,8 @@ import {
 	InputGroupAddon,
 	InputGroupText
 } from "reactstrap";
-// ----------------------------Components-------------------------------------------
-import CreateShipmentModal from "./CreateShipmentModal";
 class ProductCard extends Component {
-	state = { modal: false };
-	toggle = () => {
-		this.setState({ modal: !this.state.modal });
-	};
+	state = {};
 	updateProduct = () => {
 		console.log("update");
 	};
@@ -58,12 +53,6 @@ class ProductCard extends Component {
 				<CardHeader>{`${brand} ${sku} (Qty. ${skus_quantity})`}</CardHeader>
 				<CardBody>
 					<Container fluid>
-						<CreateShipmentModal
-							isOpen={this.state.modal}
-							toggle={this.toggle}
-							product={this.props.product}
-							quantity={this.state.quantity}
-						/>
 						<Row>
 							<Col>{`Order from ${vendor}`}</Col>
 							<Col>{`Cost $${totalCost || cost || costDaroma}`}</Col>

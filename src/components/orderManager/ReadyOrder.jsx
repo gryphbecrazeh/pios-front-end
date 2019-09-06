@@ -11,9 +11,10 @@ import {
 	CardFooter,
 	Button
 } from "reactstrap";
+//----------------------------Components-------------------------------------------
+import CreateShipmentModal from "./CreateShipmentModal";
 
 function ReadyOrder({ order, products }) {
-	console.log(products);
 	return (
 		<Card>
 			<CardHeader>{`Order ${order.orderNum}`}</CardHeader>
@@ -27,7 +28,12 @@ function ReadyOrder({ order, products }) {
 				</Container>
 			</CardBody>
 			<CardFooter>
-				<Button block>Ship this Order</Button>
+				<CreateShipmentModal
+					order={order}
+					products={products.filter(
+						product => !product.shipmentStatus === "Shipped"
+					)}
+				/>
 			</CardFooter>
 		</Card>
 	);
