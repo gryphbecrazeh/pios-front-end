@@ -81,7 +81,7 @@ class ProductCard extends Component {
 											<Button
 												onClick={
 													this.state.quantity == skus_quantity
-														? this.toggle
+														? null
 														: this.updateProduct
 												}
 												color="success"
