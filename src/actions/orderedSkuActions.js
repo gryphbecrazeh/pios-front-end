@@ -9,7 +9,7 @@ import {
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 
-export const getOrderedSkus = id => (dispatch, getState) => {
+export const getOrderedSkus = (id, next) => (dispatch, getState) => {
 	axios
 		.get("/api/orderedSkus".concat(id ? `/${id}` : ""))
 		.then(res => {
@@ -17,6 +17,7 @@ export const getOrderedSkus = id => (dispatch, getState) => {
 				type: GET_ORDEREDSKUS,
 				payload: res.data
 			});
+			if (next) next();
 		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))

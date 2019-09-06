@@ -19,14 +19,14 @@ function ReadyOrdersList({ orders, products }) {
 		<Card>
 			<CardHeader>Orders Ready to Ship</CardHeader>
 			<CardBody>
-				{orders.map(order => (
-					<ReadyOrder
-						order={order}
-						products={products.filter(
-							product => product.order_number === order.orderNum
-						)}
-					/>
-				))}
+				{orders.map(order => {
+					let orderProducts = products
+						.filter(product => product.order_number === order.orderNum)
+						.filter(product => product.shipmentStatus === "Ready");
+					return orderProducts.length > 0 ? (
+						<ReadyOrder order={order} products={orderProducts} />
+					) : null;
+				})}
 			</CardBody>
 		</Card>
 	);

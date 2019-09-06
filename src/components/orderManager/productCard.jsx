@@ -94,6 +94,13 @@ class ProductCard extends Component {
 								</InputGroup>
 							</Col>
 						</Row>
+						<Row>
+							<Col>
+								<Button block disabled>
+									Request Stock Status from Warehouse
+								</Button>
+							</Col>
+						</Row>
 					</Container>
 				</CardBody>
 				<CardFooter>{`Order Placed ${new Date(

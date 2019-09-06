@@ -15,6 +15,15 @@ import {
 import CreateShipmentModal from "./CreateShipmentModal";
 
 function ReadyOrder({ order, products }) {
+	let orderStats = {
+		numShippedProducts: products.filter(
+			product => product.shipmentStatus === "Shipped"
+		).length,
+		numReadyProducts: products.filter(
+			product => product.shipmentStatus === "Ready"
+		).length,
+		numTotalProducts: products.length
+	};
 	return (
 		<Card>
 			<CardHeader>{`Order ${order.orderNum}`}</CardHeader>
@@ -30,9 +39,8 @@ function ReadyOrder({ order, products }) {
 			<CardFooter>
 				<CreateShipmentModal
 					order={order}
-					products={products.filter(
-						product => !product.shipmentStatus === "Shipped"
-					)}
+					products={products}
+					orderStats={orderStats}
 				/>
 			</CardFooter>
 		</Card>
