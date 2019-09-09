@@ -27,7 +27,7 @@ export default function(state = initialState, action) {
 		}
 		case EDIT_ORDEREDSKU:
 			return {
-				...state,
+				orderedSkus: [],
 				...action.payload
 			};
 		case DELETE_ORDEREDSKU:

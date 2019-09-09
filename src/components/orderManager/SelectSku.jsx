@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 let SelectSku = ({ product }) => {
 	return (
-		<Card>
+		<Card className="mt-1 mb-1">
 			<CardHeader>
 				<Row>
 					<Col xs="2">
@@ -23,7 +23,8 @@ let SelectSku = ({ product }) => {
 							className="form-control form-control-md"
 						></input>
 					</Col>
-					<Col> {`Qty.${product.skus_quantity} ${product.sku}`}</Col>
+					<Col> {`${product.sku}`}</Col>
+					<Col>{` Qty.${product.skus_quantity} `}</Col>
 				</Row>
 			</CardHeader>
 			<CardBody>

@@ -16,6 +16,7 @@ function OrderedSkuList({ products, filters }) {
 			<CardHeader>Skus to be checked</CardHeader>
 			{products
 				// Add items to this screen when the order has been sent to the vendor, only things pending reception will show here
+				.filter(product => product.shipmentStatus === "Pending")
 				.filter(item => {
 					let { productSearchQuery } = filters;
 					return (

@@ -48,7 +48,18 @@ class AlertsContainer extends Component {
 					</Button>
 				</CardHeader>
 				{!this.state.open && this.props.alerts.length > 0 ? null : (
-					<CardBody>
+					<CardBody
+						style={{
+							position: "absolute",
+							display: this.props.alerts.length > 0 ? "block" : "none",
+							zIndex: "300",
+							backgroundColor: "white",
+							width: "100%",
+							marginTop: "4.5em",
+							borderRadius: "5px",
+							boxShadow: "0 0 2px #555"
+						}}
+					>
 						<div className="alert-container">
 							{this.props.alerts
 								.filter(alert => alert.alert === true)

@@ -4,7 +4,8 @@ import {
 	ADD_ORDEREDSKU,
 	DELETE_ORDEREDSKU,
 	CLEAR_ORDEREDSKUS,
-	CLEAR_ACTIONS
+	CLEAR_ACTIONS,
+	EDIT_ORDEREDSKU
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -37,7 +38,7 @@ export const addOrderedSku = item => (dispatch, getState) => {
 		});
 };
 
-export const editOrderedSku = item => (dispatch, getState) => {
+export const editOrderedSku = (item, next) => (dispatch, getState) => {
 	let newItem = item;
 
 	axios
@@ -46,12 +47,13 @@ export const editOrderedSku = item => (dispatch, getState) => {
 			{ id: item._id, orderedSku: newItem },
 			tokenConfig(getState)
 		)
-		.then(res =>
+		.then(res => {
 			dispatch({
-				type: GET_ORDEREDSKUS,
+				type: EDIT_ORDEREDSKU,
 				payload: res.data
-			})
-		)
+			});
+			if (next) next();
+		})
 		.catch(err =>
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);

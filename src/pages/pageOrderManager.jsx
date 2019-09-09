@@ -35,21 +35,16 @@ class OrderManagerPage extends Component {
 				this.props.getAlerts([...newItem]);
 			});
 		});
-
-		let products = this.props.orderedSkus.filter(
-			item => item.shipmentStatus === "Pending"
-		);
 	}
 	render() {
 		let brands = new Set();
 		let totalProducts = 0;
 		let products = this.props.orderedSkus.filter(
-			item => item.shipmentStatus === "Pending"
+			item => item.shipmentStatus !== "Shipped"
 		);
 		let orders = this.props.item.customerOrders.filter(order =>
 			order.orderStatus.find(status => status === "Ready to ship to Customer")
 		);
-
 		products.forEach(product => {
 			brands.add(product.brand);
 			totalProducts += Number(product.skus_quantity || 0);
