@@ -110,7 +110,7 @@ export const initialState = {
 		},
 		{
 			label: "Net Due",
-			value: "net",
+			value: "netDue",
 			sortable: true,
 			type: "integer",
 			payable: true,

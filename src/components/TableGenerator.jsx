@@ -65,7 +65,7 @@ class TableGenerator extends Component {
 									<th key={uuid()}>
 										{targetKey
 											? targetKey.label
-											: "This wasn't supposed to happen"}
+											: `This wasn't supposed to happen ${key}`}
 									</th>
 								);
 							})}
