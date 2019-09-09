@@ -22,10 +22,7 @@ function ReadyOrdersList({ orders, products }) {
 				{orders.map(order => {
 					let orderProducts = products
 						// .filter(product => product.order_number === order.orderNum)
-						.filter(product => {
-							console.log(product);
-							return product.shipmentStatus === "Ready";
-						});
+						.filter(product => product.shipmentStatus === "Ready");
 					return orderProducts.length > 0 ? (
 						<ReadyOrder order={order} products={orderProducts} />
 					) : null;
