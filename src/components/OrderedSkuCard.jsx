@@ -5,13 +5,6 @@ import { Button, Container, Row, Col, ButtonGroup, Alert } from "reactstrap";
 import { connect } from "react-redux";
 import { deleteOrderedSku } from "../actions/orderedSkuActions";
 class OrderedSkuCard extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			sku: this.props.sku,
-			order: this.props.order
-		};
-	}
 	ShipmentStatusColor = () => {
 		switch (this.props.sku.shipmentStatus) {
 			case "Recieved":
@@ -27,7 +20,7 @@ class OrderedSkuCard extends Component {
 		}
 	};
 	removeItem = () => {
-		this.props.deleteOrderedSku(this.state.sku._id);
+		this.props.deleteOrderedSku(this.props.sku._id);
 	};
 	render() {
 		let { sku } = this.props;
