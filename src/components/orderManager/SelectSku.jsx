@@ -26,6 +26,7 @@ class SelectSku extends Component {
 								type="checkbox"
 								name="select"
 								className="form-control form-control-md"
+								onClick={this.props.onChange}
 							></input>
 						</Col>
 						<Col> {`${product.brand} ${product.sku}`}</Col>

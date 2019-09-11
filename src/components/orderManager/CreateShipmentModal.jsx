@@ -31,13 +31,23 @@ import SelectSku from "./SelectSku";
 // ----------------------------Redux-------------------------------------------
 
 class CreateShipmentModal extends Component {
-	state = { modal: false };
+	state = { modal: false, numSelectedProducts: 0, selected: [] };
 	toggle = () => {
 		this.setState({ modal: !this.state.modal });
+	};
+	grabSelectedItems = () => {
+		let selected = Array.from(
+			document.querySelectorAll("input[type=checkbox]:checked") || null
+		);
+		this.setState({
+			selected: selected || null,
+			numSelectedProducts: selected.length
+		});
 	};
 	render() {
 		let { order, products, orderStats } = this.props;
 		let { numReadyProducts, numShippedProducts, numTotalProducts } = orderStats;
+		let { numSelectedProducts } = this.state;
 		return (
 			<div>
 				<Button block color="primary" onClick={this.toggle}>
@@ -105,11 +115,19 @@ class CreateShipmentModal extends Component {
 							</Row>
 							<div className="mb-2 mt-2">
 								<Row>
-									<Col>{`${numShippedProducts}/${numTotalProducts} of total products shipped...`}</Col>
+									<Col>{`${numSelectedProducts}/${numReadyProducts} of total products selected...`}</Col>
 								</Row>
-								<Row>
-									<Col>{`${numReadyProducts}/${numTotalProducts} of total products ready to be shipped...`}</Col>
-								</Row>
+
+								{!numShippedProducts > 0 ? null : (
+									<Row>
+										<Col>{`${numShippedProducts}/${numTotalProducts} of total products shipped...`}</Col>
+									</Row>
+								)}
+								{numReadyProducts === numTotalProducts ? null : (
+									<Row>
+										<Col>{`${numReadyProducts}/${numTotalProducts} of total products ready to be shipped...`}</Col>
+									</Row>
+								)}
 							</div>
 							<Row>
 								<Col>
@@ -119,10 +137,22 @@ class CreateShipmentModal extends Component {
 							{products.map(product => (
 								<Row>
 									<Col>
-										<SelectSku product={product} />
+										<SelectSku
+											product={product}
+											onChange={this.grabSelectedItems}
+										/>
 									</Col>
 								</Row>
 							))}
+							{!this.state.selected.length > 0 ? null : (
+								<Row>
+									<Col>
+										<Button block color="success">
+											Ship this order
+										</Button>
+									</Col>
+								</Row>
+							)}
 						</Container>
 					</ModalBody>
 					<ModalFooter>Test</ModalFooter>

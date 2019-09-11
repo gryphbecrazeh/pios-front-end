@@ -47,7 +47,7 @@ class AlertsContainer extends Component {
                         Alerts:`}
 					</Button>
 				</CardHeader>
-				{!this.state.open && this.props.alerts.length > 0 ? null : (
+				{!this.props.alerts.length > 0 ? null : (
 					<CardBody
 						style={{
 							position: "absolute",
@@ -59,6 +59,8 @@ class AlertsContainer extends Component {
 							borderRadius: "5px",
 							boxShadow: "0 0 2px #555"
 						}}
+						id="alert-tray"
+						className={this.state.open ? "open" : null}
 					>
 						<div className="alert-container">
 							{this.props.alerts

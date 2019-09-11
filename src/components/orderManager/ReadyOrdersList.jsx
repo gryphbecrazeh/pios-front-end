@@ -2,18 +2,9 @@
 
 import React, { useState } from "react";
 // ----------------------------NPM-------------------------------------------
-import {
-	Row,
-	Col,
-	Container,
-	Card,
-	CardBody,
-	CardHeader,
-	CardFooter
-} from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import ReadyOrder from "./ReadyOrder";
-import productCard from "./productCard";
 
 function ReadyOrdersList({ orders, products }) {
 	return (

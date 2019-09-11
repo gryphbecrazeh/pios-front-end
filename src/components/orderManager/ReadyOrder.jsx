@@ -25,7 +25,7 @@ function ReadyOrder({ order, products }) {
 		numTotalProducts: products.length
 	};
 	return (
-		<Card>
+		<Card className="mb-2 mt-2">
 			<CardHeader>{`Order ${order.orderNum}`}</CardHeader>
 			<CardBody>
 				<Container>
