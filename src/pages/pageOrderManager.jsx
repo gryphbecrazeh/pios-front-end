@@ -4,12 +4,9 @@ import React, { Component, Fragment } from "react";
 import { Row, Col, Container } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import ReadyOrdersList from "../components/orderManager/ReadyOrdersList";
-import OrderModal from "../components/OrderModal";
-import TableGenerator from "../components/TableGenerator";
 import "react-datepicker/src/stylesheets/datepicker.scss";
 import Filters from "../components/Filters";
 import AlertsContainer from "../components/AlertsContainer";
-import ProductCard from "../components/orderManager/productCard";
 import MobileSearchBar from "../components/MobileSearchBar";
 import OrderedSkuList from "../components/orderManager/OrderedSkuList";
 // ----------------------------Redux-------------------------------------------

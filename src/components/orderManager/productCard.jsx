@@ -92,7 +92,7 @@ class ProductCard extends Component {
 				getAlerts();
 			});
 		}
-		editOrderedSku(updatedProduct, () => getOrderedSkus);
+		editOrderedSku(updatedProduct, () => getOrderedSkus());
 	};
 	onChange = e => {
 		let { skus_quantity, skus_remaining_quantity } = this.props.product;

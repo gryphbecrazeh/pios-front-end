@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 // ----------------------------Components-------------------------------------------
 import ReadyOrder from "./ReadyOrder";
+import productCard from "./productCard";
 
 function ReadyOrdersList({ orders, products }) {
 	return (
@@ -22,7 +23,11 @@ function ReadyOrdersList({ orders, products }) {
 				{orders.map(order => {
 					let orderProducts = products
 						// .filter(product => product.order_number === order.orderNum)
-						.filter(product => product.shipmentStatus === "Ready");
+						.filter(
+							product =>
+								product.shipmentStatus === "Ready" &&
+								product.customer_order === order._id
+						);
 					return orderProducts.length > 0 ? (
 						<ReadyOrder order={order} products={orderProducts} />
 					) : null;
