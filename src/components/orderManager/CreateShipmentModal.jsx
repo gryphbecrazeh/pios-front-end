@@ -29,6 +29,8 @@ import {
 // ----------------------------Components-------------------------------------------
 import SelectSku from "./SelectSku";
 // ----------------------------Redux-------------------------------------------
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class CreateShipmentModal extends Component {
 	state = { modal: false, numSelectedProducts: 0, selected: [] };
@@ -36,14 +38,25 @@ class CreateShipmentModal extends Component {
 		this.setState({ modal: !this.state.modal });
 	};
 	grabSelectedItems = () => {
-		let selected = Array.from(
-			document.querySelectorAll("input[type=checkbox]:checked") || null
+		let selection = Array.from(
+			document.querySelectorAll("input[type=checkbox]:checked") || []
 		);
+		let selected = this.props.products.filter(item =>
+			selection.find(select => item._id === select.name)
+		);
+		let reducer = (acc, cur) => acc + cur;
 		this.setState({
-			selected: selected || null,
-			numSelectedProducts: selected.length
+			selected: selected || [],
+			numSelectedProducts: selected.length,
+			estimatedWeight:
+				selected.length > 0
+					? selected
+							.map(item => item.shippingWeight || item.weight + 20 || 0)
+							.reduce(reducer)
+					: null
 		});
 	};
+	onChange = e => this.setState({ [e.target.name]: e.target.value });
 	render() {
 		let { order, products, orderStats } = this.props;
 		let { numReadyProducts, numShippedProducts, numTotalProducts } = orderStats;
@@ -65,11 +78,21 @@ class CreateShipmentModal extends Component {
 									<Input
 										name="tracking_number"
 										placeholder="Enter Shipment tracking number"
+										onChange={this.onChange}
+										invalid={!this.state.tracking_number}
+										valid={this.state.tracking_number}
 									></Input>
 								</Col>
 								<Col>
 									<Label>Carrier</Label>
-									<Input type="select" name="carrier">
+									<Input
+										type="select"
+										name="carrier"
+										onChange={this.onChange}
+										invalid={!this.state.carrier}
+										valid={this.state.carrier}
+									>
+										<option>Select a Shipping Carrier</option>
 										<option>FedEx Ground</option>
 										<option>FedEx Freight</option> <option>UPS Ground</option>
 										<option>UPS Freight</option>
@@ -79,14 +102,31 @@ class CreateShipmentModal extends Component {
 							<Row>
 								<Col>
 									<Label>Estimated Weight</Label>
-									<Input
-										name="weight_ship"
-										placeholder="sum([allProducts]psw*q) sum all product shipping weight times quantity as placeholder only, fill in actual weight used in creating shipment"
-									></Input>
+									<InputGroup>
+										<Input
+											name="weight_ship"
+											placeholder={
+												this.state.estimatedWeight
+													? `${this.state.estimatedWeight} estimated...`
+													: "Please make a selection"
+											}
+											// placeholder="sum([allProducts]psw*q) sum all product shipping weight times quantity as placeholder only, fill in actual weight used in creating shipment"
+											onChange={this.onChange}
+											invalid={!this.state.weight_ship}
+											valid={this.state.weight_ship}
+										></Input>
+										<InputGroupAddon addonType="append">lbs.</InputGroupAddon>
+									</InputGroup>
 								</Col>
 								<Col>
 									<Label>Estimated Arrival Date</Label>
-									<Input type="date"></Input>
+									<Input
+										type="date"
+										name="shipping_eta"
+										onChange={this.onChange}
+										invalid={!this.state.shipping_eta}
+										valid={this.state.shipping_eta}
+									></Input>
 								</Col>
 							</Row>
 							<Row>
@@ -98,6 +138,9 @@ class CreateShipmentModal extends Component {
 											type="number"
 											name="cost_crate"
 											placeholder="123.50"
+											onChange={this.onChange}
+											invalid={!this.state.cost_crate}
+											valid={this.state.cost_crate}
 										></Input>
 									</InputGroup>
 								</Col>
@@ -109,6 +152,9 @@ class CreateShipmentModal extends Component {
 											type="number"
 											name="cost_freight"
 											placeholder="123.50"
+											onChange={this.onChange}
+											invalid={!this.state.cost_freight}
+											valid={this.state.cost_freight}
 										></Input>
 									</InputGroup>
 								</Col>
@@ -155,10 +201,20 @@ class CreateShipmentModal extends Component {
 							)}
 						</Container>
 					</ModalBody>
-					<ModalFooter>Test</ModalFooter>
+					<ModalFooter>{`${new Date(Date.now()).toDateString()} User: ${
+						this.props.auth.user.name
+					}`}</ModalFooter>
 				</Modal>
 			</div>
 		);
 	}
 }
-export default CreateShipmentModal;
+const mapStateToProps = state => ({
+	auth: state.auth,
+	claims: state.claims
+});
+
+export default connect(
+	mapStateToProps,
+	null
+)(CreateShipmentModal);

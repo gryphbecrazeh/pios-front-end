@@ -24,7 +24,7 @@ class SelectSku extends Component {
 						<Col xs="2">
 							<input
 								type="checkbox"
-								name="select"
+								name={this.props.product._id}
 								className="form-control form-control-md"
 								onClick={this.props.onChange}
 							></input>
