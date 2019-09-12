@@ -28,6 +28,7 @@ import {
 // ----------------------------Fontawesome-------------------------------------------
 // ----------------------------Components-------------------------------------------
 import SelectSku from "./SelectSku";
+import FinalizeShipmentModal from "./FinalizeShipmentModal";
 // ----------------------------Redux-------------------------------------------
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -193,9 +194,11 @@ class CreateShipmentModal extends Component {
 							{!this.state.selected.length > 0 ? null : (
 								<Row>
 									<Col>
-										<Button block color="success">
-											Ship this order
-										</Button>
+										<FinalizeShipmentModal
+											shipment={this.state}
+											order={this.props.order}
+											toggleParent={this.toggle}
+										/>
 									</Col>
 								</Row>
 							)}

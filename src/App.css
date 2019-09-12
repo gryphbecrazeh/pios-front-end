@@ -25,3 +25,9 @@ th {
 	max-height: 999em;
 	opacity: 1;
 }
+
+#shipment-alert-container {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+}
