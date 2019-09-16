@@ -144,6 +144,18 @@ class AppNavBar extends Component {
 						<NavLink href="/">Receiving Manager</NavLink>
 					</Link>
 				</DropdownItem>
+				<DropdownItem
+					disabled
+					onClick={this.setPage.bind(this, {
+						page: "Outgoing Manager",
+						href: "/outgoing-manager"
+					})}
+				>
+					{/* <Link to="/outgoing-manager"> */}
+					{/* <NavLink href="/">Outgoing Manager</NavLink> */}
+					{/* </Link> */}
+					Outgoing Manager
+				</DropdownItem>
 
 				<DropdownItem disabled>Warehouse Notifications</DropdownItem>
 

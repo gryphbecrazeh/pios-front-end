@@ -57,7 +57,18 @@ class CreateShipmentModal extends Component {
 					: null
 		});
 	};
-	onChange = e => this.setState({ [e.target.name]: e.target.value });
+	onChange = e =>
+		this.setState({ [e.target.name]: e.target.value }, () => {
+			let required = [
+				"tracking_number",
+				"carrier",
+				"estimatedWeight",
+				"shipping_eta",
+				"cost_crate",
+				"cost_freight"
+			];
+			// required.forEach(item=>this.setState({[item]}))
+		});
 	render() {
 		let { order, products, orderStats } = this.props;
 		let { numReadyProducts, numShippedProducts, numTotalProducts } = orderStats;

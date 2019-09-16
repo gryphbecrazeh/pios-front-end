@@ -23,7 +23,7 @@ class OrderManagerPage extends Component {
 		this.props.clearAlerts();
 		// Get items from the server if their status is ready to ship
 		this.props.getOrderedSkus(null, () => {
-			this.props.getItems(this.props.filters, item => {
+			this.props.getItems({ showAll: true }, item => {
 				let newItem = item.filter(order =>
 					order.orderStatus.find(
 						status => status === "Ready to ship to Customer"
