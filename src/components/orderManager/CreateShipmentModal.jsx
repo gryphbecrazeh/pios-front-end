@@ -106,8 +106,12 @@ class CreateShipmentModal extends Component {
 									>
 										<option>Select a Shipping Carrier</option>
 										<option>FedEx Ground</option>
-										<option>FedEx Freight</option> <option>UPS Ground</option>
+										<option>FedEx Freight</option>
+										<option>UPS Ground</option>
 										<option>UPS Freight</option>
+										<option>KAS</option>
+										<option>Kitchenall Local</option>
+										<option>Common Carrier</option>
 									</Input>
 								</Col>
 							</Row>
