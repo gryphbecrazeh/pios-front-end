@@ -228,8 +228,7 @@ class CreateShipmentModal extends Component {
 	}
 }
 const mapStateToProps = state => ({
-	auth: state.auth,
-	claims: state.claims
+	auth: state.auth
 });
 
 export default connect(

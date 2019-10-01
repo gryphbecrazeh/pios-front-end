@@ -60,7 +60,7 @@ class AlertsContainer extends Component {
 							boxShadow: "0 0 2px #555"
 						}}
 						id="alert-tray"
-						className={this.state.open ? "open" : null}
+						className={this.state.open ? "open" : ""}
 					>
 						<div className="alert-container">
 							{this.props.alerts

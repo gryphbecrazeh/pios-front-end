@@ -12,6 +12,7 @@ import productReducer from "./productReducer";
 import NoteReducer from "./NoteReducer";
 import claimsReducer from "./claimsReducer";
 import OrderedSkuReducer from "./OrderedSkuReducer";
+import ShipmentReducer from "./shipmentReducer";
 export default combineReducers({
 	item: itemReducer,
 	keys: keyReducer,
@@ -25,5 +26,6 @@ export default combineReducers({
 	products: productReducer,
 	notes: NoteReducer,
 	claims: claimsReducer,
-	orderedSkus: OrderedSkuReducer
+	orderedSkus: OrderedSkuReducer,
+	shipments: ShipmentReducer
 });

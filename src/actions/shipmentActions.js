@@ -27,9 +27,11 @@ export const getShipments = then => (dispatch, getState) => {
 		);
 };
 export const addShipment = (item, then) => (dispatch, getState) => {
+	console.log("sending to server");
 	axios
 		.post("/api/shipments", item, tokenConfig(getState))
 		.then(res => {
+			console.log("recieved from server");
 			dispatch({ type: ADD_SHIPMENT, payload: res.data });
 			if (then) then();
 		})
@@ -37,4 +39,14 @@ export const addShipment = (item, then) => (dispatch, getState) => {
 			dispatch(returnErrors(err.response.data, err.response.status))
 		);
 };
-// export const editShipment =(item, then)=>()
+export const editShipment = (item, then) => (dispatch, getState) => {
+	axios
+		.put(`/api/items/${item._id}`, { id: item.id }, tokenConfig(getState))
+		.then(res => {
+			dispatch({ type: EDIT_SHIPMENT, payload: res.data });
+			if (then) then();
+		})
+		.catch(err =>
+			dispatch(returnErrors(err.response.data, err.response.status))
+		);
+};

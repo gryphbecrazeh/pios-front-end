@@ -1,4 +1,6 @@
+// ----------------------------React-------------------------------------------
 import React, { Component } from "react";
+// ----------------------------Reactstrap-------------------------------------------
 import {
 	Button,
 	Row,
@@ -14,6 +16,12 @@ import {
 	Card,
 	CardBody
 } from "reactstrap";
+// ----------------------------Fontawesome-------------------------------------------
+// ----------------------------Components-------------------------------------------
+// ----------------------------Redux-------------------------------------------
+import { connect } from "react-redux";
+import { addShipment } from "../../actions/shipmentActions";
+import PropTypes from "prop-types";
 
 class FinalizeShipmentModal extends Component {
 	state = { modal: false };
@@ -23,13 +31,26 @@ class FinalizeShipmentModal extends Component {
 	onChange = e => this.setState({ [e.target.name]: e.target.value });
 
 	onShip = () => {
-		console.log("Shipping Order");
-		this.toggle();
-		this.props.toggleParent();
+		let { shipment, order, addShipment } = this.props;
+		let newShipment = {
+			order_number: order.orderNum,
+			customer_order: order._id,
+			shipped_skus: [...shipment.selected],
+			recipient_name: order.name,
+			recipient_address: order.shipToAddress,
+			recipient_state: order.st,
+			recipient_zip: order.shipToZip,
+			...shipment,
+			...this.state
+		};
+
+		addShipment(newShipment, () => {
+			this.toggle();
+			this.props.toggleParent();
+		});
 	};
 	render() {
 		let { order, shipment, toggleParent } = this.props;
-		console.log(this.props);
 		return (
 			<div>
 				<Button color="primary" block onClick={this.toggle}>
@@ -124,6 +145,7 @@ class FinalizeShipmentModal extends Component {
 									<Input
 										type="textarea"
 										name="notes"
+										onChange={this.onChange}
 										placeholder="Please record ANY additional information you can
 						provide here..."
 									></Input>
@@ -137,7 +159,12 @@ class FinalizeShipmentModal extends Component {
 							</Row>
 							<Row className="mt-2 mb-2">
 								<Col>
-									<Button color="success" block onClick={this.onShip}>
+									<Button
+										color="success"
+										type="button"
+										block
+										onClick={this.onShip}
+									>
 										Ship This Order
 									</Button>
 								</Col>
@@ -149,4 +176,12 @@ class FinalizeShipmentModal extends Component {
 		);
 	}
 }
-export default FinalizeShipmentModal;
+const mapStateToProps = state => ({
+	auth: state.auth,
+	shipments: state.shipments
+});
+
+export default connect(
+	mapStateToProps,
+	{ addShipment }
+)(FinalizeShipmentModal);
