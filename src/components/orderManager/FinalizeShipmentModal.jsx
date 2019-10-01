@@ -43,11 +43,17 @@ class FinalizeShipmentModal extends Component {
 			...shipment,
 			...this.state
 		};
-
-		addShipment(newShipment, () => {
-			this.toggle();
-			this.props.toggleParent();
+		let updatedProducts = [...newShipment.selected];
+		updatedProducts.forEach(product => {
+			let updatedProduct = { ...product };
+			if (updatedProduct.skus_remaining_quantity === 0)
+				updatedProduct.shipmentStatus = "Shipped";
+			console.log(updatedProduct);
 		});
+		// addShipment(newShipment, () => {
+		// 	this.toggle();
+		// 	this.props.toggleParent();
+		// });
 	};
 	render() {
 		let { order, shipment, toggleParent } = this.props;

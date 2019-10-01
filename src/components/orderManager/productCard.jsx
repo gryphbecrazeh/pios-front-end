@@ -53,10 +53,19 @@ class ProductCard extends Component {
 		} = product;
 		// extract keys from state
 		let { quantity } = this.state;
-		// Determin remaining quantity based on whether one already exists or not
+
+		console.log(skus_quantity);
+		console.log(quantity);
+
+		// Determine remaining quantity based on whether one already exists or not
 		let remainingQuantity = skus_remaining_quantity
-			? skus_remaining_quantity - quantity
+			? skus_remaining_quantity - quantity < 0
+				? 0
+				: skus_remaining_quantity - quantity
 			: skus_quantity - quantity;
+		console.log(skus_quantity);
+		console.log(quantity);
+		console.log(remainingQuantity);
 		// Create new stock event to be stored in mongo db to better track stock changes for this order
 		let newStockEvent = {
 			date: new Date(Date.now()).toDateString(),
@@ -88,8 +97,7 @@ class ProductCard extends Component {
 				orderStatus: [...targetOrder.orderStatus, "Ready to ship to Customer"]
 			};
 			editItem(updatedOrder, () => {
-				getItems();
-				getAlerts();
+				getItems(this.props.filters, item => getAlerts(item));
 			});
 		}
 		editOrderedSku(updatedProduct, () => getOrderedSkus());
@@ -100,9 +108,16 @@ class ProductCard extends Component {
 		let oldQuantity = skus_remaining_quantity
 			? skus_remaining_quantity
 			: skus_quantity;
-		if (name === "quantity" && value > oldQuantity)
+		console.log(value);
+		if (name === "quantity" && value > oldQuantity) {
+			value = oldQuantity;
 			e.target.value = oldQuantity;
-		if (name === "quantity" && value < 0) e.target.value = 0;
+		}
+		console.log(value);
+		if (name === "quantity" && value < 0) {
+			value = 0;
+			e.target.value = 0;
+		}
 
 		this.setState({
 			[name]: value
@@ -194,7 +209,8 @@ class ProductCard extends Component {
 }
 const mapStateToProps = state => ({
 	customerOrders: state.item.customerOrders,
-	orderedSkus: state.orderedSkus.orderedSkus
+	orderedSkus: state.orderedSkus.orderedSkus,
+	filters: state.filters
 });
 
 export default connect(
